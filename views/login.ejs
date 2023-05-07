@@ -1,0 +1,32 @@
+<%- include("templates/header") %>
+<link rel="stylesheet" href="/public/css/style.css">
+<link rel="stylesheet" href="/public/css/authentication.css">
+
+</head>
+<body>
+<div class="auth-form-container">
+  <h2>Login</h2>
+  <form class="login-form" method="post" action="/login">
+    <label for="email">Email</label>
+    <input 
+      type="email"
+      placeholder="example@gmail.com"
+      id="email"
+      name="email"
+    />
+    <label for="password">Password</label>
+    <input
+      type="password"
+      placeholder="**********"
+      id="password"
+      name="password"
+    />
+    <button type="submit">Log In</button>
+  </form>
+  <button class="link-btn" onclick="location.href='/signup';">
+    Don't have an account? Register here.
+  </button>
+</div>
+
+<!-- JS Scripts go here -->
+<%- include("templates/footer") %>

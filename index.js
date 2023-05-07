@@ -133,7 +133,7 @@ app.post("/loggingIn", async (req, res) => {
     req.session.name = result[0].name;
     req.session.user_type = result[0].user_type;
     req.session.cookie.maxAge = expireTime;
-    res.redirect("/members");
+    res.redirect("/home");
     return;
   } else {
     console.log("incorrect password");

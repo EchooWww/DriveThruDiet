@@ -1,0 +1,41 @@
+<%- include("templates/header") %>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/authentication.css">
+
+</head>
+<body>
+  <div class="auth-form-container">
+    <h2>Let's get started!</h2>
+    <form class="signup-form" method="post" action="/submitUser">
+      <label for="name"></label>
+      <input
+        type="text"
+        placeholder="Full Name"
+        id="name"
+        name="name"
+      />
+      <label for="email"></label>
+      <input
+        type="email"
+        placeholder="Email"
+        id="email"
+        name="email"
+      />
+      <label for="phone"></label>
+      <input
+        type="tel"
+        placeholder="Phone Number"
+        id="phone"
+        name="phone"
+      />
+      <label for="password"></label>
+      <input
+        type="password"
+        placeholder="Password"
+        id="password"
+        name="password"
+      />
+      <button type="submit">Sign up</button>
+    </form>
+    <button class="link-btn" onclick="location.href='/login';">Already have an account? Log in.</button>
+  </div>

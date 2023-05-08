@@ -118,13 +118,22 @@ app.get("/login", (req, res) => {
 app.post("/loggingIn", async (req, res) => {
   var email = req.body.email;
   var password = req.body.password;
+
+  const schema = Joi.string().max(20).required();
+  const validationResult = schema.validate(email);
+  if (validationResult.error != null) {
+    console.log(validationResult.error);
+    res.render("login_error", { error: "Please enter a valid email" });
+    return;
+  }
+
   const result = await userCollection
     .find({ email: email })
     .project({ email: 1, name: 1, password: 1, user_type: 1, _id: 1 })
     .toArray();
   console.log(result);
   if (result.length != 1) {
-    res.render("login_error", { error: "email" });
+    res.render("login_error", { error: "User not found." });
     return;
   }
   if (await bcrypt.compare(password, result[0].password)) {
@@ -137,7 +146,7 @@ app.post("/loggingIn", async (req, res) => {
     return;
   } else {
     console.log("incorrect password");
-    res.render("login_error", { error: "password" });
+    res.render("login_error", { error: "Incorrect password" });
     return;
   }
 });

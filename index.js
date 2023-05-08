@@ -142,6 +142,11 @@ app.post("/loggingIn", async (req, res) => {
   }
 });
 
+//Reset Password Section
+app.get("/forgot", (req, res) => {
+  res.render("forgot");
+});
+
 app.get("/home", (req, res) => {
   if (!req.session.authenticated) {
     res.redirect("/");

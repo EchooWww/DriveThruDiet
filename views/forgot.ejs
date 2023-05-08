@@ -4,7 +4,19 @@
 <body>
 	<div class="auth-form-container">
   <h2>Forgot Password</h2>
-  
+  <p>Enter your email and we'll send you a link to reset your password.</p>
+  <form class="form">
+    <input 
+      type="email"
+      placeholder="example@gmail.com"
+      id="email"
+      name="email"
+    />
+  </form>
+  <button class="submit-btn" type="submit">Submit</button>
+  <button class="link-btn" onclick="location.href='/login';">
+    Back to Login
+  </button>
   </div>
 
 <!-- JS Scripts go here -->

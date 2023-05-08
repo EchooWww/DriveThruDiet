@@ -8,8 +8,7 @@ body {
 }
 
 .auth-form-container,
-.login-form,
-.signup-form {
+.form {
   display: flex;
   flex-direction: column;
 }
@@ -19,6 +18,9 @@ body {
   border: 1px solid white;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.229);
+  min-width: 250px;
+  width: 20vw;
+  max-width: 400px;
 }
 
 label {
@@ -44,7 +46,8 @@ button {
   padding: 1em;
   border-radius: 10px;
   cursor: pointer;
-  margin-top: 0.25em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .link-btn{

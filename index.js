@@ -53,12 +53,12 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  var username = req.query.user;
+  var name = req.query.user;
   if (!req.session.authenticated) {
     res.render("index_before_login");
     return;
   } else {
-    res.render("index_after_login", { username: req.session.username });
+    res.render("index_after_login", { name: req.session.name });
   }
 });
 
@@ -68,24 +68,48 @@ app.get("/signup", (req, res) => {
 
 app.post("/submitUser", async (req, res) => {
   var username = req.body.username;
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
   var email = req.body.email;
+  var birthday = req.body.birthday;
   var password = req.body.password;
   if (!username) {
-    res.render("signup_error", { error: "Name" });
+    res.render("signup_error", { error: "Username" });
+  }
+  if (!firstName) {
+    res.render("signup_error", { error: "First Name" });
+  }
+  if (!lastName) {
+    res.render("signup_error", { error: "Last Name" });
   }
   if (!email) {
     res.render("signup_error", { error: "Email" });
+  }
+  if (!birthday) {
+    res.render("signup_error", { error: "Birthday" });
   }
   if (!password) {
     res.render("signup_error", { error: "Password" });
   }
   const schema = Joi.object({
     username: Joi.string().alphanum().max(20).required(),
+    firstName: Joi.string().max(20).required().allow(" "),
+    lastName: Joi.string().max(20).required().allow(" "),
     email: Joi.string().max(30).required(),
+    birthday: Joi.string()
+      .regex(/^(\d{4})-(\d{2})-(\d{2})$/)
+      .required(),
     password: Joi.string().max(20).required(),
   });
 
-  const validationResult = schema.validate({ username, email, password });
+  const validationResult = schema.validate({
+    username,
+    firstName,
+    lastName,
+    email,
+    birthday,
+    password,
+  });
   if (validationResult.error != null) {
     console.log(validationResult.error);
     res.redirect("/signup");
@@ -94,15 +118,18 @@ app.post("/submitUser", async (req, res) => {
   var hashedPassword = await bcrypt.hash(password, saltRounds);
   await userCollection.insertOne({
     username: username,
+    firstName: firstName,
+    lastName: lastName,
     email: email,
+    birthday: birthday,
     password: hashedPassword,
     user_type: "user",
   });
-
+  console.log("User Created");
   req.session.authenticated = true;
   req.session.username = username;
   req.session.cookie.maxAge = expireTime;
-  res.redirect("/home");
+  res.redirect("/signup_profile");
   return;
 });
 
@@ -111,15 +138,24 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/loggingIn", async (req, res) => {
-  var email = req.body.email;
+  var username = req.body.username;
   var password = req.body.password;
+
+  const schema = Joi.string().alphanum().max(20).required();
+  const validationResult = schema.validate(username);
+  if (validationResult.error != null) {
+    console.log(validationResult.error);
+    res.render("login_error", { error: "Please enter a valid username" });
+    return;
+  }
+
   const result = await userCollection
-    .find({ email: email })
-    .project({ email: 1, username: 1, password: 1, user_type: 1, _id: 1 })
+    .find({ username: username })
+    .project({ username: 1, username: 1, password: 1, user_type: 1, _id: 1 })
     .toArray();
   console.log(result);
   if (result.length != 1) {
-    res.render("login_error", { error: "email" });
+    res.render("login_error", { error: "User not found." });
     return;
   }
   if (await bcrypt.compare(password, result[0].password)) {
@@ -128,20 +164,25 @@ app.post("/loggingIn", async (req, res) => {
     req.session.username = result[0].username;
     req.session.user_type = result[0].user_type;
     req.session.cookie.maxAge = expireTime;
-    res.redirect("/members");
+    res.redirect("/home");
     return;
   } else {
     console.log("incorrect password");
-    res.render("login_error", { error: "password" });
+    res.render("login_error", { error: "Incorrect password" });
     return;
   }
+});
+
+//Reset Password Section
+app.get("/forgot", (req, res) => {
+  res.render("forgot");
 });
 
 app.get("/home", (req, res) => {
   if (!req.session.authenticated) {
     res.redirect("/");
   } else {
-    res.render("home", { username: req.session.username });
+    res.render("home", { name: req.session.name });
   }
 });
 
@@ -154,9 +195,11 @@ app.get("/signup_profile", (req, res) => {
   res.render("signup_profile");
 });
 
-app.post("/profile", async (req, res) => {
-  const { sex, age, height, weight, activity, goal } = req.body;
-  const BMR = goalCalculation.calculateBMR(sex, weight, height, age);
+app.post("/onboarding_goal", async (req, res) => {
+  const { sex, height, weight, activity, goal } = req.body;
+  const user = await userCollection.findOne({ username: req.session.username });
+  const birthday = user.birthday;
+  const BMR = goalCalculation.calculateBMR(sex, weight, height, birthday);
   const calorieNeeds = goalCalculation.calculateCalorieNeeds(
     activity,
     BMR,
@@ -168,12 +211,11 @@ app.post("/profile", async (req, res) => {
     goal
   );
 
-  userCollection.updateOne(
-    { _id: ObjectId(userId) },
+  await userCollection.updateOne(
+    { username: req.session.username },
     {
       $set: {
         sex,
-        age,
         height,
         weight,
         activity,
@@ -188,20 +230,15 @@ app.post("/profile", async (req, res) => {
       if (err) {
         console.error(err);
       }
-      res.render("profile", {
-        sex,
-        age,
-        height,
-        weight,
-        activity,
-        goal,
-        calorieNeeds,
-        protein,
-        fat,
-        carbs,
-      });
     }
   );
+
+  res.render("onboarding_goal", {
+    calorieNeeds,
+    protein,
+    fat,
+    carbs,
+  });
 });
 
 app.use(express.static(__dirname + "/public"));

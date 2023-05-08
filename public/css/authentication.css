@@ -32,17 +32,21 @@ body {
  }
  
  button {
-   border: none;
+  border: none;
+  cursor: pointer;
+ }
+
+ .submit-btn {
    background-color: white;
    padding: 1em;
    border-radius: 10px;
-   cursor: pointer;
    margin-top: 0.25em;
  }
 
  .link-btn{
   background:none;
   text-decoration: underline;
+  padding: none;
  }  
  
  .link-btn:hover {

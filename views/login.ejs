@@ -1,0 +1,33 @@
+<%- include("templates/header") %>
+<link rel="stylesheet" href="/css/authentication.css">
+</head>
+<body>
+<div class="auth-form-container">
+  <h2>Login</h2>
+  <form class="form" method="post" action="/loggingin">
+    <label for="username">Username</label>
+    <input 
+      type="text"
+      placeholder="Username"
+      id="username"
+      name="username"
+    />
+    <label for="password">Password</label>
+    <input
+      type="password"
+      placeholder="**********"
+      id="password"
+      name="password"
+    />
+    <button class="submit-btn" type="submit">Log In</button>
+  </form>
+  <button class="link-btn" onclick="location.href='/signup';">
+    Don't have an account? Register here.
+  </button>
+  <button class="link-btn" onclick="location.href='/forgot';">
+    Forgot your password?  
+  </button>
+</div>
+
+<!-- JS Scripts go here -->
+<%- include("templates/footer") %>

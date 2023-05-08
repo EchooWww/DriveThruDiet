@@ -5,12 +5,26 @@
   <div class="auth-form-container">
     <h2>Let's get started!</h2>
     <form class="form" method="post" action="/submitUser">
-      <label for="name"></label>
+      <label for="username"></label>
       <input
         type="text"
-        placeholder="Full Name"
-        id="name"
-        name="name"
+        placeholder="Username"
+        id="username"
+        name="username"
+      />
+      <label for="firstName"></label>
+      <input
+        type="text"
+        placeholder="First Name"
+        id="firstName"
+        name="firstName"
+      />
+      <label for="lastName"></label>
+      <input
+        type="text"
+        placeholder="Last Name"
+        id="lastName"
+        name="lastName"
       />
       <label for="email"></label>
       <input
@@ -19,12 +33,12 @@
         id="email"
         name="email"
       />
-      <label for="phone"></label>
+      <label for="birthday"></label>
       <input
-        type="tel"
-        placeholder="Phone Number"
-        id="phone"
-        name="phone"
+        type="date"
+        placeholder=""
+        id="birthday"
+        name="birthday"
       />
       <label for="password"></label>
       <input

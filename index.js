@@ -66,30 +66,40 @@ app.get("/signup", (req, res) => {
 });
 
 app.post("/submitUser", async (req, res) => {
-  var name = req.body.name;
+  var username = req.body.username;
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
   var email = req.body.email;
-  var phone = req.body.phone;
+  var birthday = req.body.birthday;
   var password = req.body.password;
-  if (!name) {
-    res.render("signup_error", { error: "Name" });
+  if (!username) {
+    res.render("signup_error", { error: "Username" });
+  }
+  if (!firstName) {
+    res.render("signup_error", { error: "First Name" });
+  }
+  if (!lastName) {
+    res.render("signup_error", { error: "Last Name" });
   }
   if (!email) {
     res.render("signup_error", { error: "Email" });
   }
-  if (!phone) {
-    res.render("signup_error", { error: "Phone" });
+  if (!birthday) {
+    res.render("signup_error", { error: "Birthday" });
   }
   if (!password) {
     res.render("signup_error", { error: "Password" });
   }
   const schema = Joi.object({
-    name: Joi.string().alphanum().max(20).required(),
+    username: Joi.string().alphanum().max(20).required(),
+    firstName: Joi.string().max(20).required().allow(' '),
+    lastName: Joi.string().max(20).required().allow(' '),
     email: Joi.string().max(30).required(),
-    phone: Joi.string().max(30).required(),
+    birthday: Joi.string().regex(/^(\d{4})-(\d{2})-(\d{2})$/).required(),
     password: Joi.string().max(20).required(),
   });
 
-  const validationResult = schema.validate({ name, email, phone, password });
+  const validationResult = schema.validate({ username, firstName, lastName, email, birthday, password });
   if (validationResult.error != null) {
     console.log(validationResult.error);
     res.redirect("/signup");
@@ -97,15 +107,17 @@ app.post("/submitUser", async (req, res) => {
   }
   var hashedPassword = await bcrypt.hash(password, saltRounds);
   await userCollection.insertOne({
-    name: name,
+    username: username,
+    firstName: firstName,
+    lastName: lastName,
     email: email,
-    phone: phone,
+    birthday: birthday,
     password: hashedPassword,
     user_type: "user",
   });
   console.log("User Created");
   req.session.authenticated = true;
-  req.session.name = name;
+  req.session.username = username;
   req.session.cookie.maxAge = expireTime;
   res.redirect("/home");
   return;
@@ -116,20 +128,20 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/loggingIn", async (req, res) => {
-  var email = req.body.email;
+  var username = req.body.username;
   var password = req.body.password;
 
-  const schema = Joi.string().max(20).required();
-  const validationResult = schema.validate(email);
+  const schema = Joi.string().alphanum().max(20).required();
+  const validationResult = schema.validate(username);
   if (validationResult.error != null) {
     console.log(validationResult.error);
-    res.render("login_error", { error: "Please enter a valid email" });
+    res.render("login_error", { error: "Please enter a valid username" });
     return;
   }
 
   const result = await userCollection
-    .find({ email: email })
-    .project({ email: 1, name: 1, password: 1, user_type: 1, _id: 1 })
+    .find({ username: username })
+    .project({ username: 1, username: 1, password: 1, user_type: 1, _id: 1 })
     .toArray();
   console.log(result);
   if (result.length != 1) {
@@ -139,7 +151,7 @@ app.post("/loggingIn", async (req, res) => {
   if (await bcrypt.compare(password, result[0].password)) {
     console.log("correct password");
     req.session.authenticated = true;
-    req.session.name = result[0].name;
+    req.session.username = result[0].username;
     req.session.user_type = result[0].user_type;
     req.session.cookie.maxAge = expireTime;
     res.redirect("/home");

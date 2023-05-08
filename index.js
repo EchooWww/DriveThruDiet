@@ -154,7 +154,7 @@ app.get("/signup_profile", (req, res) => {
   res.render("signup_profile");
 });
 
-app.post("/profile", (req, res) => {
+app.post("/profile", async (req, res) => {
   const { sex, age, height, weight, activity, goal } = req.body;
   const BMR = goalCalculation.calculateBMR(sex, weight, height, age);
   const calorieNeeds = goalCalculation.calculateCalorieNeeds(
@@ -168,18 +168,40 @@ app.post("/profile", (req, res) => {
     goal
   );
 
-  res.render("profile", {
-    sex,
-    age,
-    height,
-    weight,
-    activity,
-    goal,
-    calorieNeeds,
-    protein,
-    fat,
-    carbs,
-  });
+  userCollection.updateOne(
+    { _id: ObjectId(userId) },
+    {
+      $set: {
+        sex,
+        age,
+        height,
+        weight,
+        activity,
+        goal,
+        calorieNeeds,
+        protein,
+        fat,
+        carbs,
+      },
+    },
+    (err, result) => {
+      if (err) {
+        console.error(err);
+      }
+      res.render("profile", {
+        sex,
+        age,
+        height,
+        weight,
+        activity,
+        goal,
+        calorieNeeds,
+        protein,
+        fat,
+        carbs,
+      });
+    }
+  );
 });
 
 app.use(express.static(__dirname + "/public"));

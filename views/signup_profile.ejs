@@ -3,39 +3,46 @@
 
   </head>
   <body>
-    <h1>Customize your nutritional goal</h1>
-    <form id="profile-form" method="post" action="/onboarding_goal">
-      <label for="sex">Sex:</label>
-      <input type="radio" id="male" name="sex" value="male" required>
-      <label for="male">Male</label>
-      <input type="radio" id="female" name="sex" value="female" required>
-      <label for="female">Female</label>
-      <br>
-      <label for="height">Height (in cm):</label>
-      <input type="number" id="height" name="height" required>
-      <br>
-      <label for="weight">Weight (in kg):</label>
-      <input type="number" id="weight" name="weight" required>
-      <br>
-      <label for="activity">Select your activity level:</label>
-      <select id="activity" name="activity" required>
-        <option value="" selected disabled hidden>Choose activity level</option>
-        <option value="sedentary">Sedentary (little or no exercise)</option>
-        <option value="lightly-active">Lightly active (light exercise/sports 1-3 days/week)</option>
-        <option value="moderately-active">Moderately active (moderate exercise/sports 3-5 days/week)</option>
-        <option value="very-active">Very active (hard exercise/sports 6-7 days a week)</option>
-        <option value="super-active">Super active (very hard exercise/sports, physical job or training)</option>
-      </select>
-      <br>
-      <label for="goal">Select your goal:</label>
-      <select id="goal" name="goal" required>
-        <option value="" selected disabled hidden>Choose goal</option>
-        <option value="lose-weight">Lose weight</option>
-        <option value="maintain-weight">Maintain weight</option>
-        <option value="gain-muscle">Gain muscle</option>
-      </select>
-      <br>
-      <button type="submit" id="calculate-btn">See my nutritional goals</button>
-    </form>
-  </body>
-</html>
+    <div class="form-container">    
+      <h2>Set Your Own Nutritional Goal</h2>
+      <form id="profile-form" method="post" action="/onboarding_goal" class="form">
+        <label for="sex">Sex:        
+          <label for="female" class="container">Female 
+            <input type="radio" id="female" name="sex" value="female" required>   
+            <span class="checkmark"></span>
+          </label>        
+          <label for="male" class="container">Male
+            <input type="radio" id="male" name="sex" value="male" required>
+            <span class="checkmark"></span>
+          </label>
+        </label>
+
+        <br>
+        <label for="height">Height (in cm):</label>
+        <input type="number" id="height" name="height" required>
+        <br>
+        <label for="weight">Weight (in kg):</label>
+        <input type="number" id="weight" name="weight" required>
+        <br>
+        <label for="activity">Select your activity level:</label>
+        <select id="activity" name="activity" required>
+          <option value="" selected disabled hidden>Choose activity level</option>
+          <option value="sedentary">Sedentary (little or no exercise)</option>
+          <option value="lightly-active">Lightly active (light exercise/sports 1-3 days/week)</option>
+          <option value="moderately-active">Moderately active (moderate exercise/sports 3-5 days/week)</option>
+          <option value="very-active">Very active (hard exercise/sports 6-7 days a week)</option>
+          <option value="super-active">Super active (very hard exercise/sports, physical job or training)</option>
+        </select>
+        <br>
+        <label for="goal">Select your goal:</label>
+        <select id="goal" name="goal" required>
+          <option value="" selected disabled hidden>Choose goal</option>
+          <option value="lose-weight">Lose weight</option>
+          <option value="maintain-weight">Maintain weight</option>
+          <option value="gain-muscle">Gain muscle</option>
+        </select>
+        <br>
+        <button type="submit" id="calculate-btn" class="submit-btn">See my nutritional goal</button>
+      </form></div>
+
+<%- include("templates/footer") %>

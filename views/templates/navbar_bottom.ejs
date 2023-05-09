@@ -5,7 +5,8 @@
       <a href="<%= locals.navLinks[i].link %>">
         <img 
           src="/images/<%= locals.navLinks[i].file %><% if (locals.navLinks[i].link != locals.currentURL) { %>-inactive<% } %>.png" 
-          alt="locals.navLinks[i].name" />
+          alt="locals.navLinks[i].name" 
+          class="bottom-nav-icons"/>
       </a>
     </div>
   <% } %>

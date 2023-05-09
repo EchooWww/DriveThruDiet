@@ -1,0 +1,27 @@
+<%- include("templates/header") %>
+<link rel="stylesheet" href="/css/menu.css" />
+<header>
+  <!-- <h1 class="restaurant-title"><%= restaurantName %></h1> -->
+  <h1 class="restaurant-title">McDonald's</h1>
+</header>
+<main class="menu-items">
+  <!-- <% menuItems.forEach(function(menuItem) { %> -->
+  <div class="menu-item-card">
+    <!-- <img src="<%= menuItem.image %>" alt="<%= menuItem.name %>" class="menu-item-image" /> -->
+    <img
+      src="/images/Mcdonalds1.png"
+      alt="McDonald's"
+      class="menu-item-image"
+    />
+    <div class="menu-item-info">
+      <!-- <h2 class="menu-item-name"><%= menuItem.name %></h2> -->
+      <h2 class="menu-item-name">Big Mac</h2>
+      <div class="menu-item-buttons">
+        <button class="nutri-facts-button">NutriFacts</button>
+        <button class="add-button">Add</button>
+      </div>
+    </div>
+  </div>
+  <!-- <% }); %> -->
+</main>
+<%- include("templates/footer") %>

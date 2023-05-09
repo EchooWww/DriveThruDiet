@@ -1,14 +1,14 @@
 <%- include("templates/header") %>
-<link rel="stylesheet" href="/css/restaurant.css">
+<link rel="stylesheet" href="/css/restaurant.css" />
 <header>
-  <h1>Restaurants</h1>
+  <h1 class="restaurant-title">Restaurants</h1>
 </header>
-<main>
-  <ul id="restaurant-list">
-    <% restaurants.forEach(function(restaurant) { %>
-    <li><%= restaurant.name %></li>
-    <% }); %>
-  </ul>
+<main class="restaurant-images">
+  <img src="/images/Mcdonalds1.png" alt="McDonald's" />
+  <img src="/images/BurgerKing1.png" alt="Burger King" />
+  <img src="/images/Subway1.jpg" alt="Subway" />
+  <img src="/images/TacoBell1.png" alt="Taco Bell" />
+  <img src="/images/Arbys1.png" alt="Arby's" />
+  <img src="/images/KFC1.png" alt="KFC" />
 </main>
-<script src="script.js"></script>
 <%- include("templates/footer") %>

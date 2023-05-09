@@ -241,6 +241,10 @@ app.post("/onboarding_goal", async (req, res) => {
   });
 });
 
+app.get("/restaurant", (req, res) => {
+  res.render("restaurant");
+});
+
 app.use(express.static(__dirname + "/public"));
 
 app.get("*", (req, res) => {

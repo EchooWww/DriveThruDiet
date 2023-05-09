@@ -11,7 +11,9 @@ const app = express();
 const Joi = require("joi");
 const cors = require("cors");
 
-const expireTime = 1 * 60 * 60 * 1000;
+// Changed to 24 hours for testing purposes so that we don't have to keep logging in
+// Session Expiry time set to 1 hour
+const expireTime = 24 * 60 * 60 * 1000;
 
 const goalCalculation = require("./goalCalculation.js");
 
@@ -28,6 +30,21 @@ const node_session_secret = process.env.NODE_SESSION_SECRET;
 var { database } = include("databaseConnection");
 
 const userCollection = database.db(mongodb_database).collection("users");
+
+// Navbar links
+const url = require('url');
+const navLinks = [
+  { name: "Home", link: "/home", file: "icon-home" },
+  { name: "Menu", link: "/menu", file: "icon-menu" },
+  { name: "Chat", link: "/chat", file: "icon-chatbot" },
+]
+
+// Middleware for navbar links
+app.use("/", (req, res, next) => {
+  app.locals.navLinks = navLinks;
+  app.locals.currentURL = url.parse(req.url, false, false).pathname;
+  next();
+});
 
 app.set("view engine", "ejs");
 
@@ -185,6 +202,16 @@ app.get("/home", (req, res) => {
     res.render("home", { name: req.session.name });
   }
 });
+
+// Testing navbar icons
+app.get("/menu", (req, res) => {
+    res.render("menu");
+});
+// Testing navbar icons
+app.get("/chat", (req, res) => {
+  res.render("chat");
+});
+
 
 app.get("/logout", (req, res) => {
   req.session.destroy();

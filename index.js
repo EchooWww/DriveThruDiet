@@ -32,12 +32,12 @@ var { database } = include("databaseConnection");
 const userCollection = database.db(mongodb_database).collection("users");
 
 // Navbar links
-const url = require('url');
+const url = require("url");
 const navLinks = [
   { name: "Home", link: "/home", file: "icon-home" },
   { name: "Menu", link: "/menu", file: "icon-menu" },
   { name: "Chat", link: "/chat", file: "icon-chatbot" },
-]
+];
 
 // Middleware for navbar links
 app.use("/", (req, res, next) => {
@@ -146,6 +146,7 @@ app.post("/submitUser", async (req, res) => {
   console.log("User Created");
   req.session.authenticated = true;
   req.session.username = username;
+  req.session.firstName = firstName;
   req.session.cookie.maxAge = expireTime;
   res.redirect("/security_questions");
   return;
@@ -261,7 +262,14 @@ app.post("/loggingIn", async (req, res) => {
 
   const result = await userCollection
     .find({ username: username })
-    .project({ username: 1, username: 1, password: 1, user_type: 1, _id: 1 })
+    .project({
+      username: 1,
+      username: 1,
+      password: 1,
+      user_type: 1,
+      _id: 1,
+      firstName: 1,
+    })
     .toArray();
   console.log(result);
   if (result.length != 1) {
@@ -272,6 +280,7 @@ app.post("/loggingIn", async (req, res) => {
     console.log("correct password");
     req.session.authenticated = true;
     req.session.username = result[0].username;
+    req.session.firstName = result[0].firstName;
     req.session.user_type = result[0].user_type;
     req.session.cookie.maxAge = expireTime;
     res.redirect("/home");
@@ -299,13 +308,17 @@ app.post("/reset_password", async (req, res) => {
 
   const user = await userCollection.findOne({ username: username });
   if (!user) {
-    res.send('<script>alert("User not found"); window.location.href = "/forgot";</script>');
+    res.send(
+      '<script>alert("User not found"); window.location.href = "/forgot";</script>'
+    );
     return;
   }
 
   const question = user.questions[questionIndex];
   if (question.answer !== answer) {
-    res.send('<script>alert("Incorrect answer"); window.location.href = "/forgot";</script>');
+    res.send(
+      '<script>alert("Incorrect answer"); window.location.href = "/forgot";</script>'
+    );
     return;
   }
 
@@ -325,7 +338,8 @@ app.post("/reset_password", async (req, res) => {
   var hashedPassword = await bcrypt.hash(newPassword, saltRounds);
   await userCollection.updateOne(
     { username: username },
-    {$set: {password: hashedPassword}});
+    { $set: { password: hashedPassword } }
+  );
 
   res.redirect("/update");
 });
@@ -338,19 +352,18 @@ app.get("/home", (req, res) => {
   if (!req.session.authenticated) {
     res.redirect("/");
   } else {
-    res.render("home", { name: req.session.name });
+    res.render("home", { name: req.session.firstName });
   }
 });
 
 // Testing navbar icons
 app.get("/menu", (req, res) => {
-    res.render("menu");
+  res.render("menu");
 });
 // Testing navbar icons
 app.get("/chat", (req, res) => {
   res.render("chat");
 });
-
 
 app.get("/logout", (req, res) => {
   req.session.destroy();

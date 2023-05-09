@@ -3,10 +3,14 @@
 <link rel="stylesheet" href="/css/authentication.css">
 </head>
 <body>
-  <!-- <button onclick="window.location.href='/logout'"class="submit-btn">
-    Log out
-  </button> -->
 
+  <div class="greeting"><h2>Hello, <%= name %></h2></div>
+  <div class="goals"></div>
+  <div class="nearby"></div>
+
+    <button onclick="window.location.href='/logout'"class="submit-btn">
+    Log out
+  </button>
   <!-- JS Scripts go here -->
 <%- include("templates/navbar_bottom") %>
 <%- include("templates/footer") %>

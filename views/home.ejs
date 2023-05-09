@@ -7,7 +7,7 @@
 <body>
   <div class="greeting"><h2>Hello, <%= name %>🌞</h2></div>
   <div class="goals">
-    <h1>My Goals 🎯</h1> 
+    <h2>My Goals 🎯</h2> 
     <div class="rings">
       <div class="percent1">
           <svg>
@@ -17,7 +17,7 @@
           <div class="number">
             <h2>75<span>%</span></h2>
             <br>
-            Calories:
+            Calories
             <%=current_calorie%>/<%=calorie_goal%>
           </div>
     </div>
@@ -29,7 +29,7 @@
           <div class="number">
             <h2>33<span>%</span></h2>
             <br>
-            Carbs:
+            Carbs
             <%=current_carbs%>/<%=carbs_goal%>
           </div>
       </div>
@@ -41,7 +41,7 @@
           <div class="number">
             <h2>33<span>%</span></h2>
             <br>
-            Protein:
+            Protein
             <%=current_protein%>/<%=protein_goal%>
           </div>
       </div>
@@ -53,7 +53,7 @@
           <div class="number">
             <h2>33<span>%</span></h2>
             <br>
-            Fat: <br>
+            Fat <br>
             <%=current_fat%>/<%=fat_goal%>
           </div>
       </div>
@@ -63,11 +63,13 @@
   <% const carbs_progress = Math.round((current_carbs / carbs_goal) * 100); %>
   <% const protein_progress = Math.round((current_protein / protein_goal) * 100); %>
   <% const fat_progress = Math.round((current_fat / fat_goal) * 100); %>    
-  <div class="nearby"></div>
+  <div class="nearby">
+    <h2>Nearby</h2>
+  </div>
 
-    <button onclick="window.location.href='/logout'"class="submit-btn">
+    <!-- <button onclick="window.location.href='/logout'"class="submit-btn">
     Log out
-  </button>
+  </button> -->
   <!-- JS Scripts go here -->
   <script>
   // mainly based on ChatGPT's hint and answer

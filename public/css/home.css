@@ -4,12 +4,19 @@ body {
   background-color: #1a1a1a;
   display: grid;
   overflow-y: scroll;
+  text-align: center;
 }
 
-h1 {
+.greeting>h2 {
+  color: #616161;
+}
+
+
+.goals>h2, .nearby>h2 {
   text-align: center;
   color: #eb6d54;
 }
+
 
 .rings {
   display: flex;
@@ -67,13 +74,13 @@ circle:nth-child(1) {
 
 .number {
   position: relative;
-  bottom: 80px;
+  bottom: 70px;
   right: -10px;
   color: #fff;
 }
 
-h2 {
-  font-size: 24px;
+.number h2 {
+  font-size: 19px;
 }
 
 span {

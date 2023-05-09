@@ -15,8 +15,6 @@ const cors = require("cors");
 // Session Expiry time set to 1 hour
 const expireTime = 24 * 60 * 60 * 1000;
 
-const goalCalculation = require("./goalCalculation.js");
-
 /* secret information section */
 const mongodb_host = process.env.MONGODB_HOST;
 const mongodb_user = process.env.MONGODB_USER;
@@ -49,6 +47,8 @@ app.use("/", (req, res, next) => {
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: false }));
+
+const goalCalculation = require("./public/js/goalCalculation.js");
 
 app.use("/img", express.static("./public/images"));
 app.use("/css", express.static("./public/css"));
@@ -146,7 +146,6 @@ app.post("/submitUser", async (req, res) => {
   console.log("User Created");
   req.session.authenticated = true;
   req.session.username = username;
-  req.session.firstName = firstName;
   req.session.cookie.maxAge = expireTime;
   res.redirect("/security_questions");
   return;
@@ -235,11 +234,6 @@ app.post("/onboarding_goal", async (req, res) => {
     }
   );
 
-  req.session.calorie = user.calorieNeeds;
-  req.session.protein = user.protein;
-  req.session.fat = user.fat;
-  req.session.carbs = user.carbs;
-
   res.render("onboarding_goal", {
     calorieNeeds,
     protein,
@@ -274,10 +268,6 @@ app.post("/loggingIn", async (req, res) => {
       user_type: 1,
       _id: 1,
       firstName: 1,
-      calorieNeeds: 1,
-      protein: 1,
-      carbs: 1,
-      fat: 1,
     })
     .toArray();
   console.log(result);
@@ -292,11 +282,6 @@ app.post("/loggingIn", async (req, res) => {
     req.session.firstName = result[0].firstName;
     req.session.user_type = result[0].user_type;
     req.session.cookie.maxAge = expireTime;
-    req.session.calorie = result[0].calorieNeeds;
-    req.session.protein = result[0].protein;
-    req.session.fat = result[0].fat;
-    req.session.carbs = result[0].carbs;
-
     res.redirect("/home");
     return;
   } else {
@@ -362,16 +347,33 @@ app.get("/update", (req, res) => {
   res.render("update");
 });
 
-app.get("/home", (req, res) => {
+//Homepage Section
+app.get("/home", async (req, res) => {
+  var username = req.session.username;
+  const result = await userCollection
+    .find({ username: username })
+    .project({
+      firstName: 1,
+      calorieNeeds: 1,
+      protein: 1,
+      carbs: 1,
+      fat: 1,
+    })
+    .toArray();
   if (!req.session.authenticated) {
     res.redirect("/");
   } else {
     res.render("home", {
-      name: req.session.firstName,
-      calorie_goal: req.session.calorie,
-      carbs_goal: req.session.carbs,
-      protein_goal: req.session.protein,
-      fat_goal: req.session.fat,
+      name: result[0].firstName,
+      calorie_goal: result[0].calorieNeeds,
+      carbs_goal: result[0].carbs,
+      protein_goal: result[0].protein,
+      fat_goal: result[0].fat,
+      //current values are placeholders, to be replaced with actual ones
+      current_calorie: 200,
+      current_carbs: 30,
+      current_protein: 30,
+      current_fat: 25,
     });
   }
 });

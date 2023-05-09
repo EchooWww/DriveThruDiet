@@ -1,2 +1,14 @@
-<%- include("templates/header") %> 
+<%- include("templates/header") %>
+<link rel="stylesheet" href="/css/restaurant.css">
+<header>
+  <h1>Restaurants</h1>
+</header>
+<main>
+  <ul id="restaurant-list">
+    <% restaurants.forEach(function(restaurant) { %>
+    <li><%= restaurant.name %></li>
+    <% }); %>
+  </ul>
+</main>
+<script src="script.js"></script>
 <%- include("templates/footer") %>

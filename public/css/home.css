@@ -1,0 +1,104 @@
+body {
+  font-family: Poppins, sans-serif;
+  background-color: #1a1a1a;
+  display: grid;
+  overflow-y: scroll;
+}
+
+h1 {
+  text-align: center;
+  color: #eb6d54;
+}
+
+.rings {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.percent1, .percent2, .percent3, .percent4, svg, circle {
+  width: 100px;
+  height: 100px;
+}
+
+circle {
+  position: absolute;
+  fill: none;
+  stroke-width: 5;
+  transform: translate(25px, 25px);
+  stroke-dasharray: 220;
+  stroke-linecap: round;
+}
+
+circle:nth-child(1) {
+  stroke-dashoffset: 0;
+  stroke: #616161;
+}
+
+.percent1 circle:nth-child(2) {
+  stroke-dashoffset: calc(220 - (220 * 75) / 100);
+  stroke: #57b7e5;
+  animation: percent 1.5s linear;
+  animation-delay: 1s;
+}
+
+.percent2 circle:nth-child(2) {
+  stroke-dashoffset: calc(220 - (220 * 75) / 100);
+  stroke: #eb6d54;
+  animation: percent 1.8s linear;
+  animation-delay: 1.2s;
+}
+
+.percent3 circle:nth-child(2) {
+  stroke-dashoffset: calc(220 - (220 * 75) / 100);
+  stroke: #74dfb6;
+  animation: percent 1.8s linear;
+  animation-delay: 1.2s;
+}
+
+.percent4 circle:nth-child(2) {
+  stroke-dashoffset: calc(220 - (220 * 75) / 100);
+  stroke: #fbe09a;
+  animation: percent 1.8s linear;
+  animation-delay: 1.2s;
+}
+
+
+.number {
+  position: relative;
+  bottom: 80px;
+  right: -10px;
+  color: #fff;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+span {
+  font-size: 15px;
+  opacity: .7;
+}
+
+.percent1 span {
+  color: #57b7e5;
+}
+
+.percent2 span {
+  color: #eb6d54;
+}
+
+.percent3 span {
+  color: #74dfb6;
+}
+
+.percent4 span {
+  color: #fbe09a;
+}
+
+@keyframes percent {
+  0% {
+    stroke-dashoffset: 0;
+    stroke-width: 0;
+  }
+}

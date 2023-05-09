@@ -235,6 +235,11 @@ app.post("/onboarding_goal", async (req, res) => {
     }
   );
 
+  req.session.calorie = user.calorieNeeds;
+  req.session.protein = user.protein;
+  req.session.fat = user.fat;
+  req.session.carbs = user.carbs;
+
   res.render("onboarding_goal", {
     calorieNeeds,
     protein,
@@ -269,6 +274,10 @@ app.post("/loggingIn", async (req, res) => {
       user_type: 1,
       _id: 1,
       firstName: 1,
+      calorieNeeds: 1,
+      protein: 1,
+      carbs: 1,
+      fat: 1,
     })
     .toArray();
   console.log(result);
@@ -283,6 +292,11 @@ app.post("/loggingIn", async (req, res) => {
     req.session.firstName = result[0].firstName;
     req.session.user_type = result[0].user_type;
     req.session.cookie.maxAge = expireTime;
+    req.session.calorie = result[0].calorieNeeds;
+    req.session.protein = result[0].protein;
+    req.session.fat = result[0].fat;
+    req.session.carbs = result[0].carbs;
+
     res.redirect("/home");
     return;
   } else {
@@ -352,7 +366,13 @@ app.get("/home", (req, res) => {
   if (!req.session.authenticated) {
     res.redirect("/");
   } else {
-    res.render("home", { name: req.session.firstName });
+    res.render("home", {
+      name: req.session.firstName,
+      calorie_goal: req.session.calorie,
+      carbs_goal: req.session.carbs,
+      protein_goal: req.session.protein,
+      fat_goal: req.session.fat,
+    });
   }
 });
 

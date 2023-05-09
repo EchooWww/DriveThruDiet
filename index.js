@@ -245,6 +245,10 @@ app.get("/restaurant", (req, res) => {
   res.render("restaurant");
 });
 
+app.get("/menu", (req, res) => {
+  res.render("menu");
+});
+
 app.use(express.static(__dirname + "/public"));
 
 app.get("*", (req, res) => {

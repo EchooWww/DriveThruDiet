@@ -1,27 +1,28 @@
 <%- include("templates/header") %>
 <link rel="stylesheet" href="/css/menu.css" />
 <header>
-  <!-- <h1 class="restaurant-title"><%= restaurantName %></h1> -->
-  <h1 class="restaurant-title">McDonald's</h1>
+  <h1>McDonald's</h1>
 </header>
-<main class="menu-items">
-  <!-- <% menuItems.forEach(function(menuItem) { %> -->
-  <div class="menu-item-card">
-    <!-- <img src="<%= menuItem.image %>" alt="<%= menuItem.name %>" class="menu-item-image" /> -->
-    <img
-      src="/images/Mcdonalds1.png"
-      alt="McDonald's"
-      class="menu-item-image"
-    />
-    <div class="menu-item-info">
-      <!-- <h2 class="menu-item-name"><%= menuItem.name %></h2> -->
-      <h2 class="menu-item-name">Big Mac</h2>
-      <div class="menu-item-buttons">
-        <button class="nutri-facts-button">NutriFacts</button>
-        <button class="add-button">Add</button>
-      </div>
+<main>
+  <div class="card">
+    <img src="/images/Mcdonalds1.png" alt="McDonald's" />
+    <div class="item-details">
+      <h2>Big Mac</h2>
+      <p><small>Calories: 570Cals</small></p>
+      <p><small>Protein: 24g</small></p>
+      <p><small>Fat: 32g</small></p>
     </div>
+    <button class="add-btn" onclick="addToCart">Add</button>
   </div>
-  <!-- <% }); %> -->
+  <div class="card">
+    <img src="/images/Mcdonalds1.png" alt="McDonald's" />
+    <div class="item-details">
+      <h2>Cheeseburger</h2>
+      <p><small>Calories: 290Cals</small></p>
+      <p><small>Protein: 14g</small></p>
+      <p><small>Fat: 12g</small></p>
+    </div>
+    <button class="add-btn" onclick="addToCart">Add</button>
+  </div>
 </main>
 <%- include("templates/footer") %>

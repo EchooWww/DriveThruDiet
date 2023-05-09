@@ -285,7 +285,53 @@ app.post("/loggingIn", async (req, res) => {
 
 //Reset Password Section
 app.get("/forgot", (req, res) => {
-  res.render("forgot");
+  const questions = [
+    { question: "What is your mother's maiden name?" },
+    { question: "What was the name of your first pet?" },
+    { question: "What is your favorite color?" },
+  ];
+  res.render("forgot", { questions });
+});
+
+app.post("/reset_password", async (req, res) => {
+  const { username, answer, questionIndex } = req.body;
+  const newPassword = req.body.password;
+
+  const user = await userCollection.findOne({ username: username });
+  if (!user) {
+    res.send('<script>alert("User not found"); window.location.href = "/forgot";</script>');
+    return;
+  }
+
+  const question = user.questions[questionIndex];
+  if (question.answer !== answer) {
+    res.send('<script>alert("Incorrect answer"); window.location.href = "/forgot";</script>');
+    return;
+  }
+
+  const schema = Joi.object({
+    newPassword: Joi.string().max(20).required(),
+  });
+
+  const validationResult = schema.validate({
+    newPassword,
+  });
+  if (validationResult.error != null) {
+    console.log(validationResult.error);
+    res.redirect("/forgot");
+    return;
+  }
+
+  var hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+  await userCollection.updateOne(
+    { username: username },
+    {$set: {password: hashedPassword}});
+
+  res.redirect("/update");
+});
+
+app.get("/update", (req, res) => {
+  res.render("update");
 });
 
 app.get("/home", (req, res) => {

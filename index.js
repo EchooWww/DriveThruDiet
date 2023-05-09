@@ -79,6 +79,7 @@ app.get("/", (req, res) => {
   }
 });
 
+//New User Creation
 app.get("/signup", (req, res) => {
   res.render("signup");
 });
@@ -146,10 +147,102 @@ app.post("/submitUser", async (req, res) => {
   req.session.authenticated = true;
   req.session.username = username;
   req.session.cookie.maxAge = expireTime;
+  res.redirect("/security_questions");
+  return;
+});
+
+//Set Security Questions
+app.get("/security_questions", (req, res) => {
+  res.render("security_questions");
+});
+
+app.post("/security_answers", async (req, res) => {
+  const { question1, question2, question3 } = req.body;
+
+  const questions = [
+    {
+      question: "What is your mother's maiden name?",
+      answer: question1,
+    },
+    {
+      question: "What was the name of your first pet?",
+      answer: question2,
+    },
+    {
+      question: "What is your favorite color?",
+      answer: question3,
+    },
+  ];
+
+  await userCollection.updateOne(
+    { username: req.session.username },
+    {
+      $set: {
+        questions: questions,
+      },
+    },
+    (err, result) => {
+      if (err) {
+        console.error(err);
+      }
+    }
+  );
   res.redirect("/signup_profile");
   return;
 });
 
+//Set Profile Preference
+app.get("/signup_profile", (req, res) => {
+  res.render("signup_profile");
+});
+
+app.post("/onboarding_goal", async (req, res) => {
+  const { sex, height, weight, activity, goal } = req.body;
+  const user = await userCollection.findOne({ username: req.session.username });
+  const birthday = user.birthday;
+  const BMR = goalCalculation.calculateBMR(sex, weight, height, birthday);
+  const calorieNeeds = goalCalculation.calculateCalorieNeeds(
+    activity,
+    BMR,
+    goal
+  );
+  const { protein, fat, carbs } = goalCalculation.calculateMacronutrients(
+    weight,
+    calorieNeeds,
+    goal
+  );
+
+  await userCollection.updateOne(
+    { username: req.session.username },
+    {
+      $set: {
+        sex,
+        height,
+        weight,
+        activity,
+        goal,
+        calorieNeeds,
+        protein,
+        fat,
+        carbs,
+      },
+    },
+    (err, result) => {
+      if (err) {
+        console.error(err);
+      }
+    }
+  );
+
+  res.render("onboarding_goal", {
+    calorieNeeds,
+    protein,
+    fat,
+    carbs,
+  });
+});
+
+//Login Validation
 app.get("/login", (req, res) => {
   res.render("login");
 });
@@ -216,56 +309,6 @@ app.get("/chat", (req, res) => {
 app.get("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/");
-});
-
-app.get("/signup_profile", (req, res) => {
-  res.render("signup_profile");
-});
-
-app.post("/onboarding_goal", async (req, res) => {
-  const { sex, height, weight, activity, goal } = req.body;
-  const user = await userCollection.findOne({ username: req.session.username });
-  const birthday = user.birthday;
-  const BMR = goalCalculation.calculateBMR(sex, weight, height, birthday);
-  const calorieNeeds = goalCalculation.calculateCalorieNeeds(
-    activity,
-    BMR,
-    goal
-  );
-  const { protein, fat, carbs } = goalCalculation.calculateMacronutrients(
-    weight,
-    calorieNeeds,
-    goal
-  );
-
-  await userCollection.updateOne(
-    { username: req.session.username },
-    {
-      $set: {
-        sex,
-        height,
-        weight,
-        activity,
-        goal,
-        calorieNeeds,
-        protein,
-        fat,
-        carbs,
-      },
-    },
-    (err, result) => {
-      if (err) {
-        console.error(err);
-      }
-    }
-  );
-
-  res.render("onboarding_goal", {
-    calorieNeeds,
-    protein,
-    fat,
-    carbs,
-  });
 });
 
 app.use(express.static(__dirname + "/public"));

@@ -11,8 +11,9 @@ const app = express();
 const Joi = require("joi");
 const cors = require("cors");
 
-// Session Expiry time set to 1 hour
 const expireTime = 1 * 60 * 60 * 1000;
+
+const goalCalculation = require("./goalCalculation.js");
 
 /* secret information section */
 const mongodb_host = process.env.MONGODB_HOST;
@@ -92,14 +93,23 @@ app.post("/submitUser", async (req, res) => {
   }
   const schema = Joi.object({
     username: Joi.string().alphanum().max(20).required(),
-    firstName: Joi.string().max(20).required().allow(' '),
-    lastName: Joi.string().max(20).required().allow(' '),
+    firstName: Joi.string().max(20).required().allow(" "),
+    lastName: Joi.string().max(20).required().allow(" "),
     email: Joi.string().max(30).required(),
-    birthday: Joi.string().regex(/^(\d{4})-(\d{2})-(\d{2})$/).required(),
+    birthday: Joi.string()
+      .regex(/^(\d{4})-(\d{2})-(\d{2})$/)
+      .required(),
     password: Joi.string().max(20).required(),
   });
 
-  const validationResult = schema.validate({ username, firstName, lastName, email, birthday, password });
+  const validationResult = schema.validate({
+    username,
+    firstName,
+    lastName,
+    email,
+    birthday,
+    password,
+  });
   if (validationResult.error != null) {
     console.log(validationResult.error);
     res.redirect("/signup");
@@ -119,7 +129,7 @@ app.post("/submitUser", async (req, res) => {
   req.session.authenticated = true;
   req.session.username = username;
   req.session.cookie.maxAge = expireTime;
-  res.redirect("/home");
+  res.redirect("/signup_profile");
   return;
 });
 
@@ -179,6 +189,56 @@ app.get("/home", (req, res) => {
 app.get("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/");
+});
+
+app.get("/signup_profile", (req, res) => {
+  res.render("signup_profile");
+});
+
+app.post("/onboarding_goal", async (req, res) => {
+  const { sex, height, weight, activity, goal } = req.body;
+  const user = await userCollection.findOne({ username: req.session.username });
+  const birthday = user.birthday;
+  const BMR = goalCalculation.calculateBMR(sex, weight, height, birthday);
+  const calorieNeeds = goalCalculation.calculateCalorieNeeds(
+    activity,
+    BMR,
+    goal
+  );
+  const { protein, fat, carbs } = goalCalculation.calculateMacronutrients(
+    weight,
+    calorieNeeds,
+    goal
+  );
+
+  await userCollection.updateOne(
+    { username: req.session.username },
+    {
+      $set: {
+        sex,
+        height,
+        weight,
+        activity,
+        goal,
+        calorieNeeds,
+        protein,
+        fat,
+        carbs,
+      },
+    },
+    (err, result) => {
+      if (err) {
+        console.error(err);
+      }
+    }
+  );
+
+  res.render("onboarding_goal", {
+    calorieNeeds,
+    protein,
+    fat,
+    carbs,
+  });
 });
 
 app.use(express.static(__dirname + "/public"));

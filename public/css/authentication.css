@@ -50,15 +50,15 @@ button {
   margin-bottom: 0.5em;
 }
 
-.link-btn{
-  background:none;
+.link-btn {
+  background: none;
   text-decoration: underline;
- }  
- 
- .link-btn:hover {
+}
+
+.link-btn:hover {
   text-decoration: none;
 }
 
 .link-btn:active {
-  color:rgb(255, 255, 255)
+  color: rgb(255, 255, 255)
 }

@@ -1,0 +1,11 @@
+<%- include("templates/header") %>
+<link rel="stylesheet" href="/css/onboarding_goal.css">
+</head>
+<body>
+  <h2>My Nutritional Goals</h2>
+  <p>Daily Calorie: <%= calorieNeeds %> KCal</p>
+  <p>Daily Protein: <%= protein %> g</p>
+  <p>Daily Fat: <%= fat %> g</p>
+  <p>Daily Carbs: <%= carbs %> g</p>
+  <button class="submit-btn" onclick="window.location.href='/home';">Start Your Journey</button>
+  <%- include("templates/footer") %>

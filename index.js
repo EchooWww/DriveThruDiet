@@ -217,8 +217,8 @@ app.post("/onboarding_goal", async (req, res) => {
   const calorieNeeds = goalCalculation.calculateCalorieNeeds(
     sex,
     birthday,
-    weight,
     height,
+    weight,
     activity,
     goal
   );
@@ -496,8 +496,8 @@ app.post("/update_profile", async (req, res) => {
   const calorieNeeds = goalCalculation.calculateCalorieNeeds(
     sex,
     birthday,
-    weight,
     height,
+    weight,
     activity,
     goal
   );

@@ -23,7 +23,7 @@ function calculateAge(birthday) {
   return age;
 }
 
-function calculateCalorieNeeds(sex, birthday, weight, height, activity, goal) {
+function calculateCalorieNeeds(sex, birthday, height, weight, activity, goal) {
   let BMR = calculateBMR(sex, weight, height, birthday);
   let calorieNeeds;
   switch (activity) {

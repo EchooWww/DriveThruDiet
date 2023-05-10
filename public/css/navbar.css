@@ -66,7 +66,7 @@
 /* ---------- SideBar ---------- */
 #sidebar-container {
     background-color: #57B7E5;
-    position: absolute;
+    position: fixed;
     right: -400px;
     top: 60px;
     height: calc(100% - 140px);
@@ -74,6 +74,7 @@
     z-index: 99;
     transition: transform 0.3s ease;
     box-shadow: -2px 0 10px rgba(0, 0, 0, .2);
+    transform: translateX(250px);
 }
 /* ---------- End of SideBar ---------- */
 
@@ -97,6 +98,5 @@
     width: 40px;
     height: 40px;
 }
-
 /* ---------- End of Bottom NavBar ---------- */
 

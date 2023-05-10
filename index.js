@@ -379,10 +379,6 @@ app.get("/home", async (req, res) => {
   }
 });
 
-app.get("/map", (req, res) => {
-  res.render("map-test");
-});
-
 // Testing navbar icons
 app.get("/menu", (req, res) => {
   res.render("menu");

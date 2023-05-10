@@ -25,16 +25,29 @@
 <script>  
   const image = document.getElementById("tray-icon");
   console.log("image loaded");
-  image.src = "/images/icon-tray-opt.gif";
-  image.src = "/images/icon-tray-reverse-opt.gif";
   image.src = "/images/icon-tray.png";
   var toggleState = false;
 
+  // Function to preload images to improve gif-load performance.
+  function preLoadImages() {
+    var images = [
+      "/images/icon-tray-opt.gif",
+      "/images/icon-tray-reverse-opt.gif",
+    ];
+    for (i = 0; i < images.length; i++) {
+      var imageObject = new Image();
+      imageObject.src = images[i];
+    }
+  }
+
+  // Toggles the tray icon between open and closed.
   function toggle() {
     if (toggleState === false) {
+      preLoadImages();
       image.src = "/images/icon-tray-opt.gif";
       toggleState = true;
     } else {
+      preLoadImages();
       image.src = "/images/icon-tray-reverse-opt.gif";
       toggleState = false;
     }

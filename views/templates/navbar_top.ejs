@@ -1,9 +1,11 @@
 <div id="top-nav-container">
   
+  <!-- Profile icon -->
   <div>
     <a href="/profile"><img src="/images/icon-profile.png" alt="Profile" id="profile-icon"/></a>
   </div>
 
+  <!-- Search Bar -->
   <div class="search-container">
     <form>
       <span id="search-span">
@@ -16,14 +18,28 @@
     </form>
   </div>
 
+  <!-- Tray Icon -->
   <div>
-    <img onClick=toggle() id="tray-icon"/>
+    <img onClick=iconToggle() id="tray-icon"/>
   </div>
 
 </div>
 
+<!-- Sidebar -->
+<div id="sidebar-container">
+  <div> Sidebar </div>
+</div>
+
+
+
+
+
+
+<!-- Script to toggle the tray icon between open and closed. -->
 <script>  
   const image = document.getElementById("tray-icon");
+  const sidebar = document.getElementById("sidebar-container");
+
   console.log("image loaded");
   image.src = "/images/icon-tray.png";
   var toggleState = false;
@@ -41,15 +57,32 @@
   }
 
   // Toggles the tray icon between open and closed.
-  function toggle() {
+  function iconToggle() {
     if (toggleState === false) {
       preLoadImages();
-      image.src = "/images/icon-tray-opt.gif";
+      setTimeout(function () {
+        image.src = "/images/icon-tray-opt.gif";
+      }, 75);
+      sidebarToggle(toggleState);
       toggleState = true;
     } else {
       preLoadImages();
-      image.src = "/images/icon-tray-reverse-opt.gif";
+      setTimeout(function () {
+        image.src = "/images/icon-tray-reverse-opt.gif";
+      }, 75);
+      sidebarToggle(toggleState);
       toggleState = false;
     }
   }
+
+  // Toggles the sidebar between open and closed.
+  function sidebarToggle(toggleState) {
+    if (toggleState === false) {
+      sidebar.style.transform = 'translateX(-400px)';
+    } else {
+      sidebar.style.transform = 'translateX(0px)';
+    }
+  }
+
+
 </script>

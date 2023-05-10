@@ -1,0 +1,11 @@
+#sidebar-container {
+  background-color: #57B7E5;
+  position: absolute;
+  right: -400px;
+  top: 60px;
+  height: calc(100% - 140px);
+  width: 400px;
+  z-index: 99;
+  transition: transform 0.3s ease;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, .2);
+}

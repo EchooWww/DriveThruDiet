@@ -334,6 +334,12 @@ app.get("/update", (req, res) => {
   res.render("update");
 });
 
+//Find Username Section
+app.get("/find_username", (req, res) => {
+  res.render("find_username");
+});
+
+
 app.get("/home", (req, res) => {
   if (!req.session.authenticated) {
     res.redirect("/");

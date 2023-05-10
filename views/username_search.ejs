@@ -1,3 +1,16 @@
 <%- include("templates/header") %>
-<h1>Your username is <%= result[0].username %></h1>
-<%- include("templates/footer") %>
+  <link rel="stylesheet" href="/css/authentication.css">
+  </head>
+
+  <body>
+    <div class="auth-form-container">
+      <h2>Your username is</h2>
+      <p><%= result[0].username %></p>
+      <button class="submit-btn" onclick="location.href='/login';">
+        Back to Login
+      </button>
+      <button class="link-btn" onclick="location.href='/forgot';">
+        Forgot your password?
+      </button>
+    </div>
+    <%- include("templates/footer") %>

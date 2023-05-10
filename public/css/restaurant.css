@@ -4,16 +4,17 @@ header {
     align-items: center;
     padding: 1rem;
     background-color: #fff;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 0 4px rgba(0, 0, 0, 0.1); */
     font-family: 'Roboto', sans-serif;
   }
   
   header h1 {
     margin: 0;
+    margin-left: 1rem;
   }
   
   .restaurant-title {
-    margin-left: 1rem;
+    margin-top: 13%;
   }
   
   .restaurant-images {
@@ -21,13 +22,13 @@ header {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin-top: 2rem;
+    margin-top: 0;
     overflow-y: auto;
   }
   
   .restaurant-images img {
     width: 150px;
     height: 150px;
-    margin: 1rem;
+    margin: 2rem;
   }
   

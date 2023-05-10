@@ -1,9 +1,11 @@
 <div id="top-nav-container">
   
+  <!-- Profile icon -->
   <div>
     <a href="/profile"><img src="/images/icon-profile.png" alt="Profile" id="profile-icon"/></a>
   </div>
 
+  <!-- Search Bar -->
   <div class="search-container">
     <form>
       <span id="search-span">
@@ -16,8 +18,71 @@
     </form>
   </div>
 
+  <!-- Tray Icon -->
   <div>
-    <a href="/"><img src="/images/icon-hamburger2.png" alt="Home" id="hamburger-icon"/></a>
+    <img onClick=iconToggle() id="tray-icon"/>
   </div>
 
 </div>
+
+<!-- Sidebar -->
+<div id="sidebar-container">
+  <div> The sidebar is alive :3 </div>
+</div>
+
+
+
+
+
+
+<!-- Script to toggle the tray icon between open and closed. -->
+<script>  
+  const image = document.getElementById("tray-icon");
+  const sidebar = document.getElementById("sidebar-container");
+
+  console.log("image loaded");
+  image.src = "/images/icon-tray.png";
+  var toggleState = false;
+
+  // Function to preload images to improve gif-load performance.
+  function preLoadImages() {
+    var images = [
+      "/images/icon-tray-opt.gif",
+      "/images/icon-tray-reverse-opt.gif",
+    ];
+    for (i = 0; i < images.length; i++) {
+      var imageObject = new Image();
+      imageObject.src = images[i];
+    }
+  }
+
+  // Toggles the tray icon between open and closed.
+  function iconToggle() {
+    if (toggleState === false) {
+      preLoadImages();
+      setTimeout(function () {
+        image.src = "/images/icon-tray-opt.gif";
+      }, 75);
+      sidebarToggle(toggleState);
+      toggleState = true;
+    } else {
+      preLoadImages();
+      setTimeout(function () {
+        image.src = "/images/icon-tray-reverse-opt.gif";
+      }, 75);
+      sidebarToggle(toggleState);
+      toggleState = false;
+    }
+  }
+
+  // Toggles the sidebar between open and closed.
+  function sidebarToggle(toggleState) {
+    if (toggleState === false) {
+      sidebar.style.transform = 'translateX(-400px)';
+    } else {
+      sidebar.style.transform = 'translateX(0px)';
+    }
+  }
+
+
+</script>

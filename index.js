@@ -453,6 +453,41 @@ app.get("/home", async (req, res) => {
   }
 });
 
+app.get("/profile", async (req, res) => {
+  var username = req.session.username;
+  const result = await userCollection
+    .find({ username: username })
+    .project({
+      username: 1,
+      firstName: 1,
+      lastName: 1,
+      sex: 1,
+      height: 1,
+      weight: 1,
+      activity: 1,
+      goal: 1,
+      calorieNeeds: 1,
+      protein: 1,
+      carbs: 1,
+      fat: 1,
+    })
+    .toArray();
+  res.render("profile", {
+    username: result[0].username,
+    firstName: result[0].firstName,
+    lastName: result[0].lastName,
+    sex: result[0].sex,
+    height: result[0].height,
+    weight: result[0].weight,
+    activity: result[0].activity,
+    goal: result[0].goal,
+    calorieNeeds: result[0].calorieNeeds,
+    protein: result[0].protein,
+    carbs: result[0].carbs,
+    fat: result[0].fat,
+  });
+});
+
 // Testing navbar icons
 app.get("/menu", (req, res) => {
   res.render("menu");

@@ -32,12 +32,12 @@ var { database } = include("databaseConnection");
 const userCollection = database.db(mongodb_database).collection("users");
 
 // Navbar links
-const url = require('url');
+const url = require("url");
 const navLinks = [
   { name: "Home", link: "/home", file: "icon-home" },
   { name: "Menu", link: "/menu", file: "icon-menu" },
   { name: "Chat", link: "/chat", file: "icon-chatbot" },
-]
+];
 
 // Middleware for navbar links
 app.use("/", (req, res, next) => {
@@ -109,6 +109,19 @@ app.post("/submitUser", async (req, res) => {
   if (!password) {
     res.render("signup_error", { error: "Password" });
   }
+
+  // GPT_Promt_2
+
+  // Check if username or email already exists in the database
+  const existingUser = await userCollection.findOne({
+    $or: [{ username: username }, { email: email }],
+  });
+  if (existingUser) {
+    // Render an error message indicating that the username or email is already taken
+    res.render("signup_error", { error: "Username or email is already taken" });
+    return;
+  }
+
   const schema = Joi.object({
     username: Joi.string().alphanum().max(20).required(),
     firstName: Joi.string().max(20).required().allow(" "),
@@ -299,13 +312,17 @@ app.post("/reset_password", async (req, res) => {
 
   const user = await userCollection.findOne({ username: username });
   if (!user) {
-    res.send('<script>alert("User not found"); window.location.href = "/forgot";</script>');
+    res.send(
+      '<script>alert("User not found"); window.location.href = "/forgot";</script>'
+    );
     return;
   }
 
   const question = user.questions[questionIndex];
   if (question.answer !== answer) {
-    res.send('<script>alert("Incorrect answer"); window.location.href = "/forgot";</script>');
+    res.send(
+      '<script>alert("Incorrect answer"); window.location.href = "/forgot";</script>'
+    );
     return;
   }
 
@@ -325,7 +342,8 @@ app.post("/reset_password", async (req, res) => {
   var hashedPassword = await bcrypt.hash(newPassword, saltRounds);
   await userCollection.updateOne(
     { username: username },
-    {$set: {password: hashedPassword}});
+    { $set: { password: hashedPassword } }
+  );
 
   res.redirect("/update");
 });
@@ -339,6 +357,62 @@ app.get("/find_username", (req, res) => {
   res.render("find_username");
 });
 
+app.post("/username_search", async (req, res) => {
+  var email = req.body.email;
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
+  var birthday = req.body.birthday;
+
+  const schema = Joi.object({
+    email: Joi.string().max(30).required(),
+    firstName: Joi.string().max(20).required().allow(" "),
+    lastName: Joi.string().max(20).required().allow(" "),
+    email: Joi.string().max(30).required(),
+    birthday: Joi.string()
+      .regex(/^(\d{4})-(\d{2})-(\d{2})$/)
+      .required(),
+  });
+
+  const validationResult = schema.validate({
+    email,
+    firstName,
+    lastName,
+    birthday,
+  });
+  if (validationResult.error != null) {
+    console.log(validationResult.error);
+    res.redirect("/find_username");
+    return;
+  }
+
+  const result = await userCollection
+    .find({
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      birthday: birthday,
+    })
+    .project({
+      email: 1,
+      email: 1,
+      firstName: 1,
+      lastName: 1,
+      birthday: 1,
+      username: 1,
+    })
+    .toArray();
+  if (result.length != 1) {
+    res.render("find_ID_error", { error: "User not found." });
+    return;
+  } else {
+    res.render("username_search", {result: result})
+    return;
+  }
+});
+
+app.get("/username_search", (req, res) => {
+  res.render("username_search");
+});
 
 app.get("/home", (req, res) => {
   if (!req.session.authenticated) {
@@ -350,13 +424,12 @@ app.get("/home", (req, res) => {
 
 // Testing navbar icons
 app.get("/menu", (req, res) => {
-    res.render("menu");
+  res.render("menu");
 });
 // Testing navbar icons
 app.get("/chat", (req, res) => {
   res.render("chat");
 });
-
 
 app.get("/logout", (req, res) => {
   req.session.destroy();

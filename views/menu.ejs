@@ -1,7 +1,40 @@
-<%- include("templates/header") %>
-<%- include("templates/navbar_top") %>
-
-
-
-<%- include('templates/navbar_bottom') %>
-<%- include("templates/footer") %>
+<%- include("templates/header") %> <%- include("templates/navbar_top") %>
+<link rel="stylesheet" href="/css/menu.css" />
+<header>
+  <h1>McDonald's</h1>
+</header>
+<main>
+  <div class="card">
+    <img src="/images/Mcdonalds1.png" alt="McDonald's" />
+    <div class="item-details">
+      <h2>Big Mac</h2>
+      <p>
+        <small><strong>Calories:</strong> 570Cals</small>
+      </p>
+      <p>
+        <small><strong>Protein:</strong> 24g</small>
+      </p>
+      <p>
+        <small><strong>Fat:</strong> 32g</small>
+      </p>
+    </div>
+    <button class="add-btn" onclick="addToCart">Add</button>
+  </div>
+  <div class="card">
+    <img src="/images/Mcdonalds1.png" alt="McDonald's" />
+    <div class="item-details">
+      <h2>Cheeseburger</h2>
+      <p>
+        <small><strong>Calories:</strong> 290Cals</small>
+      </p>
+      <p>
+        <small><strong>Protein:</strong> 14g</small>
+      </p>
+      <p>
+        <small><strong>Fat:</strong> 12g</small>
+      </p>
+    </div>
+    <button class="add-btn" onclick="addToCart">Add</button>
+  </div>
+</main>
+<%- include('templates/navbar_bottom') %> <%- include("templates/footer") %>

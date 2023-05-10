@@ -1,0 +1,14 @@
+<div id="bottom-nav-container">
+  
+  <% for (var i = 0; i < navLinks.length; i++) { %>
+    <div>
+      <a href="<%= locals.navLinks[i].link %>">
+        <img 
+          src="/images/<%= locals.navLinks[i].file %><% if (locals.navLinks[i].link != locals.currentURL) { %>-inactive<% } %>.png" 
+          alt="locals.navLinks[i].name" 
+          class="bottom-nav-icons"/>
+      </a>
+    </div>
+  <% } %>
+  
+</div>

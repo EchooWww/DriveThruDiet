@@ -11,9 +11,9 @@ const app = express();
 const Joi = require("joi");
 const cors = require("cors");
 
-const expireTime = 1 * 60 * 60 * 1000;
-
-const goalCalculation = require("./goalCalculation.js");
+// Changed to 24 hours for testing purposes so that we don't have to keep logging in
+// Session Expiry time set to 1 hour
+const expireTime = 24 * 60 * 60 * 1000;
 
 /* secret information section */
 const mongodb_host = process.env.MONGODB_HOST;
@@ -29,12 +29,30 @@ var { database } = include("databaseConnection");
 
 const userCollection = database.db(mongodb_database).collection("users");
 
+// Navbar links
+const url = require("url");
+const navLinks = [
+  { name: "Home", link: "/home", file: "icon-home" },
+  { name: "Menu", link: "/menu", file: "icon-menu" },
+  { name: "Chat", link: "/chat", file: "icon-chatbot" },
+];
+
+// Middleware for navbar links
+app.use("/", (req, res, next) => {
+  app.locals.navLinks = navLinks;
+  app.locals.currentURL = url.parse(req.url, false, false).pathname;
+  next();
+});
+
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: false }));
 
+const goalCalculation = require("./public/js/goalCalculation.js");
+
 app.use("/img", express.static("./public/images"));
 app.use("/css", express.static("./public/css"));
+app.use("/js", express.static("./public/js"));
 
 var mongoStore = MongoStore.create({
   mongoUrl: `mongodb+srv://${mongodb_user}:${mongodb_password}@${mongodb_host}/sessions`,
@@ -62,6 +80,7 @@ app.get("/", (req, res) => {
   }
 });
 
+//New User Creation
 app.get("/signup", (req, res) => {
   res.render("signup");
 });
@@ -129,68 +148,51 @@ app.post("/submitUser", async (req, res) => {
   req.session.authenticated = true;
   req.session.username = username;
   req.session.cookie.maxAge = expireTime;
+  res.redirect("/security_questions");
+  return;
+});
+
+//Set Security Questions
+app.get("/security_questions", (req, res) => {
+  res.render("security_questions");
+});
+
+app.post("/security_answers", async (req, res) => {
+  const { question1, question2, question3 } = req.body;
+
+  const questions = [
+    {
+      question: "What is your mother's maiden name?",
+      answer: question1,
+    },
+    {
+      question: "What was the name of your first pet?",
+      answer: question2,
+    },
+    {
+      question: "What is your favorite color?",
+      answer: question3,
+    },
+  ];
+
+  await userCollection.updateOne(
+    { username: req.session.username },
+    {
+      $set: {
+        questions: questions,
+      },
+    },
+    (err, result) => {
+      if (err) {
+        console.error(err);
+      }
+    }
+  );
   res.redirect("/signup_profile");
   return;
 });
 
-app.get("/login", (req, res) => {
-  res.render("login");
-});
-
-app.post("/loggingIn", async (req, res) => {
-  var username = req.body.username;
-  var password = req.body.password;
-
-  const schema = Joi.string().alphanum().max(20).required();
-  const validationResult = schema.validate(username);
-  if (validationResult.error != null) {
-    console.log(validationResult.error);
-    res.render("login_error", { error: "Please enter a valid username" });
-    return;
-  }
-
-  const result = await userCollection
-    .find({ username: username })
-    .project({ username: 1, username: 1, password: 1, user_type: 1, _id: 1 })
-    .toArray();
-  console.log(result);
-  if (result.length != 1) {
-    res.render("login_error", { error: "User not found." });
-    return;
-  }
-  if (await bcrypt.compare(password, result[0].password)) {
-    console.log("correct password");
-    req.session.authenticated = true;
-    req.session.username = result[0].username;
-    req.session.user_type = result[0].user_type;
-    req.session.cookie.maxAge = expireTime;
-    res.redirect("/home");
-    return;
-  } else {
-    console.log("incorrect password");
-    res.render("login_error", { error: "Incorrect password" });
-    return;
-  }
-});
-
-//Reset Password Section
-app.get("/forgot", (req, res) => {
-  res.render("forgot");
-});
-
-app.get("/home", (req, res) => {
-  if (!req.session.authenticated) {
-    res.redirect("/");
-  } else {
-    res.render("home", { name: req.session.name });
-  }
-});
-
-app.get("/logout", (req, res) => {
-  req.session.destroy();
-  res.redirect("/");
-});
-
+//Set Profile Preference
 app.get("/signup_profile", (req, res) => {
   res.render("signup_profile");
 });
@@ -241,12 +243,154 @@ app.post("/onboarding_goal", async (req, res) => {
   });
 });
 
-app.get("/restaurant", (req, res) => {
-  res.render("restaurant");
+//Login Validation
+app.get("/login", (req, res) => {
+  res.render("login");
 });
 
+app.post("/loggingIn", async (req, res) => {
+  var username = req.body.username;
+  var password = req.body.password;
+
+  const schema = Joi.string().alphanum().max(20).required();
+  const validationResult = schema.validate(username);
+  if (validationResult.error != null) {
+    console.log(validationResult.error);
+    res.render("login_error", { error: "Please enter a valid username" });
+    return;
+  }
+
+  const result = await userCollection
+    .find({ username: username })
+    .project({
+      username: 1,
+      username: 1,
+      password: 1,
+      user_type: 1,
+      _id: 1,
+      firstName: 1,
+    })
+    .toArray();
+  console.log(result);
+  if (result.length != 1) {
+    res.render("login_error", { error: "User not found." });
+    return;
+  }
+  if (await bcrypt.compare(password, result[0].password)) {
+    console.log("correct password");
+    req.session.authenticated = true;
+    req.session.username = result[0].username;
+    req.session.firstName = result[0].firstName;
+    req.session.user_type = result[0].user_type;
+    req.session.cookie.maxAge = expireTime;
+    res.redirect("/home");
+    return;
+  } else {
+    console.log("incorrect password");
+    res.render("login_error", { error: "Incorrect password" });
+    return;
+  }
+});
+
+//Reset Password Section
+app.get("/forgot", (req, res) => {
+  const questions = [
+    { question: "What is your mother's maiden name?" },
+    { question: "What was the name of your first pet?" },
+    { question: "What is your favorite color?" },
+  ];
+  res.render("forgot", { questions });
+});
+
+app.post("/reset_password", async (req, res) => {
+  const { username, answer, questionIndex } = req.body;
+  const newPassword = req.body.password;
+
+  const user = await userCollection.findOne({ username: username });
+  if (!user) {
+    res.send(
+      '<script>alert("User not found"); window.location.href = "/forgot";</script>'
+    );
+    return;
+  }
+
+  const question = user.questions[questionIndex];
+  if (question.answer !== answer) {
+    res.send(
+      '<script>alert("Incorrect answer"); window.location.href = "/forgot";</script>'
+    );
+    return;
+  }
+
+  const schema = Joi.object({
+    newPassword: Joi.string().max(20).required(),
+  });
+
+  const validationResult = schema.validate({
+    newPassword,
+  });
+  if (validationResult.error != null) {
+    console.log(validationResult.error);
+    res.redirect("/forgot");
+    return;
+  }
+
+  var hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+  await userCollection.updateOne(
+    { username: username },
+    { $set: { password: hashedPassword } }
+  );
+
+  res.redirect("/update");
+});
+
+app.get("/update", (req, res) => {
+  res.render("update");
+});
+
+//Homepage Section
+app.get("/home", async (req, res) => {
+  var username = req.session.username;
+  const result = await userCollection
+    .find({ username: username })
+    .project({
+      firstName: 1,
+      calorieNeeds: 1,
+      protein: 1,
+      carbs: 1,
+      fat: 1,
+    })
+    .toArray();
+  if (!req.session.authenticated) {
+    res.redirect("/");
+  } else {
+    res.render("home", {
+      name: result[0].firstName,
+      calorie_goal: result[0].calorieNeeds,
+      carbs_goal: result[0].carbs,
+      protein_goal: result[0].protein,
+      fat_goal: result[0].fat,
+      //current values are placeholders, to be replaced with actual ones
+      current_calorie: 200,
+      current_carbs: 30,
+      current_protein: 30,
+      current_fat: 25,
+    });
+  }
+});
+
+// Testing navbar icons
 app.get("/menu", (req, res) => {
   res.render("menu");
+});
+// Testing navbar icons
+app.get("/chat", (req, res) => {
+  res.render("chat");
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect("/");
 });
 
 app.use(express.static(__dirname + "/public"));

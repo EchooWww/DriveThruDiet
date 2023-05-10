@@ -214,10 +214,12 @@ app.post("/onboarding_goal", async (req, res) => {
   const { sex, height, weight, activity, goal } = req.body;
   const user = await userCollection.findOne({ username: req.session.username });
   const birthday = user.birthday;
-  const BMR = goalCalculation.calculateBMR(sex, weight, height, birthday);
   const calorieNeeds = goalCalculation.calculateCalorieNeeds(
+    sex,
+    birthday,
+    weight,
+    height,
     activity,
-    BMR,
     goal
   );
   const { protein, fat, carbs } = goalCalculation.calculateMacronutrients(
@@ -458,10 +460,10 @@ app.get("/profile", async (req, res) => {
   const result = await userCollection
     .find({ username: username })
     .project({
-      username: 1,
       firstName: 1,
       lastName: 1,
       sex: 1,
+      birthday: 1,
       height: 1,
       weight: 1,
       activity: 1,
@@ -473,10 +475,10 @@ app.get("/profile", async (req, res) => {
     })
     .toArray();
   res.render("profile", {
-    username: result[0].username,
     firstName: result[0].firstName,
     lastName: result[0].lastName,
     sex: result[0].sex,
+    birthday: result[0].birthday,
     height: result[0].height,
     weight: result[0].weight,
     activity: result[0].activity,
@@ -486,6 +488,50 @@ app.get("/profile", async (req, res) => {
     carbs: result[0].carbs,
     fat: result[0].fat,
   });
+});
+
+app.post("/update_profile", async (req, res) => {
+  const { firstName, lastName, sex, birthday, height, weight, activity, goal } =
+    req.body;
+  const calorieNeeds = goalCalculation.calculateCalorieNeeds(
+    sex,
+    birthday,
+    weight,
+    height,
+    activity,
+    goal
+  );
+  const { protein, fat, carbs } = goalCalculation.calculateMacronutrients(
+    weight,
+    calorieNeeds,
+    goal
+  );
+
+  await userCollection.updateOne(
+    { username: req.session.username },
+    {
+      $set: {
+        firstName: firstName,
+        lastName: lastName,
+        sex: sex,
+        birthday: birthday,
+        height: height,
+        weight: weight,
+        activity: activity,
+        goal: goal,
+        calorieNeeds: calorieNeeds,
+        protein: protein,
+        fat: fat,
+        carbs: carbs,
+      },
+    },
+    (err, result) => {
+      if (err) {
+        console.error(err);
+      }
+    }
+  );
+  res.redirect("/profile");
 });
 
 // Testing navbar icons

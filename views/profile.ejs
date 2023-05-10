@@ -1,0 +1,84 @@
+
+    <title>Profile</title>
+    <style>
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input, select {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Profile and Goals</h1>
+    <form id="profile-form" method="post" action="/update_profile">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" value="<%= firstName %>" disabled><br>
+
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" value="<%= lastName %>" disabled><br>
+
+      <label for="sex">Sex:</label>
+      <input type="text" id="sex" name="sex" value="<%= sex %>" disabled><br>
+
+      <label for="birthday">Birthday:</label>
+      <input type="date" id="birthday" name="birthday" value="<%= birthday %>" disabled><br>
+
+      <label for="height">Height:</label>
+      <input type="number" id="height" name="height" value="<%= height %>" disabled><br>
+
+      <label for="weight">Weight:</label>
+      <input type="number" id="weight" name="weight" value="<%= weight %>" disabled><br>
+
+      <label for="activity">Activity:</label>
+      <select id="activity" name="activity" disabled>
+        <option value="" selected disabled hidden><%= activity %></option>
+        <option value="sedentary">Sedentary (little or no exercise)</option>
+        <option value="lightly-active">Lightly active (light exercise/sports 1-3 days/week)</option>
+        <option value="moderately-active">Moderately active (moderate exercise/sports 3-5 days/week)</option>
+        <option value="very-active">Very active (hard exercise/sports 6-7 days a week)</option>
+        <option value="super-active">Super active (very hard exercise/sports, physical job or training)</option>
+      </select><br>
+
+      <label for="goal">Goal:</label>
+      <select id="goal" name="goal" disabled>
+        <option value="" selected disabled hidden><%= goal %></option>
+        <option value="lose-weight">Lose weight</option>
+        <option value="maintain-weight">Maintain weight</option>
+        <option value="gain-muscle">Gain muscle</option>
+      </select><br>
+
+      <p>Calorie Needs: <%= calorieNeeds %>KCal</p>
+      <p>Carbs: <%= carbs %>g</p>
+      <p>Protein: <%= protein %>g</p>
+      <p>Fat: <%= fat %>g</p>
+      <button type="button" id="edit-button">Edit Profile</button>
+      <button type="submit" id="save-button" style="display: none;">Save Changes</button>
+    </form>
+
+    <script>
+      const form = document.getElementById('profile-form');
+      const editButton = document.getElementById('edit-button');
+      const saveButton = document.getElementById('save-button');
+
+      editButton.addEventListener('click', () => {
+        form.querySelectorAll('input').forEach(input => {
+          input.disabled = false;
+        });
+        form.querySelectorAll('select').forEach(input => {
+          input.disabled = false;
+        });
+        editButton.style.display = 'none';
+        saveButton.style.display = 'block';
+      });
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        form.querySelectorAll('input').forEach(input => {
+          input.disabled = true;
+        });
+        editButton.style.display = 'block';
+        saveButton.style.display = 'none';
+      });
+    </script>

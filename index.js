@@ -534,7 +534,49 @@ app.post("/update_profile", async (req, res) => {
   res.redirect("/profile");
 });
 
-// Testing navbar icons
+// insert restaurants into the database
+async function insertRestaurants() {
+  try {
+    const restaurantCollection = database
+      .db(mongodb_database)
+      .collection("restaurants");
+
+    const restaurants = [
+      {
+        name: "McDonalds",
+        image: "/images/Mcdonalds1.png",
+      },
+      {
+        name: "Burger King",
+        image: "/images/BurgerKing1.png",
+      },
+      {
+        name: "Subway",
+        image: "/images/Subway1.jpg",
+      },
+      {
+        name: "Taco Bell",
+        image: "/images/TacoBell1.png",
+      },
+      {
+        name: "Arbys",
+        image: "/images/Arbys1.png",
+      },
+      {
+        name: "KFC",
+        image: "/images/mcdonalds-logo.png",
+      },
+    ];
+
+    const result = await restaurantCollection.insertMany(restaurants);
+    console.log(`${result.insertedCount} restaurants inserted`);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+insertRestaurants();
+
 app.get("/restaurant", (req, res) => {
   res.render("restaurant");
 });

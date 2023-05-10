@@ -1,12 +1,17 @@
 <%- include("templates/header") %>
-</head>
-<body>
-  <div>
-  <h1>Welcome to DriveThruDiet</h1>
-  </div>
-  <button onclick="window.location.href='/login'"class="submit-btn">
-    Access  
-  </button>
+  <link rel="stylesheet" href="/css/index_before_login.css">
+  </head>
 
-  <!-- JS Scripts go here -->
-<%- include("templates/footer") %>
+  <body>
+    <div class="container">
+      <div class="image-container">
+        <img id="logo" src="/images/Logo-white.png" alt="Logo">
+      </div>
+      <button class="submit-btn" onclick="window.location.href='/login'">
+        Access
+      </button>
+    </div>
+
+
+    <!-- JS Scripts go here -->
+    <%- include("templates/footer") %>

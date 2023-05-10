@@ -76,7 +76,7 @@ app.get("/", (req, res) => {
     res.render("index_before_login");
     return;
   } else {
-    res.render("index_after_login", { name: req.session.name });
+    res.render("/home", { name: req.session.name });
   }
 });
 

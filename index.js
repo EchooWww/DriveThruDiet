@@ -361,21 +361,6 @@ app.get("/update", (req, res) => {
   res.render("update");
 });
 
-<<<<<<< HEAD
-//Homepage Section
-app.get("/home", async (req, res) => {
-  var username = req.session.username;
-  const result = await userCollection
-    .find({ username: username })
-    .project({
-      firstName: 1,
-      calorieNeeds: 1,
-      protein: 1,
-      carbs: 1,
-      fat: 1,
-    })
-    .toArray();
-=======
 //Find Username Section
 app.get("/find_username", (req, res) => {
   res.render("find_username");
@@ -439,7 +424,6 @@ app.get("/username_search", (req, res) => {
 });
 
 app.get("/home", (req, res) => {
->>>>>>> MinJi_ForgotUserID
   if (!req.session.authenticated) {
     res.redirect("/");
   } else {

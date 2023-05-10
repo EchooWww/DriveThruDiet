@@ -414,7 +414,7 @@ app.post("/username_search", async (req, res) => {
     res.render("find_ID_error", { error: "User not found." });
     return;
   } else {
-    res.render("username_search", {result: result})
+    res.render("username_search", { result: result });
     return;
   }
 });
@@ -423,7 +423,18 @@ app.get("/username_search", (req, res) => {
   res.render("username_search");
 });
 
-app.get("/home", (req, res) => {
+app.get("/home", async (req, res) => {
+  var username = req.session.username;
+  const result = await userCollection
+    .find({ username: username })
+    .project({
+      firstName: 1,
+      calorieNeeds: 1,
+      protein: 1,
+      carbs: 1,
+      fat: 1,
+    })
+    .toArray();
   if (!req.session.authenticated) {
     res.redirect("/");
   } else {

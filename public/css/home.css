@@ -2,7 +2,6 @@
 body {
   font-family: Poppins, sans-serif;
   background-color: #1a1a1a;
-  overflow-y: scroll;
   text-align: center;
   background-image: linear-gradient(60deg, #f5fafa, #acd1e9 45%, #c1dad6);
 }

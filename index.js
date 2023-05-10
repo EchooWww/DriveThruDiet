@@ -110,6 +110,19 @@ app.post("/submitUser", async (req, res) => {
   if (!password) {
     res.render("signup_error", { error: "Password" });
   }
+
+  // GPT_Promt_2
+
+  // Check if username or email already exists in the database
+  const existingUser = await userCollection.findOne({
+    $or: [{ username: username }, { email: email }],
+  });
+  if (existingUser) {
+    // Render an error message indicating that the username or email is already taken
+    res.render("signup_error", { error: "Username or email is already taken" });
+    return;
+  }
+
   const schema = Joi.object({
     username: Joi.string().alphanum().max(20).required(),
     firstName: Joi.string().max(20).required().allow(" "),
@@ -348,7 +361,68 @@ app.get("/update", (req, res) => {
   res.render("update");
 });
 
-//Homepage Section
+//Find Username Section
+app.get("/find_username", (req, res) => {
+  res.render("find_username");
+});
+
+app.post("/username_search", async (req, res) => {
+  var email = req.body.email;
+  var firstName = req.body.firstName;
+  var lastName = req.body.lastName;
+  var birthday = req.body.birthday;
+
+  const schema = Joi.object({
+    email: Joi.string().max(30).required(),
+    firstName: Joi.string().max(20).required().allow(" "),
+    lastName: Joi.string().max(20).required().allow(" "),
+    email: Joi.string().max(30).required(),
+    birthday: Joi.string()
+      .regex(/^(\d{4})-(\d{2})-(\d{2})$/)
+      .required(),
+  });
+
+  const validationResult = schema.validate({
+    email,
+    firstName,
+    lastName,
+    birthday,
+  });
+  if (validationResult.error != null) {
+    console.log(validationResult.error);
+    res.redirect("/find_username");
+    return;
+  }
+
+  const result = await userCollection
+    .find({
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      birthday: birthday,
+    })
+    .project({
+      email: 1,
+      email: 1,
+      firstName: 1,
+      lastName: 1,
+      birthday: 1,
+      username: 1,
+    })
+    .toArray();
+  if (result.length != 1) {
+    res.render("find_ID_error", { error: "User not found." });
+    return;
+  } else {
+    res.render("username_search", { result: result });
+    return;
+  }
+});
+
+app.get("/username_search", (req, res) => {
+  res.render("username_search");
+});
+
 app.get("/home", async (req, res) => {
   var username = req.session.username;
   const result = await userCollection

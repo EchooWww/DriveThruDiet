@@ -1,56 +1,27 @@
 <%- include("templates/header") %>
-<link rel="stylesheet" href="/css/authentication.css">
-</head>
-<body>
-  <div class="auth-form-container">
-    <h2>Let's get started!</h2>
-    <form class="form" method="post" action="/submitUser">
-      <label for="username"></label>
-      <input
-        type="text"
-        placeholder="Username"
-        id="username"
-        name="username"
-      />
-      <label for="firstName"></label>
-      <input
-        type="text"
-        placeholder="First Name"
-        id="firstName"
-        name="firstName"
-      />
-      <label for="lastName"></label>
-      <input
-        type="text"
-        placeholder="Last Name"
-        id="lastName"
-        name="lastName"
-      />
-      <label for="email"></label>
-      <input
-        type="email"
-        placeholder="Email"
-        id="email"
-        name="email"
-      />
-      <label for="birthday"></label>
-      <input
-        type="date"
-        placeholder=""
-        id="birthday"
-        name="birthday"
-      />
-      <label for="password"></label>
-      <input
-        type="password"
-        placeholder="Password"
-        id="password"
-        name="password"
-      />
-      <button class="submit-btn" type="submit">Sign up</button>
-    </form>
-    <button class="link-btn" onclick="location.href='/login';">Already have an account? Log in.</button>
-  </div>
+  <link rel="stylesheet" href="/css/authentication.css">
+  </head>
 
-<!-- JS Scripts go here -->
-<%- include("templates/footer") %>
+  <body>
+    <div class="auth-form-container">
+      <h2>Let's get started!</h2>
+      <form class="form" method="post" action="/submitUser">
+        <label for="username"></label>
+        <input type="text" placeholder="Username" id="username" name="username" />
+        <label for="firstName"></label>
+        <input type="text" placeholder="First Name" id="firstName" name="firstName" />
+        <label for="lastName"></label>
+        <input type="text" placeholder="Last Name" id="lastName" name="lastName" />
+        <label for="email"></label>
+        <input type="email" placeholder="Email" id="email" name="email" />
+        <label for="birthday"></label>
+        <input type="date" placeholder="" id="birthday" name="birthday" />
+        <label for="password"></label>
+        <input type="password" placeholder="Password" id="password" name="password" />
+        <button class="submit-btn" type="submit">Sign up</button>
+      </form>
+      <button class="link-btn" onclick="location.href='/login';">Already have an account? Log in.</button>
+    </div>
+
+    <!-- JS Scripts go here -->
+    <%- include("templates/footer") %>

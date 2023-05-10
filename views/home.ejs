@@ -2,6 +2,14 @@
 <%- include("templates/navbar_top") %>
 <link rel="stylesheet" href="/css/authentication.css">
 <link rel="stylesheet" href="/css/home.css">
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+
+<style>
+  #map {
+    height: 400px;
+    width: 100%;
+  }
+</style>
 
 </head>
 <body>
@@ -67,9 +75,10 @@
     <h2>Nearby</h2>
   </div>
 
-    <!-- <button onclick="window.location.href='/logout'"class="submit-btn">
+  <!-- <button onclick="window.location.href='/logout'"class="submit-btn">
     Log out
   </button> -->
+
   <!-- JS Scripts go here -->
   <script>
   // mainly based on ChatGPT's hint and answer
@@ -105,5 +114,6 @@
   }
   updateChart("<%=calorie_progress%>", "<%=carbs_progress%>", "<%=protein_progress%>", "<%=fat_progress%>")
   </script>
+
 <%- include("templates/navbar_bottom") %>
 <%- include("templates/footer") %>

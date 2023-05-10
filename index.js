@@ -52,6 +52,7 @@ const goalCalculation = require("./public/js/goalCalculation.js");
 
 app.use("/img", express.static("./public/images"));
 app.use("/css", express.static("./public/css"));
+app.use("/js", express.static("./public/js"));
 
 var mongoStore = MongoStore.create({
   mongoUrl: `mongodb+srv://${mongodb_user}:${mongodb_password}@${mongodb_host}/sessions`,

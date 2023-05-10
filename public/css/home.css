@@ -2,15 +2,22 @@
 body {
   font-family: Poppins, sans-serif;
   background-color: #1a1a1a;
-  display: grid;
   overflow-y: scroll;
   text-align: center;
+  background-image: linear-gradient(60deg, #f5fafa, #acd1e9 45%, #c1dad6);
+}
+
+.body-container {
+  margin-top: 100px;
+}
+
+.map {
+  height: 0;
 }
 
 .greeting>h2 {
   color: #616161;
 }
-
 
 .goals>h2, .nearby>h2 {
   text-align: center;
@@ -109,4 +116,12 @@ span {
     stroke-dashoffset: 0;
     stroke-width: 0;
   }
+}
+
+ul {
+  list-style: none;
+}
+
+#nearby {
+  margin-top: 120px;
 }

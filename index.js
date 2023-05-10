@@ -379,10 +379,14 @@ app.get("/home", async (req, res) => {
   }
 });
 
-// Testing navbar icons
+app.get("/restaurant", (req, res) => {
+  res.render("restaurant");
+});
+
 app.get("/menu", (req, res) => {
   res.render("menu");
 });
+
 // Testing navbar icons
 app.get("/chat", (req, res) => {
   res.render("chat");

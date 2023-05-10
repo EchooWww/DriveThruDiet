@@ -17,7 +17,26 @@
   </div>
 
   <div>
-    <a href="/"><img src="/images/icon-hamburger2.png" alt="Home" id="hamburger-icon"/></a>
+    <img onClick=toggle() id="tray-icon"/>
   </div>
 
 </div>
+
+<script>  
+  const image = document.getElementById("tray-icon");
+  console.log("image loaded");
+  image.src = "/images/icon-tray-opt.gif";
+  image.src = "/images/icon-tray-reverse-opt.gif";
+  image.src = "/images/icon-tray.png";
+  var toggleState = false;
+
+  function toggle() {
+    if (toggleState === false) {
+      image.src = "/images/icon-tray-opt.gif";
+      toggleState = true;
+    } else {
+      image.src = "/images/icon-tray-reverse-opt.gif";
+      toggleState = false;
+    }
+  }
+</script>

@@ -35,10 +35,10 @@
 }
 
 #nav-search-bar {
-    padding: 0.5em 0 0.5em 2.4em;
+    padding: 0.5em 2.4em 0.5em 2.4em;
     border: none;
     border-radius: 50px;
-    width: calc(100% - 120px);
+    width: calc(100% - 150px);
     height: 100%;
     font-size: 1.1em;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
@@ -50,18 +50,25 @@
     height: 42px;
 }
 
-#hamburger-icon {
-    margin: 0.2em 1.2em 0 0;
-    width: 30px;
-    height: 30px;
+#tray-icon:hover {
+    cursor: pointer;
 }
+
+#tray-icon {
+    margin: 0.2em 1.2em 0 0;
+    width: 47px;
+    height: 47px;
+}
+/* ---------- End of Top NavBar ---------- */
+
+
 
 /* ---------- Bottom NavBar ---------- */
 #bottom-nav-container {
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 60px;
+    height: 80px;
     background-color: #f7f7f7;
     border-top: 1px solid #e9ecef;
     z-index: 100;
@@ -71,13 +78,9 @@
 }
 
 .bottom-nav-icons {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
 }
 
-.nav-search {
-    padding: 0.6em;
-    padding-left: 1em;
-    border: none;
-    border-radius: 15px;
-}
+/* ---------- End of Bottom NavBar ---------- */
+

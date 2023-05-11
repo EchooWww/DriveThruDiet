@@ -27,7 +27,6 @@
     "express-session": "^1.17.3",
     "joi": "^17.9.2",
     "mongodb": "^5.4.0",
-    "nodemon": "^2.0.22",
-    "sweetalert2": "^11.7.5"
+    "nodemon": "^2.0.22"
   }
 }

@@ -71,7 +71,7 @@
     top: 60px;
     height: calc(100% - 140px);
     width: 350px;
-    z-index: 100;
+    z-index: 99;
     transition: transform 0.3s ease;
     box-shadow: -2px 0 10px rgba(0, 0, 0, .2);
     transform: translateX(250px);
@@ -122,7 +122,7 @@
     max-height: 75%;
     padding: 5px 0 20px 0;
     background-color: #f7f7f7;
-    z-index: 99;
+    z-index: 98;
     overflow-y: scroll;
     overflow-x: hidden;
     display: flex;
@@ -135,7 +135,7 @@
     width: auto;
     height: 100%;
     text-align: left;
-    margin: 0 20px 0 0;
+    margin: 0.5em 20px 0 0;
 }
 
 .list-item {

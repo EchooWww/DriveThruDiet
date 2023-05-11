@@ -1,60 +1,74 @@
 <div id="top-nav-container">
-
   <!-- Profile icon -->
   <div>
-    <a href="/profile"><img src="/images/icon-profile.png" alt="Profile" id="profile-icon" /></a>
+    <a href="/profile"
+      ><img src="/images/icon-profile.png" alt="Profile" id="profile-icon"
+    /></a>
   </div>
 
   <!-- Search Bar -->
   <div class="search-container">
     <form>
       <span id="search-span">
-        <img src="/images/icon-search.png" alt="Search" class="search-bar-icons" />
+        <img
+          src="/images/icon-search.png"
+          alt="Search"
+          class="search-bar-icons"
+        />
       </span>
-      <input id="nav-search-bar" type="text" onkeyup="showResults(this.value)" placeholder="Search" autofocus/>
+      <input
+        id="nav-search-bar"
+        type="text"
+        onkeyup="showResults(this.value)"
+        placeholder="Search"
+        autofocus
+      />
       <span id="filter-span">
-        <a href="/filter"><img src="/images/icon-filter.png" alt="Search" class="search-bar-icons" /></a>
+        <a href="/filter"
+          ><img
+            src="/images/icon-filter.png"
+            alt="Search"
+            class="search-bar-icons"
+        /></a>
       </span>
-
-
     </form>
   </div>
 
   <!-- Tray Icon -->
   <div>
-    <img onClick=iconToggle() id="tray-icon" />
+    <img onClick="iconToggle()" id="tray-icon" />
   </div>
-
 </div>
-
 
 <!-- Sidebar -->
 <div id="sidebar-container">
-  <div> The sidebar is alive :3 </div>
+  <div>The sidebar is alive :3</div>
 </div>
-
-
 
 <!-- Live Search -->
 <div class="search-results-container hidden">
   <ul id="search-results">
     <% for (var i=0; i < searchList.length; i++) { %>
-      <li class="list-item">
-        <div style="width:115px; min-width: 115px; max-width: 115px; color:#4b4b4b"><%= locals.searchList[i].restaurant %></div>
-        <div>
-        <%= locals.searchList[i].item %><br>
-        <span style="font-size: 9pt; color:#4b4b4b;"><%= locals.searchList[i].calories %> Calories</span>
+    <li class="list-item">
+      <div
+        style="width: 115px; min-width: 115px; max-width: 115px; color: #4b4b4b"
+      >
+        <%= locals.searchList[i].restaurant %>
       </div>
-      </li>
+      <div>
+        <%= locals.searchList[i].item %><br />
+        <span style="font-size: 9pt; color: #4b4b4b"
+          ><%= locals.searchList[i].calories %> Calories</span
+        >
+      </div>
+    </li>
     <% } %>
   </ul>
 </div>
 
-
-
+<!-- Filter card -->
 
 <script>
-
   const image = document.getElementById("tray-icon");
   const sidebar = document.getElementById("sidebar-container");
 
@@ -94,15 +108,17 @@
   // Toggles the sidebar between open and closed.
   function sidebarToggle(toggleState) {
     if (toggleState === false) {
-      sidebar.style.transform = 'translateX(-350px)';
+      sidebar.style.transform = "translateX(-350px)";
     } else {
-      sidebar.style.transform = 'translateX(0px)';
+      sidebar.style.transform = "translateX(0px)";
     }
-  };
+  }
 
   function showResults(search) {
     console.log(search);
-    var searchList = document.getElementsByClassName("search-results-container");
+    var searchList = document.getElementsByClassName(
+      "search-results-container"
+    );
     var listItem = document.getElementsByClassName("list-item");
     for (var i = 0; i < searchList.length; i++) {
       if (search.length < 2) {
@@ -111,26 +127,33 @@
         searchList[i].classList.remove("hidden");
       }
       for (var j = 0; j < listItem.length; j++) {
-        if (listItem[j].innerHTML.toLowerCase().includes(search.toLowerCase().trim())) {
+        if (
+          listItem[j].innerHTML
+            .toLowerCase()
+            .includes(search.toLowerCase().trim())
+        ) {
           listItem[j].classList.remove("hidden");
         } else {
           listItem[j].classList.add("hidden");
-        };
-      };
-    };
-  };
+        }
+      }
+    }
+  }
 
-  document.addEventListener('mousedown', function (e) {
-    var searchList = document.getElementsByClassName("search-results-container");
+  document.addEventListener("mousedown", function (e) {
+    var searchList = document.getElementsByClassName(
+      "search-results-container"
+    );
     for (var i = 0; i < searchList.length; i++) {
-      if (!searchList[i].contains(e.target) && searchList[i].style.display !== 'none') {
+      if (
+        !searchList[i].contains(e.target) &&
+        searchList[i].style.display !== "none"
+      ) {
         searchList[i].classList.add("hidden");
       }
     }
   });
-
 </script>
-
 
 <!-- function showResults(search) {
     console.log(search);

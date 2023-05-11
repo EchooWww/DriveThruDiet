@@ -6,7 +6,8 @@
 </header>
 <main class="restaurant-images">
   <% for (let i = 0; i < restaurants.length; i++) { %>
-  <img src="<%= restaurants[i].image %>" alt="<%= restaurants[i].name %>" />
+  <a href="/menu/<%= restaurants[i].name %>">
+  <img src="<%= restaurants[i].image %>" alt="<%= restaurants[i].name %>" /></a>
   <% } %>
 </main>
 <%- include('templates/navbar_bottom') %> 

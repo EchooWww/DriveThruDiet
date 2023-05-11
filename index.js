@@ -584,8 +584,28 @@ app.get("/restaurant", async (req, res) => {
   res.render("restaurant", { restaurants });
 });
 
-app.get("/menu", (req, res) => {
-  res.render("menu");
+app.get("/menu/:restaurantName", async (req, res) => {
+  try {
+    const restaurantName = req.params.restaurantName;
+    const restaurantCollection = database
+      .db(mongodb_database)
+      .collection("restaurants");
+    const menuCollection = database
+      .db(mongodb_database)
+      .collection("fastfoodnutrition");
+
+    const [restaurant, menu] = await Promise.all([
+      restaurantCollection.findOne({ name: restaurantName }),
+      menuCollection.find({ restaurant: restaurantName }).toArray(),
+    ]);
+
+    console.log(restaurant),
+      console.log(menu),
+      res.render("menu", { restaurant, menu });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 // Testing navbar icons

@@ -1,26 +1,6 @@
 /*The progress ring mainly based on https://dev.to/vaibhavkhulbe/let-s-make-and-wear-those-css-3-progress-rings-2ngf*/
-body {
-  font-family: Poppins, sans-serif;
-  background-color: #1a1a1a;
-}
 
-.body-container {
-  margin-top: 100px;
-}
-
-.map {
-  height: 0;
-}
-
-.greeting>h2 {
-  color: #616161;
-}
-
-.goals>h2, .nearby>h2 {
-  text-align: center;
-  color: #eb6d54;
-}
-
+/* Progress ring start */
 
 .rings {
   display: flex;
@@ -115,10 +95,37 @@ span {
   }
 }
 
+/* Progress ring end */
+
+
 ul {
   list-style: none;
 }
 
 #nearby {
   margin-top: 120px;
+}
+
+
+
+body {
+  font-family: Poppins, sans-serif;
+  background-color: #1a1a1a;
+}
+
+.body-container {
+  margin-top: 100px;
+}
+
+.map {
+  height: 0;
+}
+
+.greeting>h2 {
+  color: #616161;
+}
+
+.goals>h2, .nearby>h2 {
+  text-align: center;
+  color: #eb6d54;
 }

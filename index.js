@@ -11,6 +11,8 @@ const app = express();
 const Joi = require("joi");
 const cors = require("cors");
 const Swal = require("sweetalert2");
+const axios = require("axios");
+const bodyParser = require("body-parser");
 
 // Changed to 24 hours for testing purposes so that we don't have to keep logging in
 // Session Expiry time set to 1 hour
@@ -29,6 +31,7 @@ const node_session_secret = process.env.NODE_SESSION_SECRET;
 var { database } = include("databaseConnection");
 
 const userCollection = database.db(mongodb_database).collection("users");
+const foodCollection = database.db(mongodb_database).collection("fastfoodnutrition");
 
 // Navbar links
 const url = require("url");
@@ -42,14 +45,28 @@ const navLinks = [
 app.use("/", (req, res, next) => {
   app.locals.navLinks = navLinks;
   app.locals.currentURL = url.parse(req.url, false, false).pathname;
+  app.locals.searchList = searchList;
   next();
 });
+
+var searchList = []
+async function createSearchArray() {
+  var searchResults = await foodCollection.find().sort().project({
+    restaurant: 1,
+    item: 1,
+    calories: 1,
+  }).toArray();
+  searchList = searchResults;
+  console.log(searchList.length);
+};
+createSearchArray();
 
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: false }));
 
 const goalCalculation = require("./public/js/goalCalculation.js");
+
 
 app.use("/img", express.static("./public/images"));
 app.use("/css", express.static("./public/css"));

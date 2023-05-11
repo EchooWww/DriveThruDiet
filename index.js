@@ -564,7 +564,7 @@ async function insertRestaurants() {
       },
       {
         name: "KFC",
-        image: "/images/mcdonalds-logo.png",
+        image: "/images/KFC1.png",
       },
     ];
 
@@ -577,8 +577,13 @@ async function insertRestaurants() {
 
 insertRestaurants();
 
-app.get("/restaurant", (req, res) => {
-  res.render("restaurant");
+app.get("/restaurant", async (req, res) => {
+  const restaurantCollection = database
+    .db(mongodb_database)
+    .collection("restaurants");
+  const restaurants = await restaurantCollection.find().toArray();
+
+  res.render("restaurant", { restaurants });
 });
 
 app.get("/menu", (req, res) => {

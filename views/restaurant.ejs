@@ -5,12 +5,9 @@
   <h1 class="restaurant-title">Restaurants</h1>
 </header>
 <main class="restaurant-images">
-  <img src="/images/Mcdonalds1.png" alt="McDonald's" />
-  <img src="/images/BurgerKing1.png" alt="Burger King" />
-  <img src="/images/Subway1.jpg" alt="Subway" />
-  <img src="/images/TacoBell1.png" alt="Taco Bell" />
-  <img src="/images/Arbys1.png" alt="Arby's" />
-  <img src="/images/KFC1.png" alt="KFC" />
+  <% for (let i = 0; i < restaurants.length; i++) { %>
+  <img src="<%= restaurants[i].image %>" alt="<%= restaurants[i].name %>" />
+  <% } %>
 </main>
 <%- include('templates/navbar_bottom') %> 
 <%- include("templates/footer") %>

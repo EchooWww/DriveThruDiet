@@ -31,13 +31,15 @@ const node_session_secret = process.env.NODE_SESSION_SECRET;
 var { database } = include("databaseConnection");
 
 const userCollection = database.db(mongodb_database).collection("users");
-const foodCollection = database.db(mongodb_database).collection("fastfoodnutrition");
+const foodCollection = database
+  .db(mongodb_database)
+  .collection("fastfoodnutrition");
 
 // Navbar links
 const url = require("url");
 const navLinks = [
   { name: "Home", link: "/home", file: "icon-home" },
-  { name: "Menu", link: "/menu", file: "icon-menu" },
+  { name: "Menu", link: "/restaurant", file: "icon-menu" },
   { name: "Chat", link: "/chat", file: "icon-chatbot" },
 ];
 
@@ -49,16 +51,20 @@ app.use("/", (req, res, next) => {
   next();
 });
 
-var searchList = []
+var searchList = [];
 async function createSearchArray() {
-  var searchResults = await foodCollection.find().sort().project({
-    restaurant: 1,
-    item: 1,
-    calories: 1,
-  }).toArray();
+  var searchResults = await foodCollection
+    .find()
+    .sort()
+    .project({
+      restaurant: 1,
+      item: 1,
+      calories: 1,
+    })
+    .toArray();
   searchList = searchResults;
   console.log(searchList.length);
-};
+}
 createSearchArray();
 
 app.set("view engine", "ejs");
@@ -66,7 +72,6 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 
 const goalCalculation = require("./public/js/goalCalculation.js");
-
 
 app.use("/img", express.static("./public/images"));
 app.use("/css", express.static("./public/css"));
@@ -570,7 +575,7 @@ async function insertRestaurants() {
       },
       {
         name: "Subway",
-        image: "/images/Subway1.jpg",
+        image: "/images/Subway1.png",
       },
       {
         name: "Taco Bell",

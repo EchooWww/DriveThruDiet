@@ -3,8 +3,8 @@ body {
 }
 
   header {
-    padding-top: 8%;
-    padding-left: 9%;
+    padding-top: 7%;
+    padding-left: 10%;
     margin-bottom: 0;
     text-align: left;
     font-size: 17px;
@@ -20,16 +20,16 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     overflow-y: scroll;
     height: 800px;
-    padding-top: 0;
+    padding-top: 10px;
   }
   
   .restaurant-images img {
     width: 150px;
     height: 150px;
-    margin-bottom: 2rem;
+    margin-bottom: 0;
     margin-top: 0;
     margin-right: 2.5rem;
     margin-left: 2.5rem;

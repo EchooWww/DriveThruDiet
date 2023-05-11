@@ -11,7 +11,7 @@
       <span id="search-span">
         <img src="/images/icon-search.png" alt="Search" class="search-bar-icons" />
       </span>
-      <input id="nav-search-bar" type="text" onkeyup="showResults(this.value)" placeholder="Search" />
+      <input id="nav-search-bar" type="text" onkeyup="showResults(this.value)" placeholder="Search" autofocus/>
       <span id="filter-span">
         <a href="/filter"><img src="/images/icon-filter.png" alt="Search" class="search-bar-icons" /></a>
       </span>
@@ -103,7 +103,7 @@
   function showResults(search) {
     console.log(search);
     var searchList = document.getElementsByClassName("search-results-container");
-    var listItem = document.getElementsByTagName("li");
+    var listItem = document.getElementsByClassName("list-item");
     for (var i = 0; i < searchList.length; i++) {
       if (search.length < 2) {
         searchList[i].classList.add("hidden");

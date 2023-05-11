@@ -1,20 +1,19 @@
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    background-color: #fff;
-    /* box-shadow: 0 0 4px rgba(0, 0, 0, 0.1); */
-    font-family: 'Roboto', sans-serif;
-  }
-  
-  header h1 {
-    margin: 0;
-    margin-left: 1rem;
+body {
+  overflow: auto;
+}
+
+  header {
+    padding-top: 8%;
+    padding-left: 9%;
+    margin-bottom: 0;
+    text-align: left;
+    font-size: 17px;
+    color: #616161;
   }
   
   .restaurant-title {
     margin-top: 13%;
+    font-weight: bold;
   }
   
   .restaurant-images {
@@ -22,13 +21,17 @@ header {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin-top: 0;
-    overflow-y: auto;
+    overflow-y: scroll;
+    height: 800px;
+    padding-top: 0;
   }
   
   .restaurant-images img {
     width: 150px;
     height: 150px;
-    margin: 2rem;
+    margin-bottom: 2rem;
+    margin-top: 0;
+    margin-right: 2.5rem;
+    margin-left: 2.5rem;
   }
   

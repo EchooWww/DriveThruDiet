@@ -552,13 +552,78 @@ app.post("/update_profile", async (req, res) => {
   res.json({ message: "Profile updated" });
 });
 
-// Testing navbar icons
-app.get("/restaurant", (req, res) => {
-  res.render("restaurant");
+// insert restaurants into the database
+async function insertRestaurants() {
+  try {
+    const restaurantCollection = database
+      .db(mongodb_database)
+      .collection("restaurants");
+
+    const restaurants = [
+      {
+        name: "McDonalds",
+        image: "/images/Mcdonalds1.png",
+      },
+      {
+        name: "Burger King",
+        image: "/images/BurgerKing1.png",
+      },
+      {
+        name: "Subway",
+        image: "/images/Subway1.jpg",
+      },
+      {
+        name: "Taco Bell",
+        image: "/images/TacoBell1.png",
+      },
+      {
+        name: "Arbys",
+        image: "/images/Arbys1.png",
+      },
+      {
+        name: "KFC",
+        image: "/images/KFC1.png",
+      },
+    ];
+
+    const result = await restaurantCollection.insertMany(restaurants);
+    console.log(`${result.insertedCount} restaurants inserted`);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+app.get("/restaurant", async (req, res) => {
+  const restaurantCollection = database
+    .db(mongodb_database)
+    .collection("restaurants");
+  const restaurants = await restaurantCollection.find().toArray();
+
+  res.render("restaurant", { restaurants });
 });
 
-app.get("/menu", (req, res) => {
-  res.render("menu");
+app.get("/menu/:restaurantName", async (req, res) => {
+  try {
+    const restaurantName = req.params.restaurantName;
+    const restaurantCollection = database
+      .db(mongodb_database)
+      .collection("restaurants");
+    const menuCollection = database
+      .db(mongodb_database)
+      .collection("fastfoodnutrition");
+
+    const [restaurant, menu] = await Promise.all([
+      restaurantCollection.findOne({ name: restaurantName }),
+      menuCollection.find({ restaurant: restaurantName }).toArray(),
+    ]);
+
+    console.log(restaurant),
+      console.log(menu),
+      res.render("menu", { restaurant, menu });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 // Testing navbar icons

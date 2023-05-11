@@ -1,12 +1,15 @@
 body {
     margin-top: 11%;
-    font-family: 'Roboto', sans-serif;
+    overflow: auto;
   }
   
   header {
     padding-top: 10px;
-    text-align: center;
-    font-size: 13px;
+    padding-left: 9%;
+    text-align: left;
+    font-size: 15px;
+    font-weight: bold;
+    color: #eb6d54;
   }
 
   main {
@@ -22,12 +25,13 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 400px;
+    width: 420px;
     height: 150px;
     margin: 8px;
     padding: 10px;
-    border: 1px solid #ccc;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    /* border: 3px solid #fbe09a; */
+    /* background-color: #d9d8d5; */
+    background-color: #f7f7f7;
   }
   
   .card img {
@@ -42,10 +46,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    color: #616161;
+    /* color: #f7f7f7; */
   }
 
   .item-details h2 {
-    margin-bottom: 3px; 
+    margin-bottom: 9px; 
     text-align: left; 
     font-size: 1.2rem;
     text-align: left;
@@ -59,7 +65,7 @@ body {
   
   .add-btn {
     background-color: #57b7e5;
-    color: white;
+    color: #f7f7f7;
     border: none;
     padding: 10px 20px;
     font-size: 16px;

@@ -25,12 +25,12 @@
 }
 
 #search-span {
-    position:absolute;
+    position:fixed;
     translate: 35% 25%;
 }
 
 #filter-span {
-    position:absolute;
+    position:fixed;
     translate: -150% 25%;
 }
 
@@ -67,11 +67,11 @@
 #sidebar-container {
     background-color: #57B7E5;
     position: fixed;
-    right: -400px;
+    right: -350px;
     top: 60px;
     height: calc(100% - 140px);
-    width: 400px;
-    z-index: 99;
+    width: 350px;
+    z-index: 100;
     transition: transform 0.3s ease;
     box-shadow: -2px 0 10px rgba(0, 0, 0, .2);
     transform: translateX(250px);
@@ -99,4 +99,70 @@
     height: 40px;
 }
 /* ---------- End of Bottom NavBar ---------- */
+
+
+
+/* ---------- Search Results ---------- */
+
+.search-results-container::-webkit-scrollbar{
+    background: transparent;
+}
+
+.search-results-container::-webkit-scrollbar-thumb{
+    background: #66656418;
+    border-radius: 10px;
+}
+
+.search-results-container {
+    position: fixed;
+    top: 60px;
+    left: 60px;
+    width: calc(100% - 120px);
+    height: auto;
+    max-height: 75%;
+    padding: 5px 0 20px 0;
+    background-color: #f7f7f7;
+    z-index: 99;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.search-results-container > ul {
+    width: auto;
+    height: 100%;
+    text-align: left;
+    margin: 0 20px 0 0;
+}
+
+.list-item {
+    padding: 0.5em 1em 0.5em 1em;
+    border-bottom: 1px solid #e9ecefb9;
+    border-radius: 12px;
+    display: flex;
+}
+
+#search-results li:hover {
+    background-color: #00aeff41;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+#search-results-restaurant {
+    width: 100px;
+    max-width: 100px;
+    min-width: 100px;
+    color: #666564
+}
+
+#search-results-calories {
+    font-size: 9pt;
+    color: #666564
+}
 

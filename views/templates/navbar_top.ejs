@@ -104,8 +104,7 @@
 
   // Closes the sidebar when the user clicks outside of it.
   document.addEventListener('mousedown', function (e) {
-    if (!sidebar.contains(e.target) && toggleState === true) {
-      sidebarToggle(toggleState);
+    if (!sidebar.contains(e.target) && toggleState === true &&(!image.contains(e.target))) {
       iconToggle();
     }
   });

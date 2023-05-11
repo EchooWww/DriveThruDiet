@@ -10,6 +10,7 @@ header {
   header h1 {
     margin: 0;
     margin-left: 1rem;
+    color: #616161;
   }
   
   .restaurant-title {
@@ -23,7 +24,7 @@ header {
     align-items: center;
     margin-top: 0;
     overflow-y: scroll;
-    height: 500px;
+    height: 800px;
   }
   
   .restaurant-images img {

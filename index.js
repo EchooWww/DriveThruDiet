@@ -575,8 +575,6 @@ async function insertRestaurants() {
   }
 }
 
-insertRestaurants();
-
 app.get("/restaurant", async (req, res) => {
   const restaurantCollection = database
     .db(mongodb_database)

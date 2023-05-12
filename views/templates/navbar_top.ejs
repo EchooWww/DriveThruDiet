@@ -24,12 +24,12 @@
         autofocus
       />
       <span id="filter-span">
-        <a href="/filter"
-          ><img
-            src="/images/icon-filter.png"
-            alt="Search"
-            class="search-bar-icons"
-        /></a>
+        <img
+          src="/images/icon-filter.png"
+          alt="Search"
+          class="search-bar-icons"
+          onClick="showFilter()"
+        />
       </span>
     </form>
   </div>
@@ -67,8 +67,34 @@
 </div>
 
 <!-- Filter card -->
+<div class="filter-card-container hidden">
+  <form action="/filter" method="get">
+    <label>
+      <input type="checkbox" name="filter" value="calorie" />
+      Calories < 400
+    </label>
+    <label>
+      <input type="checkbox" name="filter" value="protein" />
+      High Protein
+    </label>
+    <label>
+      <input type="checkbox" name="filter" value="fat" />
+      Low Fat
+    </label>
+    <label>
+      <input type="checkbox" name="filter" value="carb" />
+      Low Carb
+    </label>
+    <input type="submit" value="Apply" />
+  </form>
+</div>
 
 <script>
+  function showFilter() {
+    var filterCard = document.getElementsByClassName("filter-card-container");
+    filterCard[0].classList.toggle("hidden");
+  }
+
   const image = document.getElementById("tray-icon");
   const sidebar = document.getElementById("sidebar-container");
 
@@ -115,7 +141,6 @@
   }
 
   function showResults(search) {
-    console.log(search);
     var searchList = document.getElementsByClassName(
       "search-results-container"
     );

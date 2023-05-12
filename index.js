@@ -60,6 +60,9 @@ async function createSearchArray() {
       restaurant: 1,
       item: 1,
       calories: 1,
+      total_fat: 1,
+      total_carb: 1,
+      protein: 1,
     })
     .toArray();
   searchList = searchResults;

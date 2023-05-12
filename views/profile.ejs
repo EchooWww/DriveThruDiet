@@ -1,0 +1,191 @@
+  <%- include("templates/header") %>
+  <%- include("templates/navbar_top") %>
+
+  <!-- jQuery library -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- SweetAlert library -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  
+  <title>Profile</title>
+  
+  <style>
+    label {
+      display: inline;
+      margin-bottom: 5px;
+    }
+
+    input, select {
+      margin-bottom: 10px;
+      padding: 0.6em;
+      border: none;
+      border-radius: 10px;
+    }
+
+    body {
+      margin-top: 80px;
+      display: block;
+      overflow-y: scroll;
+    }
+
+    #activity{
+      width: 60%;
+    }
+
+    .container{
+      width: 250px;
+      margin: auto;
+      text-align: left;
+    }
+
+    .button-container{
+      display:flex;
+      justify-content: center;
+    }
+
+    .submit-btn {
+      border: none;
+      background-color: white;
+      padding: 1em;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+    }
+
+    .submit-btn:hover {
+      background-color: #d9d8d5;
+    }
+
+    .submit-btn:active {
+      background-color: #e68b57c5;
+    }
+  </style>
+</head>
+<body>
+  <h1>Nutritional Goals</h1>
+  <p>Calorie Needs: <%= calorieNeeds %>KCal</p>
+  <p>Carbs: <%= carbs %>g</p>
+  <p>Protein: <%= protein %>g</p>
+  <p>Fat: <%= fat %>g</p>
+  <h1>Profile</h1>
+  <div class="container">
+    <form id="profile-form" method="post" action="/update_profile">
+      <label for="firstName">First Name </label>
+      <input type="text" id="firstName" name="firstName" value="<%= firstName %>" disabled><br>
+
+      <label for="lastName">Last Name </label>
+      <input type="text" id="lastName" name="lastName" value="<%= lastName %>" disabled><br>
+
+      <label for="sex">Sex &nbsp;</label> 
+      <input type="radio" id="female" name="sex" value="female" class="sex" <% if(sex === 'female') { %> checked <% } %> disabled>   
+      <label for="female" >Female </label>        
+      <input type="radio" id="male" name="sex" value="male" class="sex" <% if(sex === 'male') { %> checked <% } %> disabled>
+      <label for="male">Male</label><br>
+
+      <label for="birthday">Birthday </label>
+      <input type="date" id="birthday" name="birthday" value="<%= birthday %>" disabled><br>
+
+      <label for="height">Height(cm) </label>
+      <input type="number" id="height" name="height" value="<%= height %>" disabled><br>
+
+      <label for="weight">Weight(kg) </label>
+      <input type="number" id="weight" name="weight" value="<%= weight %>" disabled><br>
+
+      <label for="activity">Activity </label>
+      <select id="activity" name="activity" disabled>
+        <option value="" selected disabled hidden>Choose activity level</option>
+        <option value="sedentary">Sedentary (little or no exercise)</option>
+        <option value="lightly-active">Lightly active (light exercise/sports 1-3 days/week)</option>
+        <option value="moderately-active">Moderately active (moderate exercise/sports 3-5 days/week)</option>
+        <option value="very-active">Very active (hard exercise/sports 6-7 days a week)</option>
+        <option value="super-active">Super active (very hard exercise/sports, physical job or training)</option>
+      </select><br>
+
+      <label for="goal">Goal </label>
+      <select id="goal" name="goal" disabled>
+        <option value="lose-weight">Lose weight</option>
+        <option value="maintain-weight">Maintain weight</option>
+        <option value="gain-muscle">Gain muscle</option>
+      </select><br>
+          
+      <div class="button-container">        
+        <button type="button" id="edit-button" class="submit-btn">Edit Profile</button>
+        <button type="submit" id="save-button" class="submit-btn">Save Changes</button>
+      </div>
+
+    </form>
+  </div>
+
+<script>
+const activity_select = document.getElementById("activity");
+const goal_select = document.getElementById("goal");
+const sex_select = document.querySelectorAll(".sex");
+const form = document.getElementById("profile-form");
+const editButton = document.getElementById("edit-button");
+const saveButton = document.getElementById("save-button");
+
+editButton.style.display = "block";
+saveButton.style.display = "none";
+
+for (var i = 0; i < goal_select.options.length; i++) {
+  var option = goal_select.options[i];
+  if ("<%=goal %>" === option.value) {
+    option.selected = true;
+  }
+}
+for (var j = 0; j < activity_select.options.length; j++) {
+  var option = activity_select.options[j];
+  if ("<%=activity %>" === option.value) {
+    option.selected = true;
+  }
+}
+
+console.log(sex_select);
+for (var k = 0; k < sex_select.length; k++) {
+  var option = sex_select[k];
+  if ("<%=sex%>" === option.value) {
+    option.checked = true;
+  }
+}
+
+editButton.addEventListener("click", () => {
+  form.querySelectorAll("input").forEach((input) => {
+    input.disabled = false;
+  });
+  form.querySelectorAll("select").forEach((input) => {
+    input.disabled = false;
+  });
+  editButton.style.display = "none";
+  saveButton.style.display = "block";
+});
+
+// AJAX part mainly generated by ChatGPT
+// GPT_Prompt_3
+// Send the profile update request using AJAX
+$(document).ready(function () {
+  $("#profile-form").submit(function (event) {
+    event.preventDefault(); // Prevent the form from submitting normally
+    $.ajax({
+      url: "/update_profile",
+      method: "POST",
+      data: $(this).serialize(),
+      success: function (data) {
+        // Show a success message using SweetAlert
+        Swal.fire({
+          title: "Success",
+          text: "Profile updated",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(function () {
+          // Redirect to the profile page after clicking "OK"
+          window.location.href = "/profile";
+        });
+      },
+    });
+  });
+});
+
+</script>
+      
+<%- include("templates/navbar_bottom") %>
+<%- include("templates/footer") %>

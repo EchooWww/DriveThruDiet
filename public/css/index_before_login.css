@@ -1,0 +1,41 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80vw;
+  max-width: 400px;
+}
+
+.image-container{
+  width: 100%;
+}
+
+#logo{
+  width: 100%;
+}
+
+.submit-btn {
+  width: 50%;
+  border: none;
+  background-color: white;
+  padding: 1em;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.submit-btn:hover {
+  background-color: #d9d8d5;
+}
+
+.submit-btn:active {
+  background-color: #e68b57c5;
+}

@@ -1,23 +1,32 @@
 <%- include("templates/header") %>
-<link rel="stylesheet" href="/css/authentication.css">
-</head>
-<body>
-	<div class="auth-form-container">
-  <h2>Forgot Password</h2>
-  <p>Enter your email and we'll send you a link to reset your password.</p>
-  <form class="form">
-    <input 
-      type="email"
-      placeholder="example@gmail.com"
-      id="email"
-      name="email"
-    />
-  </form>
-  <button class="submit-btn" type="submit">Submit</button>
-  <button class="link-btn" onclick="location.href='/login';">
-    Back to Login
-  </button>
-  </div>
+  <link rel="stylesheet" href="/css/authentication.css">
+  </head>
 
-<!-- JS Scripts go here -->
-<%- include("templates/footer") %>
+  <body>
+    <div class="auth-form-container">
+      <h2>Password Reset</h2>
+      <form class="form" action="/reset_password" method="post">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+        <button class="link-btn" onclick="location.href='/find_username';">
+          I don't remember my username
+        </button>
+        <label for="questionIndex">Security Question:</label>
+        <select id="questionIndex" name="questionIndex">
+          <% for (var i=0; i<questions.length; i++) { %>
+            <option value="<%= i %>">
+              <%= questions[i].question %>
+            </option>
+            <% } %>
+        </select>
+        <label for="answer">Answer:</label>
+        <input type="text" id="answer" name="answer" required>
+        <label for="password">New Password:</label>
+        <input type="password" id="password" name="password" required>
+        <button class="submit-btn" type="submit" href="/update">Reset Password</button>
+      </form>
+      <button class="link-btn" onclick="location.href='/login';">
+        Back to Login
+      </button>
+    </div>
+    <%- include("templates/footer") %>

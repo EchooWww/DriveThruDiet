@@ -1,0 +1,28 @@
+<%- include("templates/header") %> 
+<%- include("templates/navbar_top") %>
+<link rel="stylesheet" href="/css/menu.css" />
+<header>
+  <h1><%= restaurant.name %></h1>
+</header>
+<main>
+  <% menu.forEach(function(item) { %>
+  <div class="card">
+    <img src="<%= restaurant.image %>" alt="<%= restaurant.name %>" />
+    <div class="item-details">
+      <h2><%= item.item %></h2>
+      <p>
+        <small><strong>Calories:</strong> <%= item.calories %>Cals</small>
+      </p>
+      <p>
+        <small><strong>Protein:</strong> <%= item.protein %>g</small>
+      </p>
+      <p>
+        <small><strong>Fat:</strong> <%= item.total_fat %>g</small>
+      </p>
+    </div>
+    <button class="add-btn" onclick="addToCart">Add</button>
+  </div>
+  <% }); %>
+</main>
+<%- include('templates/navbar_bottom') %> 
+<%- include("templates/footer") %>

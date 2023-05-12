@@ -1,5 +1,4 @@
   <%- include("templates/header") %>
-  <%- include("templates/navbar_top") %>
 
   <!-- jQuery library -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -11,6 +10,9 @@
   <title>Profile</title>
   
   <style>
+    .placeholder {
+      height: 80px;
+    }
     label {
       display: inline;
       margin-bottom: 5px;
@@ -24,7 +26,6 @@
     }
 
     body {
-      margin-top: 80px;
       display: block;
       overflow-y: scroll;
     }
@@ -79,6 +80,9 @@
   </style>
 </head>
 <body>
+  <%- include("templates/navbar_top") %>
+
+  <div class="placeholder"></div>
   <h1>Nutritional Goals</h1>
   <p>Calorie Needs: <%= calorieNeeds %>KCal</p>
   <p>Carbs: <%= carbs %>g</p>
@@ -135,6 +139,8 @@
   <button onclick="confirmLogout()" class="logout-btn">
     <span class="material-symbols-outlined">logout</span>
   </button>
+  <div class="placeholder"></div>
+
 
 <script>
 const activity_select = document.getElementById("activity");

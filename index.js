@@ -634,6 +634,43 @@ app.get("/menu/:restaurantName", async (req, res) => {
   }
 });
 
+app.get("/filter", async (req, res) => {
+  const checkedFilters = req.query.filter || [];
+  const searchListCopy = app.locals.searchList.slice();
+
+  const filteredList = searchListCopy.filter((item) => {
+    for (const filter of checkedFilters) {
+      switch (filter) {
+        case "calorie":
+          if (item.calories >= 400) {
+            return false;
+          }
+          break;
+        case "protein":
+          if (item.protein * 4 <= item.calories * 0.3) {
+            return false;
+          }
+          break;
+        case "fat":
+          if (item.total_fat * 9 >= item.calories * 0.2) {
+            return false;
+          }
+          break;
+        case "carb":
+          if (item.total_carb * 4 >= item.calories * 0.26) {
+            return false;
+          }
+          break;
+      }
+    }
+    return true;
+  });
+
+  // render the page with the filteredList
+  res.render("filtered-page", {
+    filteredList,
+  });
+});
 // Testing navbar icons
 app.get("/chat", (req, res) => {
   res.render("chat");

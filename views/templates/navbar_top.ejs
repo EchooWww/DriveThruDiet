@@ -51,13 +51,14 @@
     <% for (var i=0; i < searchList.length; i++) { %>
     <li class="list-item">
       <div
-        style="width: 115px; min-width: 115px; max-width: 115px; color: #4b4b4b"
+        style="width: 90px; min-width: 90px; max-width: 90px; font-size: 10pt; color: #4b4b4b"
       >
         <%= locals.searchList[i].restaurant %>
       </div>
       <div>
-        <%= locals.searchList[i].item %><br />
-        <span style="font-size: 9pt; color: #4b4b4b"
+        <span style="font-size: 10pt;""><%= locals.searchList[i].item %></span>
+        <br />
+        <span style="font-size: 8pt; color: #4b4b4b"
           ><%= locals.searchList[i].calories %> Calories</span
         >
       </div>

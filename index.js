@@ -99,7 +99,7 @@ app.get("/", (req, res) => {
     res.render("index_before_login");
     return;
   } else {
-    res.render("/home", { name: req.session.name });
+    res.render("home", { name: req.session.name });
   }
 });
 
@@ -479,38 +479,42 @@ app.get("/home", async (req, res) => {
 });
 
 app.get("/profile", async (req, res) => {
-  var username = req.session.username;
-  const result = await userCollection
-    .find({ username: username })
-    .project({
-      firstName: 1,
-      lastName: 1,
-      sex: 1,
-      birthday: 1,
-      height: 1,
-      weight: 1,
-      activity: 1,
-      goal: 1,
-      calorieNeeds: 1,
-      protein: 1,
-      carbs: 1,
-      fat: 1,
-    })
-    .toArray();
-  res.render("profile", {
-    firstName: result[0].firstName,
-    lastName: result[0].lastName,
-    sex: result[0].sex,
-    birthday: result[0].birthday,
-    height: result[0].height,
-    weight: result[0].weight,
-    activity: result[0].activity,
-    goal: result[0].goal,
-    calorieNeeds: result[0].calorieNeeds,
-    protein: result[0].protein,
-    carbs: result[0].carbs,
-    fat: result[0].fat,
-  });
+  if (!req.session.authenticated) {
+    res.redirect("/");
+  } else {
+    var username = req.session.username;
+    const result = await userCollection
+      .find({ username: username })
+      .project({
+        firstName: 1,
+        lastName: 1,
+        sex: 1,
+        birthday: 1,
+        height: 1,
+        weight: 1,
+        activity: 1,
+        goal: 1,
+        calorieNeeds: 1,
+        protein: 1,
+        carbs: 1,
+        fat: 1,
+      })
+      .toArray();
+    res.render("profile", {
+      firstName: result[0].firstName,
+      lastName: result[0].lastName,
+      sex: result[0].sex,
+      birthday: result[0].birthday,
+      height: result[0].height,
+      weight: result[0].weight,
+      activity: result[0].activity,
+      goal: result[0].goal,
+      calorieNeeds: result[0].calorieNeeds,
+      protein: result[0].protein,
+      carbs: result[0].carbs,
+      fat: result[0].fat,
+    });
+  }
 });
 
 app.post("/update_profile", async (req, res) => {

@@ -635,7 +635,9 @@ app.get("/menu/:restaurantName", async (req, res) => {
 });
 
 app.get("/filter", async (req, res) => {
-  const checkedFilters = req.query.filter || [];
+  const checkedFilters = Array.isArray(req.query.filter)
+    ? req.query.filter
+    : req.query.filter.split(",");
   const searchListCopy = app.locals.searchList.slice();
 
   const filteredList = searchListCopy.filter((item) => {

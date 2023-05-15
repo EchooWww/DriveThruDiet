@@ -49,21 +49,19 @@
 <div class="search-results-container hidden">
   <ul id="search-results">
     <% for (var i=0; i < searchList.length; i++) { %>
-    <li class="list-item">
-      <div
-        style="width: 90px; min-width: 90px; max-width: 90px; font-size: 10pt; color: #4b4b4b"
-      >
-        <%= locals.searchList[i].restaurant %>
-      </div>
-      <div>
-        <span style="font-size: 10pt;""><%= locals.searchList[i].item %></span>
-        <br />
-        <span style="font-size: 8pt; color: #4b4b4b"
-          ><%= locals.searchList[i].calories %> Calories</span
-        >
-      </div>
-    </li>
-    <% } %>
+      <li class="list-item"><a href="/item/<%= locals.searchList[i].restaurant %>/<%= locals.searchList[i].item %>">
+        <div style="width:105px; min-width: 105px; max-width: 105px; color:#4b4b4b">
+          <%= locals.searchList[i].restaurant %>
+        </div>
+        <div>
+          <%= locals.searchList[i].item %><br>
+            <span style="font-size: 9pt; color:#4b4b4b;">
+              <%= locals.searchList[i].calories %> Calories
+            </span>
+        </div>
+        </a>
+      </li>
+      <% } %>
   </ul>
 </div>
 
@@ -95,12 +93,12 @@
     if (toggleState === false) {
       setTimeout(function () {
         image.src = "/images/icon-tray-opt.gif";
-      }, 25);
+      }, 50);
       sidebarToggle(toggleState);
     } else {
       setTimeout(function () {
         image.src = "/images/icon-tray-reverse-opt.gif";
-      }, 25);
+      }, 50);
       sidebarToggle(toggleState);
     }
     toggleState = !toggleState;
@@ -115,12 +113,18 @@
     }
   }
 
+  // Closes the sidebar when the user clicks outside of it.
+  document.addEventListener('mousedown', function (e) {
+    if (!sidebar.contains(e.target) && toggleState === true &&(!image.contains(e.target))) {
+      iconToggle();
+    }
+  });
+
+  // Displays the search results when the user types in the search bar.
   function showResults(search) {
     console.log(search);
-    var searchList = document.getElementsByClassName(
-      "search-results-container"
-    );
-    var listItem = document.getElementsByClassName("list-item");
+    var searchList = document.getElementsByClassName("search-results-container");
+    var listItem = document.getElementsByTagName("li");
     for (var i = 0; i < searchList.length; i++) {
       if (search.length < 2) {
         searchList[i].classList.add("hidden");
@@ -141,10 +145,8 @@
     }
   }
 
-  document.addEventListener("mousedown", function (e) {
-    var searchList = document.getElementsByClassName(
-      "search-results-container"
-    );
+  document.addEventListener('mousedown', function (e) {
+    var searchList = document.getElementsByClassName("search-results-container");
     for (var i = 0; i < searchList.length; i++) {
       if (
         !searchList[i].contains(e.target) &&
@@ -156,22 +158,3 @@
   });
 </script>
 
-<!-- function showResults(search) {
-    console.log(search);
-    var searchList = document.getElementsByClassName("search-results-container");
-    var listItem = document.getElementsByTagName("li");
-    for (var i = 0; i < searchList.length; i++) {
-      if (search.length < 2) {
-        searchList[i].classList.add("hidden");
-      } else {
-        searchList[i].classList.remove("hidden");
-      }
-      for (var j = 0; j < listItem.length; j++) {
-        if (listItem[j].innerHTML.toLowerCase().includes(search.toLowerCase().trim())) {
-          listItem[j].classList.remove("hidden");
-        } else {
-          listItem[j].classList.add("hidden");
-        };
-      };
-    };
-  }; -->

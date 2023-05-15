@@ -51,20 +51,15 @@ app.use("/", (req, res, next) => {
   next();
 });
 
-var searchList = [];
+var searchList = []
 async function createSearchArray() {
-  var searchResults = await foodCollection
-    .find()
-    .sort()
-    .project({
-      restaurant: 1,
-      item: 1,
-      calories: 1,
-    })
-    .toArray();
+  var searchResults = await foodCollection.find().sort().project({
+    restaurant: 1,
+    item: 1,
+    calories: 1,
+  }).toArray();
   searchList = searchResults;
-  console.log(searchList.length);
-}
+};
 createSearchArray();
 
 app.set("view engine", "ejs");
@@ -638,6 +633,52 @@ app.get("/menu/:restaurantName", async (req, res) => {
 // Testing navbar icons
 app.get("/chat", (req, res) => {
   res.render("chat");
+});
+
+app.get("/item/:restaurant/:item", async (req, res) => {
+  var restaurant = req.params.restaurant;
+  var item = req.params.item;
+
+  itemDetails = await foodCollection
+    .find(
+      { restaurant: restaurant,
+        item: item,})
+    .project({
+      calories: 1,
+      cal_fat: 1,
+      total_fat: 1,
+      sat_fat: 1,
+      trans_fat: 1,
+      cholesterol: 1,
+      sodium: 1,
+      total_carb: 1,
+      fiber: 1,
+      sugar: 1,
+      protein: 1,
+      vit_a: 1,
+      vit_c: 1,
+      calcium: 1,
+    })
+  .toArray();
+  
+  res.render("item", { 
+    restaurant: restaurant, 
+    item: item,
+    calories: itemDetails[0].calories,
+    cal_fat: itemDetails[0].cal_fat,
+    total_fat: itemDetails[0].total_fat,
+    sat_fat: itemDetails[0].sat_fat,
+    trans_fat: itemDetails[0].trans_fat,
+    cholesterol: itemDetails[0].cholesterol,
+    sodium: itemDetails[0].sodium,
+    total_carb: itemDetails[0].total_carb,
+    fiber: itemDetails[0].fiber,
+    sugar: itemDetails[0].sugar,
+    protein: itemDetails[0].protein,
+    vit_a: itemDetails[0].vit_a,
+    vit_c: itemDetails[0].vit_c,
+    calcium: itemDetails[0].calcium,
+   });
 });
 
 app.get("/logout", (req, res) => {

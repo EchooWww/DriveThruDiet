@@ -9,10 +9,6 @@ const saltRounds = 12;
 const port = process.env.PORT || 3030;
 const app = express();
 const Joi = require("joi");
-const cors = require("cors");
-const Swal = require("sweetalert2");
-const axios = require("axios");
-const bodyParser = require("body-parser");
 
 // Changed to 24 hours for testing purposes so that we don't have to keep logging in
 // Session Expiry time set to 1 hour

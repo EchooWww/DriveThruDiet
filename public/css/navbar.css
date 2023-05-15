@@ -10,7 +10,8 @@
     display: flex;
     justify-content: baseline;
     align-items: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, .1);}
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
+}
 
 .search-bar-icons {
     width: 25px;
@@ -179,4 +180,43 @@
 #search-results-calories {
     font-size: 9pt;
     color: #666564
+}
+
+/* ---------- Filter ---------- */
+.filter-card-container {
+    position: fixed;
+    top: 60px;
+    right: 260px;
+    background-color: whitesmoke;
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    z-index: 90;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    text-align: left;
+}
+
+.filter-card-container form {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.filter-card-container form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.filter-card-container form input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.filter-card-container form input[type="submit"] {
+    display: block;
+    margin-top: 20px;
+    padding: 10px;
+    border: none;
+    background-color: var(--accent);
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
 }

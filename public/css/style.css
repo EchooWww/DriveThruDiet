@@ -1,5 +1,5 @@
 :root {
-  --accent: #EB4B60;
+  --accent: #ff385c;
   --dark: #524E50;
   --medium: #d4c9c2;
   --light: #DAD8D9;
@@ -16,13 +16,6 @@ body {
   height: 100vh;
   font-family: 'Roboto', sans-serif;
   color: var(--dark)
-}
-
-.page-container {
-  position: fixed;
-  top: 60px;
-  width: 100%;
-  height: calc(100% - 130px);
 }
 
 .page-container {

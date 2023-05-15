@@ -1,0 +1,13 @@
+label{
+  text-align: left;
+}
+
+input {
+  text-align: left;
+  margin-bottom: 0.5em;
+  padding: 1em;
+  border-radius: var(--btnradius);
+  border: 1px solid var(--accent);
+  display: flex;
+  flex-direction: column;
+}

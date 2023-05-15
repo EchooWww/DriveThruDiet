@@ -1,5 +1,11 @@
 :root {
-  --accent: #ff385c;
+  --accent: #EB4B60;
+  --dark: #524E50;
+  --medium: #d4c9c2;
+  --light: #DAD8D9;
+  --highlight: #E7E3E3;
+  --btnradius: 50px;
+  --radius: 10px;
 }
 
 body {
@@ -9,5 +15,5 @@ body {
   display: block;
   height: 100vh;
   font-family: 'Roboto', sans-serif;
-  background-image: linear-gradient(60deg, #f5fafa, #acd1e9df 45%, #c1dad6);
+  color: var(--dark)
 }

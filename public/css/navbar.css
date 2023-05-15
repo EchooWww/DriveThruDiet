@@ -133,14 +133,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, .2);
 }
 
-@media (width > 600px) {
-    .search-results-container {
-        width: calc(100% - 170px);
-        left: 85px;
-    }
-}
-
-.search-results-container > ul {
+.search-results-container>ul {
     width: auto;
     height: 100%;
     text-align: left;

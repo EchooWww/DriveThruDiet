@@ -29,8 +29,8 @@
 <div class="search-results-container hidden">
   <ul id="search-results">
     <% for (var i=0; i < searchList.length; i++) { %>
-      <li class="list-item">
-        <div style="width:115px; min-width: 115px; max-width: 115px; color:#4b4b4b">
+      <li class="list-item"><a href="/item/<%= locals.searchList[i].restaurant %>/<%= locals.searchList[i].item %>">
+        <div style="width:105px; min-width: 105px; max-width: 105px; color:#4b4b4b">
           <%= locals.searchList[i].restaurant %>
         </div>
         <div>
@@ -39,6 +39,7 @@
               <%= locals.searchList[i].calories %> Calories
             </span>
         </div>
+        </a>
       </li>
       <% } %>
   </ul>
@@ -111,7 +112,6 @@
 
   // Displays the search results when the user types in the search bar.
   function showResults(search) {
-    console.log(search);
     var searchList = document.getElementsByClassName("search-results-container");
     var listItem = document.getElementsByClassName("list-item");
     for (var i = 0; i < searchList.length; i++) {

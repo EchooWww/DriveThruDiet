@@ -1,0 +1,28 @@
+<%- include("templates/header") %>
+<%- include("templates/navbar_top") %>
+
+<div>
+  <br><br>
+  <h1> <%= restaurant %> </h1>
+  <h2> <%= item %> </h2>
+  <ul>
+    <li> Calories: <%= calories %> cal </li>
+    <li> Calories from fat: <%= cal_fat %> cal </li>
+    <li> Total fat: <%= total_fat %> g </li>
+    <li> Saturated fat: <%= sat_fat %> g </li>
+    <li> Trans fat: <%= trans_fat %> g </li>
+    <li> Cholesterol: <%= cholesterol %> mg </li>
+    <li> Sodium: <%= sodium %> mg </li>
+    <li> Total carbohydrates: <%= total_carb %> g </li>
+    <li> Fiber: <%= fiber %> g </li>
+    <li> Sugar: <%= sugar %> g </li>
+    <li> Protein: <%= protein %> g </li>
+    <li> Vitamin A: <%= vit_a %> </li>
+    <li> Vitamin C: <%= vit_c %> </li>
+    <li> Calcium: <%= calcium %> </li>
+  </ul>
+</div>
+
+
+<%- include("templates/navbar_bottom") %>
+<%- include("templates/footer") %>

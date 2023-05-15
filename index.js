@@ -607,9 +607,6 @@ app.get("/item/:restaurant/:item", async (req, res) => {
     fiber: itemDetails[0].fiber,
     sugar: itemDetails[0].sugar,
     protein: itemDetails[0].protein,
-    vit_a: itemDetails[0].vit_a,
-    vit_c: itemDetails[0].vit_c,
-    calcium: itemDetails[0].calcium,
    });
 });
 

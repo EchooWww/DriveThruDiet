@@ -51,15 +51,22 @@ app.use("/", (req, res, next) => {
   next();
 });
 
-var searchList = []
+var searchList = [];
 async function createSearchArray() {
-  var searchResults = await foodCollection.find().sort().project({
-    restaurant: 1,
-    item: 1,
-    calories: 1,
-  }).toArray();
+  var searchResults = await foodCollection
+    .find()
+    .sort()
+    .project({
+      restaurant: 1,
+      item: 1,
+      calories: 1,
+      total_fat: 1,
+      total_carb: 1,
+      protein: 1,
+    })
+    .toArray();
   searchList = searchResults;
-};
+}
 createSearchArray();
 
 app.set("view engine", "ejs");
@@ -630,6 +637,45 @@ app.get("/menu/:restaurantName", async (req, res) => {
   }
 });
 
+app.get("/filter", async (req, res) => {
+  const checkedFilters = Array.isArray(req.query.filter)
+    ? req.query.filter
+    : req.query.filter.split(",");
+  const searchListCopy = app.locals.searchList.slice();
+
+  const filteredList = searchListCopy.filter((item) => {
+    for (const filter of checkedFilters) {
+      switch (filter) {
+        case "calorie":
+          if (item.calories >= 400) {
+            return false;
+          }
+          break;
+        case "protein":
+          if (item.protein * 4 <= item.calories * 0.3) {
+            return false;
+          }
+          break;
+        case "fat":
+          if (item.total_fat * 9 >= item.calories * 0.2) {
+            return false;
+          }
+          break;
+        case "carb":
+          if (item.total_carb * 4 >= item.calories * 0.26) {
+            return false;
+          }
+          break;
+      }
+    }
+    return true;
+  });
+
+  // render the page with the filteredList
+  res.render("filtered-page", {
+    filteredList,
+  });
+});
 // Testing navbar icons
 app.get("/chat", (req, res) => {
   res.render("chat");
@@ -640,9 +686,7 @@ app.get("/item/:restaurant/:item", async (req, res) => {
   var item = req.params.item;
 
   itemDetails = await foodCollection
-    .find(
-      { restaurant: restaurant,
-        item: item,})
+    .find({ restaurant: restaurant, item: item })
     .project({
       calories: 1,
       cal_fat: 1,
@@ -659,10 +703,10 @@ app.get("/item/:restaurant/:item", async (req, res) => {
       vit_c: 1,
       calcium: 1,
     })
-  .toArray();
-  
-  res.render("item", { 
-    restaurant: restaurant, 
+    .toArray();
+
+  res.render("item", {
+    restaurant: restaurant,
     item: item,
     calories: itemDetails[0].calories,
     cal_fat: itemDetails[0].cal_fat,
@@ -678,7 +722,7 @@ app.get("/item/:restaurant/:item", async (req, res) => {
     vit_a: itemDetails[0].vit_a,
     vit_c: itemDetails[0].vit_c,
     calcium: itemDetails[0].calcium,
-   });
+  });
 });
 
 app.get("/logout", (req, res) => {

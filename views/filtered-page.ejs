@@ -1,0 +1,26 @@
+<%- include("templates/header") %> <%- include("templates/navbar_top") %>
+<link rel="stylesheet" href="/css/menu.css" />
+
+<main>
+  <% filteredList.forEach(function(item) { %>
+  <div class="card">
+    <div class="item-details">
+      <h2><%= item.item %></h2>
+      <p>
+        <small><strong>Calories:</strong> <%= item.calories %> Kcal</small>
+      </p>
+      <p>
+        <small><strong>Protein:</strong> <%= item.protein %>g</small>
+      </p>
+      <p>
+        <small><strong>Carbs:</strong> <%= item.total_carb %>g</small>
+      </p>
+      <p>
+        <small><strong>Fat:</strong> <%= item.total_fat %>g</small>
+      </p>
+    </div>
+    <button class="add-btn" onclick="addToCart">Add</button>
+  </div>
+  <% }); %>
+</main>
+<%- include('templates/navbar_bottom') %> <%- include("templates/footer") %>

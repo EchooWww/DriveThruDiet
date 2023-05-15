@@ -124,7 +124,7 @@
   function showResults(search) {
     console.log(search);
     var searchList = document.getElementsByClassName("search-results-container");
-    var listItem = document.getElementsByTagName("li");
+    var listItem = document.getElementsByClassName("list-item");
     for (var i = 0; i < searchList.length; i++) {
       if (search.length < 2) {
         searchList[i].classList.add("hidden");

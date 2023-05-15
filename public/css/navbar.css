@@ -10,7 +10,7 @@
     display: flex;
     justify-content: baseline;
     align-items: center;
-}
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .1);}
 
 .search-bar-icons {
     width: 25px;
@@ -31,6 +31,10 @@
 #filter-span {
     position: fixed;
     translate: -150% 25%;
+}
+
+#nav-search-bar:active {
+    border-color: var(--accent);
 }
 
 #nav-search-bar {
@@ -65,15 +69,15 @@
 
 /* ---------- SideBar ---------- */
 #sidebar-container {
-    background-color: #57B7E5;
+    background-color: #e9ecef;
     position: fixed;
     right: -350px;
     top: 60px;
-    height: calc(100% - 140px);
+    height: calc(100% - 130px);
     width: 350px;
     z-index: 99;
     transition: transform 0.3s ease;
-    box-shadow: -2px 0 10px rgba(0, 0, 0, .2);
+    box-shadow: -2px 0 5px rgba(0, 0, 0, .1);
     transform: translateX(250px);
 }
 
@@ -86,18 +90,18 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 80px;
-    background-color: #f7f7f7;
-    border-top: 1px solid #e9ecef;
+    height: 70px;
+    background-color: var(--accent);
     z-index: 100;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, .1);
 }
 
 .bottom-nav-icons {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
 }
 
 /* ---------- End of Bottom NavBar ---------- */

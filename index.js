@@ -294,28 +294,25 @@ app.post("/loggingIn", async (req, res) => {
 
   const schema = Joi.string().alphanum().max(20).required();
   const validationResult = schema.validate(username);
+
   if (validationResult.error != null) {
     console.log(validationResult.error);
-    res.render("login_error", { error: "Please enter a valid username" });
+    res.status(400).json({ error: "Please enter a valid username" });
     return;
   }
 
   const result = await userCollection
     .find({ username: username })
-    .project({
-      username: 1,
-      username: 1,
-      password: 1,
-      user_type: 1,
-      _id: 1,
-      firstName: 1,
-    })
+    .project({ username: 1, password: 1, user_type: 1, _id: 1, firstName: 1 })
     .toArray();
+
   console.log(result);
+
   if (result.length != 1) {
-    res.render("login_error", { error: "User not found." });
+    res.status(400).json({ error: "User not found" });
     return;
   }
+
   if (await bcrypt.compare(password, result[0].password)) {
     console.log("correct password");
     req.session.authenticated = true;
@@ -323,11 +320,11 @@ app.post("/loggingIn", async (req, res) => {
     req.session.firstName = result[0].firstName;
     req.session.user_type = result[0].user_type;
     req.session.cookie.maxAge = expireTime;
-    res.redirect("/home");
+    res.json({ redirect: "/home" });
     return;
   } else {
     console.log("incorrect password");
-    res.render("login_error", { error: "Incorrect password" });
+    res.status(400).json({ error: "Incorrect password" });
     return;
   }
 });

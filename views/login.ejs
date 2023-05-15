@@ -1,14 +1,32 @@
 <%- include("templates/header") %>
   <link rel="stylesheet" href="/css/authentication.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    .is-invalid {
+    border-color: red;
+    box-shadow: 0 0 0 0.1rem red;
+  }
+
+    .is-invalid.hide {
+      display: none;
+      visibility: hidden;
+    }
+
+    .error-message {
+      font-size: 0.8em;
+    }
+  </style>
   </head>
   <body>
     <div class="auth-form-container">
       <h2>Login</h2>
-      <form class="form" method="post" action="/loggingin">
+      <form class="form" method="post" action="/loggingin" id="loginForm">
         <label for="username">Username</label>
-        <input type="text" placeholder="Username" id="username" name="username" />
+        <input type="text" placeholder="Username" id="usernameInput" name="username" />
+        <span id="usernameError" class="error-message" style="text-align: left; color: red;"></span>
         <label for="password">Password</label>
-        <input type="password" placeholder="**********" id="password" name="password" />
+        <input type="password" placeholder="**********" id="passwordInput" name="password" />
+        <span id="passwordError" class="error-message" style="text-align: left; color: red;"></span>
         <button class="submit-btn" type="submit">Log In</button>
       </form>
       <button class="link-btn" onclick="location.href='/signup';">
@@ -18,4 +36,50 @@
         Forgot your username or password?
       </button>
     </div>
+
+  <script>
+    // Attach event listener to form submission
+    $("#loginForm").on("submit", function (event) {
+    event.preventDefault();
+
+    var formData = $(this).serialize();
+
+    $.ajax({
+      url: "/loggingIn",
+      type: "POST",
+      data: formData,
+      dataType: "json",
+      success: function (response) {
+        if (response.redirect) {
+          window.location.href = response.redirect;
+        }
+      },
+      error: function (xhr, status, error) {
+      var errorMessage = xhr.responseJSON.error;
+      var errorInput = "";
+
+      if (errorMessage === "Please enter a valid username" || errorMessage === "User not found") {
+        errorInput = "username";
+      } else if (errorMessage === "Incorrect password") {
+        errorInput = "password";
+      }
+
+      $("#" + errorInput + "Input").addClass("is-invalid");
+      $("#" + errorInput + "Error").text("❗️" + errorMessage);
+      $("#" + errorInput + "Error").show();
+      },
+    });
+  });
+
+  $("#usernameInput, #passwordInput").on("input", function () {
+  var inputId = $(this).attr("id");
+  var errorId = inputId.replace("Input", "Error");
+
+  if ($(this).hasClass("is-invalid") && $(this).get(0).checkValidity()) {
+    $(this).removeClass("is-invalid");
+    $("#" + errorId).hide();
+  }
+});
+
+  </script>
     <%- include("templates/footer") %>

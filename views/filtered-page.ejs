@@ -1,9 +1,30 @@
 <%- include("templates/header") %> <%- include("templates/navbar_top") %>
-<link rel="stylesheet" href="/css/menu.css" />
+<link rel="stylesheet" href="/css/filter.css" />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+/>
+<style></style>
 
 <main>
   <% filteredList.forEach(function(item) { %>
   <div class="card">
+    <% if (item.restaurant === "Taco Bell") { %>
+    <img src="/images/TacoBell1.png" alt="Taco Bell" />
+    <% } else if (item.restaurant === "KFC") { %>
+    <img src="/images/KFC1.png" alt="KFC" />
+    <% } else if (item.restaurant === "Arbys") { %>
+    <img src="/images/Arbys1.png" alt="Arby's" />
+    <% } else if (item.restaurant === "Burger King") { %>
+    <img src="/images/BurgerKing1.png" alt="Burger King" />
+    <% } else if (item.restaurant === "Mcdonalds") { %>
+    <img src="/images/Mcdonalds1.png" alt="McDonald's" />
+    <% } else if (item.restaurant === "Subway") { %>
+    <img src="/images/Subway1.png" alt="Subway" />
+    <% } else if (item.restaurant === "Dairy Queen") { %>
+    <img src="/images/DairyQueen.png" alt="DairyQueen" />
+    <% }%>
+
     <div class="item-details">
       <h2><%= item.item %></h2>
       <p>
@@ -19,8 +40,12 @@
         <small><strong>Fat:</strong> <%= item.total_fat %>g</small>
       </p>
     </div>
-    <button class="add-btn" onclick="addToCart">Add</button>
+    <button onclick="addToTray" class="add-btn">
+      <span class="material-symbols-outlined" id="add"> add</span>
+    </button>
   </div>
   <% }); %>
 </main>
+<div class="placeholder"></div>
+
 <%- include('templates/navbar_bottom') %> <%- include("templates/footer") %>

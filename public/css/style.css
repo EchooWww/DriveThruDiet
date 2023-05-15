@@ -17,3 +17,17 @@ body {
   font-family: 'Roboto', sans-serif;
   color: var(--dark)
 }
+
+.page-container {
+  position: fixed;
+  top: 60px;
+  width: 100%;
+  height: calc(100% - 130px);
+}
+
+.page-container {
+  position: fixed;
+  top: 60px;
+  width: 100%;
+  height: calc(100% - 130px);
+}

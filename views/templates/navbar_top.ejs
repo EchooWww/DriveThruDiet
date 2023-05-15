@@ -40,8 +40,8 @@
   </div>
 </div>
 
-<!-- Sidebar -->
-<div id="sidebar-container">
+<!-- Right Sidebar -->
+<div id="right-sidebar-container">
   <div></div>
 </div>
 
@@ -95,7 +95,7 @@
   }
 
   const image = document.getElementById("tray-icon");
-  const sidebar = document.getElementById("sidebar-container");
+  const rightSidebar = document.getElementById("right-sidebar-container");
 
   console.log("image loaded");
   image.src = "/images/icon-tray.png";
@@ -120,28 +120,28 @@
       setTimeout(function () {
         image.src = "/images/icon-tray-opt.gif";
       }, 50);
-      sidebarToggle(toggleState);
+      rightSidebarToggle(toggleState);
     } else {
       setTimeout(function () {
         image.src = "/images/icon-tray-reverse-opt.gif";
       }, 50);
-      sidebarToggle(toggleState);
+      rightSidebarToggle(toggleState);
     }
     toggleState = !toggleState;
   }
 
-  // Toggles the sidebar between open and closed.
-  function sidebarToggle(toggleState) {
+  // Toggles the right sidebar between open and closed.
+  function rightSidebarToggle(toggleState) {
     if (toggleState === false) {
-      sidebar.style.transform = "translateX(-350px)";
+      rightSidebar.style.transform = "translateX(-350px)";
     } else {
-      sidebar.style.transform = "translateX(0px)";
+      rightSidebar.style.transform = "translateX(0px)";
     }
   }
 
-  // Closes the sidebar when the user clicks outside of it.
+  // Closes the right sidebar when the user clicks outside of it.
   document.addEventListener('mousedown', function (e) {
-    if (!sidebar.contains(e.target) && toggleState === true &&(!image.contains(e.target))) {
+    if (!rightSidebar.contains(e.target) && toggleState === true &&(!image.contains(e.target))) {
       iconToggle();
     }
   });

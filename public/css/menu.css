@@ -9,7 +9,7 @@ header {
   text-align: left;
   font-size: 15px;
   font-weight: bold;
-  color: #eb6d54;
+  color: var(--accent);
 }
 
 main {

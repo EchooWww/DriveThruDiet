@@ -94,3 +94,14 @@ main {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   z-index: 1000; 
 }
+
+#close-btn {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 22px;
+  background: none;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}

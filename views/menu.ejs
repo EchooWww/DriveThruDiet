@@ -32,6 +32,7 @@
 </main>
 
 <div id="tray-preview" style="display:none">
+  <button id="close-btn" onclick="closeTrayPreview()">x</button>
   <h2>Total Nutrition Values of My Tray</h2>
   <p id="total-calories"></p>
   <p id="total-carbs"></p>
@@ -42,6 +43,11 @@
 <div class="placeholder"></div>
 
 <script>
+function closeTrayPreview() {
+  const trayPreview = document.getElementById('tray-preview');
+  trayPreview.style.display = 'none';
+}
+
 let totalCalories = 0;
 let totalCarbs = 0;
 let totalProtein = 0;

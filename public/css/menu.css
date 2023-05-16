@@ -1,15 +1,21 @@
 body {
   margin-top: 11%;
   overflow: auto;
+  background-color: white;
+  background-image: none;
 }
 
 header {
-  padding-top: 10px;
-  padding-left: 9%;
+  padding-top: 5%;
+  padding-left: 7%;
   text-align: left;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: bold;
-  color: var(--accent);
+  color: #524e50;
+}
+
+h1 {
+  margin-block-end: 0.5rem;
 }
 
 main {
@@ -25,35 +31,33 @@ main {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 420px;
-  height: 150px;
+  width: 430px;
+  height: 110px;
   margin: 8px;
   padding: 10px;
-  /* border: 3px solid #fbe09a; */
-  /* background-color: #d9d8d5; */
-  background-color: #f7f7f7;
+  border: 1px solid #dad8d9;
+  /* background-color: #dad8d9; */
 }
 
 .card img {
-  width: 90px;
-  height: 80px;
+  width: 80px;
+  height: 70px;
   object-fit: cover;
-  margin-right: 25px;
-  margin-left: 10px;
+  margin-right: 15px;
+  margin-left: 5px;
 }
 
 .item-details {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  color: #616161;
-  /* color: #f7f7f7; */
+  color: #524e50;
 }
 
 .item-details h2 {
-  margin-bottom: 9px;
+  margin-bottom: 5px;
   text-align: left;
-  font-size: 1.2rem;
+  font-size: 1rem;
   text-align: left;
   align-self: flex-start;
 }
@@ -61,17 +65,19 @@ main {
 .item-details p {
   margin: 0 0;
   text-align: left;
+  font-size: 0.8rem;
 }
 
 .add-btn {
-  background-color: #57b7e5;
+  background-color: #ff385c;
   color: #f7f7f7;
   border: none;
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 7px 15px;
+  font-size: 15px;
   cursor: pointer;
   position: relative;
-  right: 5px;
+  top: 39px;
+  right: 8px;
   margin-left: auto;
 }
 

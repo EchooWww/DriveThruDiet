@@ -10,11 +10,11 @@
 
   <title>Profile</title>
 </head>
+
 <body>
   <%- include("templates/navbar_top") %>
-
-  <div class="placeholder"></div>
-  <h2>Nutritional Goals</h2>
+  <div class="page-container">
+    <h2>Nutritional Goals</h2>
   <div class="card">
     <div class="item item--1">
     Calories
@@ -88,7 +88,8 @@
   <button onclick="confirmLogout()" class="logout-btn">
     <span class="material-symbols-outlined">logout</span>
   </button>
-  <div class="placeholder"></div>
+  </div>
+  
 
 
 <script>
@@ -98,9 +99,12 @@ const sex_select = document.querySelectorAll(".sex");
 const form = document.getElementById("profile-form");
 const editButton = document.getElementById("edit-button");
 const saveButton = document.getElementById("save-button");
+const back = document.getElementById("backbutton")
 
 editButton.style.display = "block";
 saveButton.style.display = "none";
+back.style.display = "block";
+
 
 for (var i = 0; i < goal_select.options.length; i++) {
   var option = goal_select.options[i];

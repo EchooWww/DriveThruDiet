@@ -103,7 +103,7 @@ ul {
 }
 
 #nearby {
-  margin-top: 120px;
+  margin-top: 400px;
 }
 
 
@@ -112,9 +112,7 @@ body {
   font-family: Poppins, sans-serif;
 }
 
-.body-container {
-  margin-top: 100px;
-}
+
 
 .map {
   height: 0;
@@ -127,4 +125,17 @@ body {
 .goals>h2, #nearby>h2 {
   text-align: center;
   color: var(--accent);
+}
+
+#map {
+  height: 400px;
+  width: 100%;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL'0,
+    'wght'400,
+    'GRAD'0,
+    'opsz'48
 }

@@ -17,8 +17,11 @@ input, select {
 
 body {
   display: block;
-  overflow-y: scroll;
   color: #524e50
+}
+
+.page-container {
+  overflow-y: scroll;
 }
 
 #activity {
@@ -66,7 +69,7 @@ body {
 }
 
 .logout-btn:hover {
-  color: --accent;
+  color: var(--accent);
 }
 
 .card {
@@ -142,4 +145,13 @@ body {
 
 .text--4 {
   color: rgba(220, 91, 183, 1);
+}
+
+.search-container, #tray-icon, #profile-icon {
+  display: none;
+}
+
+#backbutton {
+  color: var(--accent);
+  margin-left: 25px;
 }

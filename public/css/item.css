@@ -1,5 +1,7 @@
 #nutrition-container {
   text-align: left;
+  display: flex;
+  flex-direction: column;
 }
 
 #nutrition-list {

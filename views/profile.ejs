@@ -48,9 +48,9 @@
 
       <label for="sex">Sex &nbsp;</label> 
       <input type="radio" id="female" name="sex" value="female" class="sex" <% if(sex === 'female') { %> checked <% } %> disabled>   
-      <label for="female" >Female </label>        
+      <label for="female" class="sex-label" >Female </label>        
       <input type="radio" id="male" name="sex" value="male" class="sex" <% if(sex === 'male') { %> checked <% } %> disabled>
-      <label for="male">Male</label><br>
+      <label for="male" class="sex-label">Male</label><br>
 
       <label for="birthday">Birthday </label>
       <input type="date" id="birthday" name="birthday" value="<%= birthday %>" disabled><br>

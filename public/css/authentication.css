@@ -63,3 +63,18 @@ button {
   border-radius: var(--btnradius);
   width: 100%;
 }
+
+/* .is-invalid {
+  border-color: red;
+  box-shadow: 0 0 0 0.1rem red;
+} */
+
+.is-invalid.hide {
+  display: none;
+  visibility: hidden;
+}
+
+.error-message {
+  font-size: 0.8em;
+  margin-bottom: 0.5em;
+}

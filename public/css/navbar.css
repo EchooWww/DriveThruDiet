@@ -63,6 +63,7 @@
     width: 47px;
     height: 47px;
 }
+
 /* ---------- End of Top NavBar ---------- */
 
 
@@ -80,6 +81,7 @@
     box-shadow: -2px 0 5px rgba(0, 0, 0, .1);
     transform: translateX(250px);
 }
+
 /* ---------- End of Right SideBar ---------- */
 
 
@@ -184,7 +186,7 @@
 .filter-card-container {
     position: fixed;
     top: 60px;
-    right: 260px;
+    right: 200px;
     background-color: whitesmoke;
     box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
@@ -192,11 +194,13 @@
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
     text-align: left;
+    width: fit-content;
 }
 
 .filter-card-container form {
     margin: 20px;
-    font-family: Arial, sans-serif;
+    display: grid;
+    justify-content: center;
 }
 
 .filter-card-container form label {
@@ -205,16 +209,18 @@
 }
 
 .filter-card-container form input[type="checkbox"] {
-    margin-right: 5px;
+    margin-right: 15px;
 }
 
 .filter-card-container form input[type="submit"] {
-    display: block;
-    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
     padding: 10px;
     border: none;
     background-color: var(--accent);
     color: white;
     font-size: 15px;
     cursor: pointer;
+    border-radius: 30px;
 }

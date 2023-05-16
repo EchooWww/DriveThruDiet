@@ -1,5 +1,8 @@
 <!--include Google Icon library-->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+/>
 
 <div id="top-nav-container">
   <!-- Profile icon -->
@@ -7,14 +10,17 @@
     <a href="/profile"
       ><img src="/images/icon-profile.png" alt="Profile" id="profile-icon"
     /></a>
-    
-    <!--back icon to render in profile page-->
-    <a href="/home" style="text-decoration: none;">
-      <span class="material-symbols-outlined" id="backbutton" style="display: none;">
-        arrow_back_ios
-        </span>
-    </a>
 
+    <!--back icon to render in profile page-->
+    <a href="/home" style="text-decoration: none">
+      <span
+        class="material-symbols-outlined"
+        id="backbutton"
+        style="display: none"
+      >
+        arrow_back_ios
+      </span>
+    </a>
   </div>
 
   <!-- Search Bar -->
@@ -60,25 +66,35 @@
 <div class="search-results-container hidden">
   <ul id="search-results">
     <% for (var i=0; i < searchList.length; i++) { %>
-      <li class="list-item"><a href="/item/<%= locals.searchList[i].restaurant %>/<%= locals.searchList[i].item %>">
-        <div style="width:105px; min-width: 105px; max-width: 105px; color:#4b4b4b">
+    <li class="list-item">
+      <a
+        href="/item/<%= locals.searchList[i].restaurant %>/<%= locals.searchList[i].item %>"
+      >
+        <div
+          style="
+            width: 105px;
+            min-width: 105px;
+            max-width: 105px;
+            color: #4b4b4b;
+          "
+        >
           <%= locals.searchList[i].restaurant %>
         </div>
         <div>
-          <%= locals.searchList[i].item %><br>
-            <span style="font-size: 9pt; color:#4b4b4b;">
-              <%= locals.searchList[i].calories %> Calories
-            </span>
+          <%= locals.searchList[i].item %><br />
+          <span style="font-size: 9pt; color: #4b4b4b">
+            <%= locals.searchList[i].calories %> Calories
+          </span>
         </div>
-        </a>
-      </li>
-      <% } %>
+      </a>
+    </li>
+    <% } %>
   </ul>
 </div>
 
 <!-- Filter card -->
 <div class="filter-card-container hidden">
-  <form action="/filter" method="get"">
+  <form action="/filter" method="get" id="filter-form">
     <label>
       <input type="checkbox" name="filter" value="calorie" />
       Calories < 400
@@ -95,7 +111,7 @@
       <input type="checkbox" name="filter" value="carb" />
       Low Carb
     </label>
-    <input type="submit" value="Apply" />
+    <input type="submit" value="Apply Filter" />
   </form>
 </div>
 
@@ -151,8 +167,12 @@
   }
 
   // Closes the right sidebar when the user clicks outside of it.
-  document.addEventListener('mousedown', function (e) {
-    if (!rightSidebar.contains(e.target) && toggleState === true &&(!image.contains(e.target))) {
+  document.addEventListener("mousedown", function (e) {
+    if (
+      !rightSidebar.contains(e.target) &&
+      toggleState === true &&
+      !image.contains(e.target)
+    ) {
       iconToggle();
     }
   });
@@ -160,7 +180,9 @@
   // Displays the search results when the user types in the search bar.
   function showResults(search) {
     console.log(search);
-    var searchList = document.getElementsByClassName("search-results-container");
+    var searchList = document.getElementsByClassName(
+      "search-results-container"
+    );
     var listItem = document.getElementsByClassName("list-item");
     for (var i = 0; i < searchList.length; i++) {
       if (search.length < 2) {
@@ -182,8 +204,10 @@
     }
   }
 
-  document.addEventListener('mousedown', function (e) {
-    var searchList = document.getElementsByClassName("search-results-container");
+  document.addEventListener("mousedown", function (e) {
+    var searchList = document.getElementsByClassName(
+      "search-results-container"
+    );
     for (var i = 0; i < searchList.length; i++) {
       if (
         !searchList[i].contains(e.target) &&
@@ -194,4 +218,3 @@
     }
   });
 </script>
-

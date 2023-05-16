@@ -17,3 +17,24 @@ body {
   width: 100%;
   height: calc(100% - 130px);
 }
+
+/* Hide the scrollbar */
+::-webkit-scrollbar {
+  width: 0.01em;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 0.25em;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

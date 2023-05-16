@@ -1,24 +1,16 @@
-body {
-  margin-top: 11%;
-  overflow: auto;
+.page-container {
+  overflow-y: scroll;
+  text-align: left;
 }
 
-header {
-  padding-top: 10px;
-  padding-left: 9%;
-  text-align: left;
-  font-size: 15px;
-  font-weight: bold;
-  color: var(--accent);
-}
 
 main {
   display: flex;
+  overflow: auto;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
   margin: 20px;
-  margin-top: 0;
 }
 
 .card {
@@ -30,11 +22,12 @@ main {
   margin: 8px;
   padding: 10px;
   background-color: #f7f7f7;
+  border-radius: 20px;
+
 }
 
 .card img {
-  width: 90px;
-  height: 80px;
+  width: 80px;
   object-fit: cover;
   margin-right: 25px;
   margin-left: 10px;
@@ -47,32 +40,24 @@ main {
   color: #616161;
 }
 
-.item-details h2 {
-  margin-bottom: 9px;
-  text-align: left;
-  font-size: 1.2rem;
-  text-align: left;
-  align-self: flex-start;
-}
-
 .item-details p {
   margin: 0 0;
   text-align: left;
 }
 
+.item-details h4 {
+  margin-bottom: 5px;
+  margin-top: 0;
+}
+
 .add-btn {
   background-color: transparent;
   border: none;
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 10px;
   cursor: pointer;
   position: relative;
-  right: 5px;
+  right: 0px;
   margin-left: auto;
-}
-
-.placeholder {
-  height: 80px;
 }
 
 .add-btn:hover {
@@ -81,6 +66,6 @@ main {
 
 
 #add {
-  font-size: 36px;
+  font-size: 24px;
   font-weight: bold;
 }

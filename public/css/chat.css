@@ -1,93 +1,119 @@
-.card {
-  text-align: center;
-  padding: 20px;
-}
-
-#page-container {
+.page-container {
   overflow-y: scroll;
   background-color: rgba(255, 255, 255, 0.5);
-  margin-top: 100px;
-  margin-left: 10%;
+  margin-top: 20px;
   margin-right: 10%;
-  height: calc(100% - 290px);
-  border-radius: 5px;
-}
 
+}
 
 .conversation-window {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  margin-left: 10px;
 }
 
-.chat-message {
+.chat-message, .options {
+  margin-top: 30px;
   margin-bottom: 20px;
   display: inline-block;
-  max-width: 80%;
+  max-width: 60%;
   padding: 5px;
   padding-left: 14px;
   padding-right: 14px;
   border-radius: 5px;
   margin-top: 10px;
   margin-left: 15px;
-  margin-right: 15px;
 }
 
+.chat-message {
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);
+}
+
+
 .chat-message p {
-  margin: 0;
+  margin: 5px;
 }
 
 .received {
-  background-color: #fff;
   max-width: 70%;
-  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);
   text-align: left;
 }
 
-.sent {
+#breakfast, #subway-btn {
+  background-color: var(--carbs-text);
+}
+
+#lunch, #burgerking-btn {
+  background-color: var(--protein-text);
+}
+
+#dinner, #tacobell-btn {
+  background-color: var(--calories-text);
+}
+
+#mcdonanlds-btn {
+  background-color: var(--fat-text);
+}
+
+#kfc-btn {
   background-color: var(--accent);
-  color: #fff;
-  align-self: flex-end;
-  max-width: 70%;
-  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.15);
-  text-align: justify;
 }
 
-.input-container {
-  justify-content: space-between;
-  position: absolute;
-  bottom: 120px;
+
+.options {
+  margin-top: 0;
+  margin-right: 0;
+  padding-right: 0;
+  justify-content: right;
+  text-align: right;
 }
 
-#message-form {
-  display: grid;
-  width: 80vw;
-  grid-template-columns: auto 130px;
+
+.button {
+  padding: 10px;
+  font-size: 10pt;
+  color: white;
+  border-radius: 7px;
+  border-style: none;
+  margin-top: 3px;
+  text-align: center;
 }
 
-#m {
-  grid-column: 1;
-  padding: 15px;
-  font-size: 16px;
-  border-radius: 20px 0 0 20px;
-  border-style: solid;
-  border-color: var(--accent);
-}
-
-#send-message {
-  grid-column: 2;
-  background-color: var(--accent);
-  color: #fff;
-  border-radius: 0 20px 20px 0;
-  font-size: 16px;
-  padding: 15px;
+.button span {
   cursor: pointer;
-  flex-shrink: 1;
-  height: 100%;
-  border-style: solid;
-  border-color: var(--accent);
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
 }
 
-#send-message:hover {
-  background-color: #93BFCF;
+.button span:after {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+#breakfast span:after {
+  content: "🥐";
+}
+
+#lunch span:after {
+  font-family: "Material Icons";
+  content: "🍔";
+}
+
+#dinner span:after {
+  font-family: "Material Icons";
+  content: "🍝";
 }

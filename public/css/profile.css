@@ -3,6 +3,7 @@
 label {
   display: inline;
   margin-bottom: 10px;
+  font-size: 14px;
 }
 
 input, select {
@@ -10,6 +11,15 @@ input, select {
   padding: 0.6em;
   border: none;
   border-radius: 10px;
+  font-size: 12px;
+}
+
+#female, #male {
+  margin-bottom: 25px;
+}
+
+#birthday {
+  margin-bottom: 18px
 }
 
 .page-container {
@@ -17,8 +27,13 @@ input, select {
   color: var(--dark);
 }
 
+.sex-label {
+  font-size: small;
+}
+
 h2 {
   color: var(--accent);
+  font-weight: bold;
 }
 
 #activity {

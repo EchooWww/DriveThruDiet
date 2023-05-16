@@ -33,7 +33,7 @@
 
 <div id="tray-preview" style="display:none">
   <button id="close-btn" onclick="closeTrayPreview()">x</button>
-  <h2>Total Nutrition Values of My Tray</h2>
+  <h2>Nutrition Values of My Tray</h2>
   <p id="total-calories"></p>
   <p id="total-carbs"></p>
   <p id="total-protein"></p>
@@ -58,6 +58,30 @@
 function closeTrayPreview() {
   const trayPreview = document.getElementById('tray-preview');
   trayPreview.style.display = 'none';
+
+  totalCalories = 0;
+  totalCarbs = 0;
+  totalProtein = 0;
+  totalFat = 0;
+  totalFiber = 0;
+  totalSugar = 0;
+  totalVitaA = 0;
+  totalVitaC = 0;
+  totalCalcium = 0;
+  totalSodium = 0;
+  totalCholesterol = 0;
+
+  document.getElementById('total-calories').textContent = '';
+  document.getElementById('total-carbs').textContent = '';
+  document.getElementById('total-protein').textContent = '';
+  document.getElementById('total-fat').textContent = '';
+  document.getElementById('total-fiber').textContent = '';
+  document.getElementById('total-sugar').textContent = '';
+  document.getElementById('total-vita-a').textContent = '';
+  document.getElementById('total-vita-c').textContent = '';
+  document.getElementById('total-calcium').textContent = '';
+  document.getElementById('total-sodium').textContent = '';
+  document.getElementById('total-cholesterol').textContent = '';
 }
 
 let totalCalories = 0;

@@ -167,16 +167,19 @@
 }
 
 #search-results-restaurant {
-    width: 100px;
-    max-width: 100px;
-    min-width: 100px;
-    color: #666564
+    width: 105px;
+    max-width: 105px;
+    min-width: 105px;
+    color: #666564;
 }
 
 #search-results-calories {
     font-size: 9pt;
     color: #666564
 }
+
+
+
 /* ---------- End ofSearch Results ---------- */
 
 

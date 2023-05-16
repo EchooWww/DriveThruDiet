@@ -68,17 +68,10 @@
       <a
         href="/item/<%= locals.searchList[i].restaurant %>/<%= locals.searchList[i].item %>"
       >
-        <div
-          style="
-            width: 105px;
-            min-width: 105px;
-            max-width: 105px;
-            color: #4b4b4b;
-          "
-        >
+        <div id="search-results-restaurant">
           <%= locals.searchList[i].restaurant %>
         </div>
-        <div>
+        <div style="color: #1f1f1f;">
           <%= locals.searchList[i].item %><br />
           <span style="font-size: 9pt; color: #4b4b4b">
             <%= locals.searchList[i].calories %> Calories

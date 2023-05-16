@@ -23,25 +23,31 @@
     <div class="auth-form-container">
       <h2>Let's get started!</h2>
       <form class="form" id="signupForm" method="post" action="/submitUser">
-        <label for="username"></label>
+        <label for="username">
         <input type="text" placeholder="Username" id="usernameInput" name="username" />
+      </label>
         <span id="usernameError" class="error-message" style="text-align: left; color: red;"></span>
-        <label for="firstName"></label>
+        <label for="firstName">
         <input type="text" placeholder="First Name" id="firstNameInput" name="firstName" />
+      </label>
         <span id="firstNameError" class="error-message" style="text-align: left; color: red;"></span>
-        <label for="lastName"></label>
+        <label for="lastName">
         <input type="text" placeholder="Last Name" id="lastNameInput" name="lastName" />
+      </label>
         <span id="lastNameError" class="error-message" style="text-align: left; color: red;"></span>
-        <label for="email"></label>
+        <label for="email">
         <input type="email" placeholder="Email" id="emailInput" name="email" />
+      </label>
         <span id="emailError" class="error-message" style="text-align: left; color: red;"></span>
-        <label for="birthday"></label>
+        <label for="birthday">
         <input type="date" placeholder="" id="birthdayInput" name="birthday" />
+      </label>
         <span id="birthdayError" class="error-message" style="text-align: left; color: red;"></span>
-        <label for="password"></label>
+        <label for="password">
         <input type="password" placeholder="Password" id="password" name="password" />
+      </label>
         <span id="passwordError" class="error-message" style="text-align: left; color: red;"></span>
-        <button class="submit-btn" type="submit">Sign up</button>
+        <button class="submit-btn" type="submit">SIGN UP</button>
       </form>
       <button class="link-btn" onclick="location.href='/login';">Already have an account? Log in.</button>
     </div>

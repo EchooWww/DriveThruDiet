@@ -15,6 +15,8 @@ body {
   min-width: 250px;
   width: 20vw;
   max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 button {
@@ -55,9 +57,9 @@ button {
   color: var(--highlight)
 }
 
-#questionIndex {
+.questionIndex {
   padding: 1em;
-  margin-bottom: 0.25em;
   border: none;
-  border-radius: var(--radius);
+  border-radius: var(--btnradius);
+  width: 100%;
 }

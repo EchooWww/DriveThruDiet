@@ -15,11 +15,6 @@ input, select {
   border-radius: 10px;
 }
 
-body {
-  display: block;
-  color: #524e50
-}
-
 .page-container {
   overflow-y: scroll;
 }

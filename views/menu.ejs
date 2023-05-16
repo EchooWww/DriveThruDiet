@@ -40,7 +40,7 @@
   <p id="total-fat"></p>
 
   <div id="detailed-info" style="display:none">
-    <p id="total-fibre"></p>
+    <p id="total-fiber"></p>
     <p id="total-sugar"></p>
     <p id="total-vita-a"></p>
     <p id="total-vita-c"></p>
@@ -64,7 +64,7 @@ let totalCalories = 0;
 let totalCarbs = 0;
 let totalProtein = 0;
 let totalFat = 0;
-let totalFibre = 0;
+let totalFiber = 0;
 let totalSugar = 0;
 let totalVitaA = 0;
 let totalVitaC = 0;
@@ -77,11 +77,11 @@ function addToCart(item) {
   totalCarbs += item.total_carb;
   totalProtein += item.protein;
   totalFat += item.total_fat;
-  totalFibre += item.fibre;
+  totalFiber += parseFloat(item.fiber);
   totalSugar += item.sugar;
-  totalVitaA += item.vit_a;
-  totalVitaC += item.vit_c;
-  totalCalcium += item.calcium;
+  totalVitaA += parseFloat(item.vit_a);
+  totalVitaC += parseFloat(item.vit_c);
+  totalCalcium += parseFloat(item.calcium);
   totalSodium += item.sodium;
   totalCholesterol += item.cholesterol;
   
@@ -109,7 +109,7 @@ function showMore() {
     document.getElementById('more-btn').textContent = 'Less';
     isMoreClicked = true;
 
-    document.getElementById('total-fibre').textContent = `Total Fibre: ${totalFibre}g`;
+    document.getElementById('total-fiber').textContent = `Total Fiber: ${totalFiber}g`;
     document.getElementById('total-sugar').textContent = `Total Sugar: ${totalSugar}g`;
     document.getElementById('total-vita-a').textContent = `Total Vitamin A: ${totalVitaA}%`;
     document.getElementById('total-vita-c').textContent = `Total Vitamin C: ${totalVitaC}%`;

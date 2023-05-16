@@ -172,7 +172,7 @@ app.post("/submitUser", async (req, res) => {
   });
   if (validationResult.error != null) {
     console.log(validationResult.error);
-    res.redirect("/signup");
+    res.json({ redirect: "/signup" });
     return;
   }
   var hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -189,7 +189,7 @@ app.post("/submitUser", async (req, res) => {
   req.session.authenticated = true;
   req.session.username = username;
   req.session.cookie.maxAge = expireTime;
-  res.redirect("/security_questions");
+  res.json({ redirect: "/security_questions" });
   return;
 });
 

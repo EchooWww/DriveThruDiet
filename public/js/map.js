@@ -108,9 +108,13 @@ function showMapAndList() {
       console.log(sortByDistance); // Log the sorted array
       // Display the sorted results in the list after all promises are resolved
       for (var k = 0; k < Math.min(sortByDistance.length, 6); k++) {
-        var li = document.createElement("li");
-        li.innerHTML =
-          sortByDistance[k].name + " - " + sortByDistance[k].distance + "KM";
+        var tr = document.createElement("tr");
+        tr.innerHTML =
+          "<td>&nbsp;" +
+          sortByDistance[k].name +
+          "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>" +
+          sortByDistance[k].distance +
+          "KM</td>&nbsp;&nbsp;&nbsp;";
 
         var link = document.createElement("a");
         link.href =
@@ -125,8 +129,8 @@ function showMapAndList() {
         link.innerHTML =
           '<span class="material-symbols-outlined">near_me</span>';
         // Append the link element to the list item
-        li.appendChild(link);
-        document.getElementById("list").appendChild(li);
+        tr.appendChild(link);
+        document.getElementById("list").appendChild(tr);
       }
     })
     .catch(function (error) {

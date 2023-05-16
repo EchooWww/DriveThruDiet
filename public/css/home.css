@@ -9,15 +9,14 @@
 }
 
 .percent1, .percent2, .percent3, .percent4, svg, circle {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
 }
 
 circle {
   position: absolute;
   fill: none;
   stroke-width: 5;
-  transform: translate(25px, 25px);
   stroke-dasharray: 220;
   stroke-linecap: round;
 }
@@ -29,42 +28,61 @@ circle:nth-child(1) {
 
 .percent1 circle:nth-child(2) {
   stroke-dashoffset: calc(220 - (220 * 75) / 100);
-  stroke: #57b7e5;
+  stroke: #c7c7ff;
   animation: percent 1.5s linear;
   animation-delay: 1s;
 }
 
+
+.percent1 h2 {
+  color: #9595ff;
+}
+
 .percent2 circle:nth-child(2) {
   stroke-dashoffset: calc(220 - (220 * 75) / 100);
-  stroke: #eb6d54;
+  stroke: #ffd8be;
   animation: percent 1.8s linear;
   animation-delay: 1.2s;
 }
 
+.percent2 h2 {
+  color: #fca147;
+}
+
+
 .percent3 circle:nth-child(2) {
   stroke-dashoffset: calc(220 - (220 * 75) / 100);
-  stroke: #74dfb6;
+  stroke: #a9ecbf;
   animation: percent 1.8s linear;
   animation-delay: 1.2s;
+}
+
+.percent3 h2 {
+  color: #42c16e;
 }
 
 .percent4 circle:nth-child(2) {
   stroke-dashoffset: calc(220 - (220 * 75) / 100);
-  stroke: #fbe09a;
+  stroke: #f3bbe1;
   animation: percent 1.8s linear;
   animation-delay: 1.2s;
+}
+
+
+.percent4 h2 {
+  color: #dc5bb6;
 }
 
 
 .number {
   position: relative;
-  bottom: 70px;
-  right: -10px;
+  bottom: 73px;
+  right: 3px;
   color: #524e50;
 }
 
 .number h2 {
-  font-size: 19px;
+  font-size: 16px;
 }
 
 span {
@@ -72,21 +90,7 @@ span {
   opacity: .7;
 }
 
-.percent1 span {
-  color: #57b7e5;
-}
 
-.percent2 span {
-  color: #eb6d54;
-}
-
-.percent3 span {
-  color: #74dfb6;
-}
-
-.percent4 span {
-  color: #fbe09a;
-}
 
 @keyframes percent {
   0% {
@@ -103,13 +107,29 @@ ul {
 }
 
 #nearby {
-  margin-top: 400px;
+  display: inline-block;
+  margin-top: 330px;
+  align-items: center;
+  justify-content: center;
 }
 
 
 
-body {
-  font-family: Poppins, sans-serif;
+
+.number {
+  font-size: small;
+}
+
+.list-table {
+  width: 100%;
+  table-layout: fixed;
+  display: contents;
+}
+
+
+.list-table td {
+  text-align: left;
+  padding: 5px;
 }
 
 
@@ -138,4 +158,9 @@ body {
     'wght'400,
     'GRAD'0,
     'opsz'48
+}
+
+.goals {
+  margin-right: 10px;
+  margin-left: 10px;
 }

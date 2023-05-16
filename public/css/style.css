@@ -1,5 +1,20 @@
 :root {
   --accent: #ff385c;
+  --dark: #524E50;
+  --med-grey: #666564;
+  --medium: #d4c9c2;
+  --light: #DAD8D9;
+  --highlight: #E7E3E3;
+  --calories: #c7c7ff;
+  --calories-text: rgba(149, 149, 255, 1);
+  --carbs: #ffd8be;
+  --carbs-text: rgba(252, 161, 71, 1);
+  --protein: #a9ecbf;
+  --protein-text: rgba(66, 193, 110, 1);
+  --fat: #f3bbe1;
+  --fat-text: rgba(220, 91, 183, 1);
+  --btnradius: 50px;
+  --radius: 10px;
 }
 
 body {
@@ -9,13 +24,13 @@ body {
   display: block;
   height: 100vh;
   font-family: 'Roboto', sans-serif;
-  background: #f7f7f7;
+  color: var(--dark);
 }
 
 .page-container {
   position: fixed;
   top: 60px;
-  width: 100vw;
+  width: 100%;
   height: calc(100% - 130px);
-  background: #f7f7f7;
+  overflow-y: scroll;
 }

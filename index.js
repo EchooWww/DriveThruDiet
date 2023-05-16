@@ -677,8 +677,18 @@ app.get("/chat", (req, res) => {
 app.get("/item/:restaurant/:item", async (req, res) => {
   var restaurant = req.params.restaurant;
   var item = req.params.item;
+  var username = req.session.username;
+  const goals = await userCollection
+    .find({ username: username })
+    .project({
+      calorieNeeds: 1,
+      protein: 1,
+      carbs: 1,
+      fat: 1,
+    })
+    .toArray();
 
-  itemDetails = await foodCollection
+  const itemDetails = await foodCollection
     .find({ restaurant: restaurant, item: item })
     .project({
       calories: 1,
@@ -715,6 +725,10 @@ app.get("/item/:restaurant/:item", async (req, res) => {
     vit_a: itemDetails[0].vit_a,
     vit_c: itemDetails[0].vit_c,
     calcium: itemDetails[0].calcium,
+    calorie_goal: goals[0].calorieNeeds,
+    carbs_goal: goals[0].carbs,
+    protein_goal: goals[0].protein,
+    fat_goal: goals[0].fat,
   });
 });
 

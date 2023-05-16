@@ -27,7 +27,7 @@
   <!-- Search Bar -->
   <div class="search-container">
     <form>
-      <span id="search-span">
+      <span id="search-span" onclick="submitSearch()">
         <img
           src="/images/icon-search.png"
           alt="Search"
@@ -249,4 +249,13 @@
       }
     }
   });
+
+  function submitSearch() {
+    var value = document.getElementById("nav-search-bar").value;
+    if (value.toLowerCase() === "mike") {
+        window.location.href = "/easteregg";
+    } else {
+        console.log("Incorrect Key");
+    }
+}
 </script>

@@ -767,6 +767,11 @@ app.get("/item/:restaurant/:item", async (req, res) => {
   });
 });
 
+// Easter egg
+app.get("/easteregg", (req, res) => {
+  res.render("easteregg");
+});
+
 app.get("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/");

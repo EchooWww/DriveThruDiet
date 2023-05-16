@@ -52,13 +52,11 @@
     </form>
   </div>
 
-
   <!-- Tray Icon -->
   <div>
     <img onClick="iconToggle()" id="tray-icon" />
   </div>
 </div>
-
 
 <!-- Live Search -->
 <div class="search-results-container hidden">
@@ -71,7 +69,7 @@
         <div id="search-results-restaurant">
           <%= locals.searchList[i].restaurant %>
         </div>
-        <div style="color: #1f1f1f;">
+        <div style="color: #1f1f1f">
           <%= locals.searchList[i].item %><br />
           <span style="font-size: 9pt; color: #4b4b4b">
             <%= locals.searchList[i].calories %> Calories
@@ -82,7 +80,6 @@
     <% } %>
   </ul>
 </div>
-
 
 <!-- Filter card -->
 <div class="filter-card-container hidden">
@@ -123,7 +120,6 @@
   </div>
 </div>
 
-
 <script>
   function showFilter() {
     var filterCard = document.getElementsByClassName("filter-card-container");
@@ -133,7 +129,7 @@
   const image = document.getElementById("tray-icon");
   const rightSidebar = document.getElementById("right-sidebar-container");
   const foodTray = document.getElementById("tray-banner-container");
-  
+
   image.src = "/images/icon-tray.png";
 
   var trayToggleState = false;
@@ -188,7 +184,6 @@
     }
   });
 
-
   // Toggles the food tray between open and closed.
   function trayToggle() {
     if (trayToggleState === false) {
@@ -201,10 +196,7 @@
 
   // Closes the food tray when the user clicks outside of it.
   document.addEventListener("mousedown", function (e) {
-    if (
-      !foodTray.contains(e.target) &&
-      trayToggleState === true
-    ) {
+    if (!foodTray.contains(e.target) && trayToggleState === true) {
       trayToggle();
     }
   });
@@ -253,9 +245,9 @@
   function submitSearch() {
     var value = document.getElementById("nav-search-bar").value;
     if (value.toLowerCase() === "mike") {
-        window.location.href = "/easteregg";
+      window.location.href = "/easteregg";
     } else {
-        console.log("Incorrect Key");
+      console.log("Incorrect Key");
     }
-}
+  }
 </script>

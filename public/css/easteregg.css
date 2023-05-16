@@ -3,6 +3,10 @@
   flex-wrap: wrap;
 }
 
+#tray-banner-container {
+  display: none;
+}
+
 /* Styling for Front Card "M, I, K, E" */
 .box {
   box-sizing: border-box;
@@ -30,7 +34,7 @@
 }
 
 /* Grid layout settings */
-.grid{
+.grid {
   margin: auto auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -38,14 +42,14 @@
   grid-template-areas:
     "img name"
     "img joke";
-  grid-gap: 10px;  
+  grid-gap: 10px;
 }
 
 .dev-name {
   grid-area: name;
   font-size: clamp(1em, 5vw, 2em);
   margin-bottom: 0 !important;
-  margin-top:0 !important;
+  margin-top: 0 !important;
 }
 
 .grid img {

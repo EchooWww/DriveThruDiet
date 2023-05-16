@@ -1,0 +1,47 @@
+.input-box {
+  text-align: left;
+  border-radius: var(--btnradius);
+  background-color: white;
+  border: 1px solid var(--accent);
+  margin-bottom: 0.5em;
+  display: flex;
+}
+
+#usernameInput,
+#passwordInput {
+  border-radius: var(--btnradius);
+  padding: 1em;
+  border: none;
+  width: 75%;
+}
+
+.forgot-btn {
+  font-size: 13px;
+  width: 25%;
+  padding: 1em;
+  text-align: right;
+  text-decoration: underline;
+}
+
+.forgot-btn:hover {
+  text-decoration: none;
+}
+
+.forgot-btn:active {
+  color: var(--highlight)
+}
+
+/* .is-invalid {
+  border-color: red;
+  box-shadow: 0 0 0 0.1rem red;
+} */
+
+.is-invalid.hide {
+  display: none;
+  visibility: hidden;
+}
+
+.error-message {
+  font-size: 0.8em;
+  margin-bottom: 0.5em;
+}

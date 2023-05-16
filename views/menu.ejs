@@ -38,6 +38,18 @@
   <p id="total-carbs"></p>
   <p id="total-protein"></p>
   <p id="total-fat"></p>
+
+  <div id="detailed-info" style="display:none">
+    <p id="total-fibre"></p>
+    <p id="total-sugar"></p>
+    <p id="total-vita-a"></p>
+    <p id="total-vita-c"></p>
+    <p id="total-calcium"></p>
+    <p id="total-sodium"></p>
+    <p id="total-cholesterol"></p>
+  </div>
+  
+  <button id="more-btn" onclick="showMore()">More</button>
 </div>
 
 <div class="placeholder"></div>
@@ -52,12 +64,26 @@ let totalCalories = 0;
 let totalCarbs = 0;
 let totalProtein = 0;
 let totalFat = 0;
+let totalFibre = 0;
+let totalSugar = 0;
+let totalVitaA = 0;
+let totalVitaC = 0;
+let totalCalcium = 0;
+let totalSodium = 0;
+let totalCholesterol = 0;
 
 function addToCart(item) {
   totalCalories += item.calories;
   totalCarbs += item.total_carb;
   totalProtein += item.protein;
   totalFat += item.total_fat;
+  totalFibre += item.fibre;
+  totalSugar += item.sugar;
+  totalVitaA += item.vit_a;
+  totalVitaC += item.vit_c;
+  totalCalcium += item.calcium;
+  totalSodium += item.sodium;
+  totalCholesterol += item.cholesterol;
   
   document.getElementById('total-calories').textContent = `Total Calories: ${totalCalories}Cals`;
   document.getElementById('total-carbs').textContent = `Total Carbs: ${totalCarbs}g`;
@@ -69,6 +95,30 @@ function addToCart(item) {
     trayPreview.style.display = 'block';
   }
 }
+
+let isMoreClicked = false;
+
+function showMore() {
+  const detailedInfo = document.getElementById('detailed-info');
+  if (isMoreClicked) {
+    detailedInfo.style.display = 'none';
+    document.getElementById('more-btn').textContent = 'More';
+    isMoreClicked = false;
+  } else {
+    detailedInfo.style.display = 'block';
+    document.getElementById('more-btn').textContent = 'Less';
+    isMoreClicked = true;
+
+    document.getElementById('total-fibre').textContent = `Total Fibre: ${totalFibre}g`;
+    document.getElementById('total-sugar').textContent = `Total Sugar: ${totalSugar}g`;
+    document.getElementById('total-vita-a').textContent = `Total Vitamin A: ${totalVitaA}%`;
+    document.getElementById('total-vita-c').textContent = `Total Vitamin C: ${totalVitaC}%`;
+    document.getElementById('total-calcium').textContent = `Total Calcium: ${totalCalcium}%`;
+    document.getElementById('total-sodium').textContent = `Total Sodium: ${totalSodium}mg`;
+    document.getElementById('total-cholesterol').textContent = `Total Cholesterol: ${totalCholesterol}mg`;
+  }
+}
+
 </script>
 
 <%- include('templates/navbar_bottom') %> 

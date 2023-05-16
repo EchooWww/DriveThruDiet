@@ -1,9 +1,29 @@
-#nutrition-container {
+.nutrition-container {
   text-align: left;
   display: flex;
   flex-direction: column;
+  padding: 40px;
+  width: auto;
 }
 
-#nutrition-list {
-  list-style-type: none;
+#item-restaurant {
+  font-size: 20pt;
+  font-weight: lighter;
+  color:#666564
+}
+
+#item-item {
+  color: var(--accent);
+  font-size: 24pt;
+  font-weight: 900;
+}
+
+#item-calories {
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+.item-subheadings {
+  color: #666564;
+  font-size: 10pt;
 }

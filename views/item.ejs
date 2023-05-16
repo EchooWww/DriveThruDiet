@@ -5,32 +5,38 @@
 
 <body>
 
-  <div id="nutrition-container" class="page-container">
-    <h1>
-      <%= restaurant %>
-    </h1>
-    <h2>
-      <%= item %>
-    </h2>
-    <ul id="nutrition-list">
-      <li> Calories: <%= calories %> cal </li>
-      <li> Calories from fat: <%= cal_fat %> cal </li>
-      <li> Total fat: <%= total_fat %> g </li>
-      <li> &emsp; Saturated fat: <%= sat_fat %> g </li>
-      <li> &emsp; Trans fat: <%= trans_fat %> g </li>
-      <li> Cholesterol: <%= cholesterol %> mg </li>
-      <li> Sodium: <%= sodium %> mg </li>
-      <li> Total carbohydrates: <%= total_carb %> g </li>
-      <li> &emsp; Fiber: <%= fiber %> g </li>
-      <li> &emsp; Sugar: <%= sugar %> g </li>
-      <li> Protein: <%= protein %> g </li>
-      <li> Vitamin A: <%= vit_a %> % </li>
-      <li> Vitamin C: <%= vit_c %> % </li>
-      <li> Calcium: <%= calcium %> % </li>
-    </ul>
-  </div>
+  <div class="page-container">
+    <div class="nutrition-container">
+      <div id="item-restaurant">
+        <%= restaurant.toUpperCase() %>
+      </div>
+      
+      <div id="item-item">
+        <%= item %>
+      </div>
+      
+      <div id="item-calories"> <%= calories %> Calories </div>
+      <div id="total-bar">
+        <div id="fat-bar"></div>
+        <div id="sugar-bar"></div>
+        <div id="protein-bar"></div>
 
-</body>
+      </div>
+      <div id="item-calories-from-fat"> Calories from fat: <%= cal_fat %> cal </div>
+      <div id="item-total-fat"> Total fat: <%= total_fat %> g </div>
+      <div id="item-sat-fat"> &emsp; Saturated fat: <%= sat_fat %> g </div>
+      <div id=" item-trans-fat"> &emsp; Trans fat: <%= trans_fat %> g </div>
+      <div id="item-cholesterol"> Cholesterol: <%= cholesterol %> mg </div>
+      <div id="item-sodium"> Sodium: <%= sodium %> mg </div>
+      <div id="item-total-carbs"> Total carbohydrates: <%= total_carb %> g </div>
+      <div id="item-fiber"> &emsp; Fiber: <%= fiber %> g </div>
+      <div id="item-sugar"> &emsp; Sugar: <%= sugar %> g </div>
+      <div id="item-protein"> Protein: <%= protein %> g </div>
+      <div id="item-vit-a"> Vitamin A: <%= vit_a %> % </div>
+      <div id="item-vit-c"> Vitamin C: <%= vit_c %> % </div>
+      <div id="item-calcium"> Calcium: <%= calcium %> % </div>
+    </div>
+  </div>
 
 
 <%- include("templates/navbar_bottom") %>

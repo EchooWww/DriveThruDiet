@@ -739,6 +739,10 @@ app.get("/item/:restaurant/:item", async (req, res) => {
   });
 });
 
+app.get('/mytray', function(req, res) {
+  res.render('mytray', { tray: req.session.tray });
+});
+
 app.get("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/");

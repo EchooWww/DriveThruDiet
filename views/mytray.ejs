@@ -10,28 +10,64 @@
   <h1>My Tray</h1>
 </header>
 
-<main>
-  <% tray.forEach(function(item) { %>
-  <div class="card">
-    <img src="<%= item.image %>" alt="<%= item.name %>" />
-    <div class="item-details">
-      <h2><%= item.item %></h2>
-      <p>
-        <small><strong>Calories:</strong> <%= item.calories %>Cals</small>
-      </p>
-      <p>
-        <small><strong>Protein:</strong> <%= item.protein %>g</small>
-      </p>
-      <p>
-        <small><strong>Fat:</strong> <%= item.total_fat %>g</small>
-      </p>
-    </div>
-    <button class="remove-btn" onclick="removeFromTray(<%= JSON.stringify(item) %>)">Remove</button>
-  </div>
-  <% }); %>
+<main id="myTray">
 </main>
 
 <script>
+  let tray = JSON.parse(localStorage.getItem('tray')) || [];
+
+  let mainElement = document.getElementById('myTray');
+
+  tray.forEach(function(item) {
+    let div = document.createElement('div');
+    div.className = 'card';
+
+    let img = document.createElement('img');
+    img.src = item.image;
+    img.alt = item.name;
+
+    let divDetails = document.createElement('div');
+    divDetails.className = 'item-details';
+
+    let h2 = document.createElement('h2');
+    h2.textContent = item.item;
+
+    let pCalories = document.createElement('p');
+    pCalories.innerHTML = `<small><strong>Calories:</strong> ${item.calories}Cals</small>`;
+
+    let pProtein = document.createElement('p');
+    pProtein.innerHTML = `<small><strong>Protein:</strong> ${item.protein}g</small>`;
+
+    let pFat = document.createElement('p');
+    pFat.innerHTML = `<small><strong>Fat:</strong> ${item.total_fat}g</small>`;
+
+    let button = document.createElement('button');
+    button.className = 'remove-btn';
+    button.textContent = 'Remove';
+    button.onclick = function() {
+      removeFromTray(item);
+    };
+
+    divDetails.appendChild(h2);
+    divDetails.appendChild(pCalories);
+    divDetails.appendChild(pProtein);
+    divDetails.appendChild(pFat);
+
+    div.appendChild(img);
+    div.appendChild(divDetails);
+    div.appendChild(button);
+
+    mainElement.appendChild(div);
+  });
+
+  function removeFromTray(item) {
+  const index = tray.findIndex(trayItem => trayItem.item === item.item);
+  if (index !== -1) {
+    tray.splice(index, 1);
+    localStorage.setItem('tray', JSON.stringify(tray));
+    mainElement.removeChild(mainElement.children[index]);
+  }
+  }
 </script>
 
 <%- include('templates/navbar_bottom') %> 

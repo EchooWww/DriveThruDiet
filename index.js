@@ -740,7 +740,7 @@ app.get("/item/:restaurant/:item", async (req, res) => {
 });
 
 app.get('/mytray', function(req, res) {
-  res.render('mytray', { tray: req.session.tray });
+  res.render('mytray');
 });
 
 app.get("/logout", (req, res) => {

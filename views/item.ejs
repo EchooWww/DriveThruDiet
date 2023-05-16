@@ -4,6 +4,10 @@
 </head>
 
 <body>
+  <% const calFatPercent = cal_fat / calories * 100; %>
+  <% const calSugarPercent = sugar * 4 / calories * 100; %>
+  <% const calProteinPercent = protein * 4 / calories * 100; %>
+
 
   <div class="page-container">
     <div class="nutrition-container">
@@ -17,10 +21,9 @@
       
       <div id="item-calories"> <%= calories %> Calories </div>
       <div id="total-bar">
-        <div id="fat-bar"></div>
-        <div id="sugar-bar"></div>
-        <div id="protein-bar"></div>
-
+        <div id="fat-bar" style="width: <%= calFatPercent %>%"></div>
+        <div id="sugar-bar" style="width: <%= calSugarPercent %>%"></div>
+        <div id="protein-bar" style="width: <%= calProteinPercent %>%"></div>
       </div>
       <div id="item-calories-from-fat"> Calories from fat: <%= cal_fat %> cal </div>
       <div id="item-total-fat"> Total fat: <%= total_fat %> g </div>
@@ -37,6 +40,8 @@
       <div id="item-calcium"> Calcium: <%= calcium %> % </div>
     </div>
   </div>
+
+
 
 
 <%- include("templates/navbar_bottom") %>

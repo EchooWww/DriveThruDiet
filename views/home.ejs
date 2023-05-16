@@ -7,61 +7,65 @@
 </head>
 <body>
   <div class="page-container">
-    <div class="greeting"><h2>Hello, <%= name %>🌞</h2></div>
+    <div class="greeting">
+      <h2>Hello, <%= name %>🌞</h2>
+    </div>
     <div class="goals">
-      <h2>My Goals 🎯</h2> 
+      <h2>My Goals 🎯</h2>
       <div class="rings">
         <div class="percent1">
-            <svg>
-              <circle cx="35" cy="35" r="35"></circle>
-              <circle cx="35" cy="35" r="35"></circle>
-            </svg>
-            <div class="number">
-              <h2>75<span>%</span></h2>
-              <br>
-              Calories
-              <%=current_calorie%>/<%=calorie_goal%>
-            </div>
-      </div>
+          <svg>
+            <circle cx="35" cy="35" r="30"></circle>
+            <circle cx="35" cy="35" r="30"></circle>
+          </svg>
+          <div class="number">
+            <h2>75<span>%</span></h2>
+            <br>
+            Calories <br>
+            <%=current_calorie%>/<%=calorie_goal%>
+          </div>
+        </div>
         <div class="percent2">
-            <svg>
-              <circle cx="35" cy="35" r="35"></circle>
-              <circle cx="35" cy="35" r="35"></circle>
-            </svg>
-            <div class="number">
-              <h2>33<span>%</span></h2>
-              <br>
-              Carbs
-              <%=current_carbs%>/<%=carbs_goal%>
-            </div>
+          <svg>
+            <circle cx="35" cy="35" r="30"></circle>
+            <circle cx="35" cy="35" r="30"></circle>
+          </svg>
+          <div class="number">
+            <h2>33<span>%</span></h2>
+            <br>
+            Carbs <br>
+            <%=current_carbs%>/<%=carbs_goal%>
+          </div>
         </div>
-          <div class="percent3">
-            <svg>
-              <circle cx="35" cy="35" r="35"></circle>
-              <circle cx="35" cy="35" r="35"></circle>
-            </svg>
-            <div class="number">
-              <h2>33<span>%</span></h2>
-              <br>
-              Protein
-              <%=current_protein%>/<%=protein_goal%>
-            </div>
+        <div class="percent3">
+          <svg>
+            <circle cx="35" cy="35" r="30"></circle>
+            <circle cx="35" cy="35" r="30"></circle>
+          </svg>
+          <div class="number">
+            <h2>33<span>%</span></h2>
+            <br>
+            Protein <br>
+            <%=current_protein%>/<%=protein_goal%>
+          </div>
         </div>
-          <div class="percent4">
-            <svg>
-              <circle cx="35" cy="35" r="35"></circle>
-              <circle cx="35" cy="35" r="35"></circle>
-            </svg>
-            <div class="number">
-              <h2>33<span>%</span></h2>
-              <br>
-              Fat <br>
-              <%=current_fat%>/<%=fat_goal%>
-            </div>
+        <div class="percent4">
+          <svg>
+            <circle cx="35" cy="35" r="30"></circle>
+            <circle cx="35" cy="35" r="30"></circle>
+          </svg>
+          <div class="number">
+            <h2>33<span>%</span></h2>
+            <br>
+            Fat <br>
+            <%=current_fat%>/<%=fat_goal%>
+            <br>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  
   
   <% const calorie_progress = Math.round((current_calorie / calorie_goal) * 100); %>
   <% const carbs_progress = Math.round((current_carbs / carbs_goal) * 100); %>
@@ -70,7 +74,10 @@
   <div id="nearby">  
     <h2>Nearby</h2>
     <div id="map" style="display: none;"></div>    
-    <ul id="list"></ul>
+    
+    <table class="list-table">
+      <tbody id="list"></tbody>
+    </table>
   </div>  
 
 

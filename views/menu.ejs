@@ -4,10 +4,12 @@
 <link rel="stylesheet" href="/css/menu.css">
 
 </head>
+
 <body>
 <header>
   <h1><%= restaurant.name %></h1>
 </header>
+
 <main>
   <% menu.forEach(function(item) { %>
   <div class="card">
@@ -24,9 +26,44 @@
         <small><strong>Fat:</strong> <%= item.total_fat %>g</small>
       </p>
     </div>
-    <button class="add-btn" onclick="addToCart">Add</button>
+    <button class="add-btn" onclick="addToCart(<%= JSON.stringify(item) %>)">Add</button>
   </div>
   <% }); %>
 </main>
+
+<div id="tray-preview" style="display:none">
+  <h2>Total Nutrition Values of My Tray</h2>
+  <p id="total-calories"></p>
+  <p id="total-carb"></p>
+  <p id="total-protein"></p>
+  <p id="total-fat"></p>
+</div>
+
 <div class="placeholder"></div>
-<%- include('templates/navbar_bottom') %> <%- include("templates/footer") %>
+
+<script>
+let totalCalories = 0;
+let totalCarb = 0;
+let totalProtein = 0;
+let totalFat = 0;
+
+function addToCart(item) {
+  totalCalories += item.calories;
+  totalCarb += item.carb;
+  totalProtein += item.protein;
+  totalFat += item.fat;
+  
+  document.getElementById('total-calories').textContent = `Total Calories: ${totalCalories}Cals`;
+  document.getElementById('total-carb').textContent = `Total Carbs: ${totalCarb}g`;
+  document.getElementById('total-protein').textContent = `Total Protein: ${totalProtein}g`;
+  document.getElementById('total-fat').textContent = `Total Fat: ${totalFat}g`;
+
+  const trayPreview = document.getElementById('tray-preview');
+  if (trayPreview.style.display === 'none') {
+    trayPreview.style.display = 'block';
+  }
+}
+</script>
+
+<%- include('templates/navbar_bottom') %> 
+<%- include("templates/footer") %>

@@ -36,7 +36,6 @@ main {
   margin: 8px;
   padding: 10px;
   border: 1px solid #dad8d9;
-  /* background-color: #dad8d9; */
 }
 
 .card img {
@@ -83,4 +82,15 @@ main {
 
 .placeholder {
   height: 80px;
+}
+
+#tray-preview {
+  position: fixed;
+  bottom: 60px; 
+  left: 0;
+  right: 0;
+  background-color: white;
+  padding: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000; 
 }

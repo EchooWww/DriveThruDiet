@@ -34,7 +34,7 @@
 <div id="tray-preview" style="display:none">
   <h2>Total Nutrition Values of My Tray</h2>
   <p id="total-calories"></p>
-  <p id="total-carb"></p>
+  <p id="total-carbs"></p>
   <p id="total-protein"></p>
   <p id="total-fat"></p>
 </div>
@@ -43,18 +43,18 @@
 
 <script>
 let totalCalories = 0;
-let totalCarb = 0;
+let totalCarbs = 0;
 let totalProtein = 0;
 let totalFat = 0;
 
 function addToCart(item) {
   totalCalories += item.calories;
-  totalCarb += item.carb;
+  totalCarbs += item.total_carb;
   totalProtein += item.protein;
-  totalFat += item.fat;
+  totalFat += item.total_fat;
   
   document.getElementById('total-calories').textContent = `Total Calories: ${totalCalories}Cals`;
-  document.getElementById('total-carb').textContent = `Total Carbs: ${totalCarb}g`;
+  document.getElementById('total-carbs').textContent = `Total Carbs: ${totalCarbs}g`;
   document.getElementById('total-protein').textContent = `Total Protein: ${totalProtein}g`;
   document.getElementById('total-fat').textContent = `Total Fat: ${totalFat}g`;
 

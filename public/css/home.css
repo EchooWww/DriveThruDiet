@@ -24,7 +24,7 @@ circle {
 
 circle:nth-child(1) {
   stroke-dashoffset: 0;
-  stroke: #616161;
+  stroke: #d4c9c2;
 }
 
 .percent1 circle:nth-child(2) {
@@ -60,7 +60,7 @@ circle:nth-child(1) {
   position: relative;
   bottom: 70px;
   right: -10px;
-  color: #fff;
+  color: #524e50;
 }
 
 .number h2 {
@@ -103,7 +103,7 @@ ul {
 }
 
 #nearby {
-  margin-top: 120px;
+  margin-top: 400px;
 }
 
 
@@ -112,9 +112,7 @@ body {
   font-family: Poppins, sans-serif;
 }
 
-.body-container {
-  margin-top: 100px;
-}
+
 
 .map {
   height: 0;
@@ -124,7 +122,20 @@ body {
   color: #616161;
 }
 
-.goals>h2, .nearby>h2 {
+.goals>h2, #nearby>h2 {
   text-align: center;
-  color: #eb6d54;
+  color: var(--accent);
+}
+
+#map {
+  height: 400px;
+  width: 100%;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL'0,
+    'wght'400,
+    'GRAD'0,
+    'opsz'48
 }

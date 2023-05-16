@@ -29,8 +29,6 @@ main {
   height: 150px;
   margin: 8px;
   padding: 10px;
-  /* border: 3px solid #fbe09a; */
-  /* background-color: #d9d8d5; */
   background-color: #f7f7f7;
 }
 
@@ -47,7 +45,6 @@ main {
   flex-direction: column;
   align-items: flex-start;
   color: #616161;
-  /* color: #f7f7f7; */
 }
 
 .item-details h2 {
@@ -64,8 +61,7 @@ main {
 }
 
 .add-btn {
-  background-color: #57b7e5;
-  color: #f7f7f7;
+  background-color: transparent;
   border: none;
   padding: 10px 20px;
   font-size: 16px;
@@ -77,4 +73,14 @@ main {
 
 .placeholder {
   height: 80px;
+}
+
+.add-btn:hover {
+  color: var(--accent);
+}
+
+
+#add {
+  font-size: 36px;
+  font-weight: bold;
 }

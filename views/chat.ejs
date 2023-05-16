@@ -1,6 +1,93 @@
 <%- include("templates/header") %>
+<script src="https://cdn.socket.io/4.6.0/socket.io.js"></script>
+<link rel="stylesheet" href="css/chat.css">
+</head>
+<body>
 <%- include("templates/navbar_top") %>
 
+<div id="page-container">
+  <div class="body-container-learnmore" id="scroller">
+    <div class="conversation-window">
 
-<%- include('templates/navbar_bottom') %>
+      <div class="chat-message received">
+        <p>Ask me anything about green habits 🌍
+        </p>
+      </div>
+    </div>
+
+    <div class="conversation-window">
+      <div class="chat-message received">
+        <p>You can ask me to recommend some green habits, or explain how a specific life habit impacts climate change..
+        </p>
+      </div>
+    </div>
+
+    <div class="conversation-window">
+      <div class="chat-message sent">
+        <p>My question is...
+        </p>
+      </div>
+    </div>
+
+    <div id="messages" style="list-style: none;">
+    </div>
+
+    <div class="input-container">
+      <form id="message-form" action="">
+        <input id="m" autocomplete="off" placeholder="Type your question here..." autofocus />
+        <button id="send-message">SEND</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%-include('templates/navbar_bottom') %> 
+
+<script>
+
+  $(function () {
+    const socket = io();
+    const $messages = $('#messages');
+  
+    // Handle sending a message
+    $("form").submit(function (e) {
+      e.preventDefault();
+  
+      // Get the message text
+      const message = $("#m").val();
+  
+      // Add the message to the messages list as a new chat message
+      const $message = $('<div class="conversation-window"><div class="chat-message sent"><p></p></div></div>');
+      $message.find('p').text(message);
+      $messages.append($message);
+  
+      // Scrolls to bottom of the chat
+      const chatMessages = document.getElementById('page-container');
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+  
+      // Send the message to the server
+      socket.emit("chat message", message);
+  
+      // Clear the input field
+      $("#m").val("");
+      return false;
+    });
+  
+    // Handle receiving a message
+    socket.on("chat message", function (msg) {
+      // Add the message to the messages list as a new chat message
+      const $message = $('<div class="conversation-window"><div class="chat-message received"><p></p></div></div>');
+      $message.find('p').text(msg);
+      $messages.append($message);
+  
+      // Scrolls to bottom of the chat
+      const chatMessages = document.getElementById('page-container');
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+  });
+  
+  
+  </script>
+
+
 <%- include("templates/footer") %>

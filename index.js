@@ -10,6 +10,33 @@ const port = process.env.PORT || 3030;
 const app = express();
 const Joi = require("joi");
 
+// OPENAI related stuff
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
+app.use(express.json());
+const { Configuration, OpenAIApi } = require("openai");
+const config = new Configuration({
+  apiKey: process.env.OPEN_AI_KEY,
+});
+
+const openai = new OpenAIApi(config);
+io.on("connection", (socket) => {
+  console.log("a user connected");
+  socket.on("chat message", async (msg) => {
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: msg,
+      temperature: 1,
+      max_tokens: 500,
+    });
+    io.emit("chat message", response.data.choices[0].text);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
+
 // Changed to 24 hours for testing purposes so that we don't have to keep logging in
 // Session Expiry time set to 1 hour
 const expireTime = 24 * 60 * 60 * 1000;
@@ -71,6 +98,7 @@ app.use(express.urlencoded({ extended: false }));
 
 const goalCalculation = require("./public/js/goalCalculation.js");
 
+app.use(express.static("app"));
 app.use("/img", express.static("./public/images"));
 app.use("/css", express.static("./public/css"));
 app.use("/js", express.static("./public/js"));
@@ -751,6 +779,6 @@ app.get("*", (req, res) => {
   res.render("404");
 });
 
-app.listen(port, () => {
+http.listen(port, () => {
   console.log("Node application listening on port " + port);
 });

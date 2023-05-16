@@ -71,6 +71,7 @@ main {
   background-color: #ff385c;
   color: #f7f7f7;
   border: none;
+  border-radius: 5px; 
   padding: 7px 15px;
   font-size: 15px;
   cursor: pointer;
@@ -90,9 +91,14 @@ main {
   left: 0;
   right: 0;
   background-color: white;
-  padding: 10px;
+  color: #524e50;
+  padding: 20px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   z-index: 1000; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: space-between; 
 }
 
 #close-btn {
@@ -104,4 +110,20 @@ main {
   border: none;
   font-weight: bold;
   cursor: pointer;
+  color:#ff385c;
+}
+
+#more-btn {
+  background-color: #ff385c;
+  color: #f7f7f7;
+  border: none;
+  padding: 8px 15px; 
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 5px; 
+  transition: background-color 0.3s ease; 
+}
+
+#more-btn:hover {
+  background-color: #e3274f; /* Darken color on hover */
 }

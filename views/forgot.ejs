@@ -12,7 +12,7 @@
           <input type="text" id="username" name="username" placeholder="Username" required>
         </label>
         <label for="questionIndex">
-          <select id="questionIndex" name="questionIndex">
+          <select class="questionIndex" name="questionIndex">
             <% for (var i=0; i<questions.length; i++) { %>
               <option value="<%= i %>">
                 <%= questions[i].question %>

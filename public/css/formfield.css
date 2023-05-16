@@ -12,11 +12,3 @@ input {
   border: none;
   border-radius: var(--btnradius);
 }
-
-
-#questionIndex {
-  padding: 1em;
-  border: none;
-  border-radius: var(--btnradius);
-  width: 100%;
-}

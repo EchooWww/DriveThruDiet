@@ -15,6 +15,7 @@ body {
   display: block;
   height: 100vh;
   font-family: 'Roboto', sans-serif;
+  color: var(--dark);
 }
 
 .page-container {

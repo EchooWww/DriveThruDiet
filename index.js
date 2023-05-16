@@ -119,13 +119,35 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   var name = req.query.user;
   if (!req.session.authenticated) {
     res.render("index_before_login");
     return;
   } else {
-    res.render("home", { name: req.session.name });
+    var username = req.session.username;
+    const result = await userCollection
+      .find({ username: username })
+      .project({
+        firstName: 1,
+        calorieNeeds: 1,
+        protein: 1,
+        carbs: 1,
+        fat: 1,
+      })
+      .toArray();
+    res.render("home", {
+      name: result[0].firstName,
+      calorie_goal: result[0].calorieNeeds,
+      carbs_goal: result[0].carbs,
+      protein_goal: result[0].protein,
+      fat_goal: result[0].fat,
+      //current values are placeholders, to be replaced with actual ones
+      current_calorie: 200,
+      current_carbs: 30,
+      current_protein: 30,
+      current_fat: 25,
+    });
   }
 });
 

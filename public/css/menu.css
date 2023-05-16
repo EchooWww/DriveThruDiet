@@ -1,8 +1,6 @@
 body {
   margin-top: 11%;
   overflow: auto;
-  background-color: white;
-  background-image: none;
 }
 
 header {
@@ -11,7 +9,6 @@ header {
   text-align: left;
   font-size: 13px;
   font-weight: bold;
-  color: #524e50;
 }
 
 h1 {
@@ -35,7 +32,7 @@ main {
   height: 110px;
   margin: 8px;
   padding: 10px;
-  border: 1px solid #dad8d9;
+  border: 1px solid var(--light);
 }
 
 .card img {
@@ -50,7 +47,6 @@ main {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  color: #524e50;
 }
 
 .item-details h2 {
@@ -68,7 +64,7 @@ main {
 }
 
 .add-btn {
-  background-color: #ff385c;
+  background-color: var(--accent);
   color: #f7f7f7;
   border: none;
   border-radius: 5px; 
@@ -91,7 +87,6 @@ main {
   left: 0;
   right: 0;
   background-color: white;
-  color: #524e50;
   padding: 20px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   z-index: 1000; 
@@ -110,11 +105,11 @@ main {
   border: none;
   font-weight: bold;
   cursor: pointer;
-  color:#ff385c;
+  color:var(--accent);
 }
 
 #more-btn {
-  background-color: #ff385c;
+  background-color: var(--accent);
   color: #f7f7f7;
   border: none;
   padding: 8px 15px; 
@@ -122,8 +117,4 @@ main {
   cursor: pointer;
   border-radius: 5px; 
   transition: background-color 0.3s ease; 
-}
-
-#more-btn:hover {
-  background-color: #e3274f; /* Darken color on hover */
 }

@@ -110,11 +110,11 @@ function showMapAndList() {
       for (var k = 0; k < Math.min(sortByDistance.length, 6); k++) {
         var tr = document.createElement("tr");
         tr.innerHTML =
-          "<td>" +
+          "<td>&nbsp;" +
           sortByDistance[k].name +
-          "</td><td>" +
+          "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>" +
           sortByDistance[k].distance +
-          "KM</td>";
+          "KM</td>&nbsp;&nbsp;&nbsp;";
 
         var link = document.createElement("a");
         link.href =

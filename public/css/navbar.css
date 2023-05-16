@@ -63,7 +63,6 @@
     width: 47px;
     height: 47px;
 }
-
 /* ---------- End of Top NavBar ---------- */
 
 
@@ -81,7 +80,6 @@
     box-shadow: -2px 0 5px rgba(0, 0, 0, .1);
     transform: translateX(250px);
 }
-
 /* ---------- End of Right SideBar ---------- */
 
 
@@ -104,13 +102,11 @@
     width: 36px;
     height: 36px;
 }
-
 /* ---------- End of Bottom NavBar ---------- */
 
 
 
 /* ---------- Search Results ---------- */
-
 .search-results-container::-webkit-scrollbar {
     background: transparent;
 }
@@ -181,6 +177,8 @@
     font-size: 9pt;
     color: #666564
 }
+/* ---------- End ofSearch Results ---------- */
+
 
 /* ---------- Filter ---------- */
 .filter-card-container {
@@ -224,3 +222,42 @@
     cursor: pointer;
     border-radius: 30px;
 }
+/* ---------- End of Filter ---------- */
+
+
+/* ---------- Food Tray ---------- */
+
+#tray-banner-container {
+    position: fixed;
+    top: calc(100% - 110px);
+    z-index: 98;
+    width: 100%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    transition: transform 0.3s ease;
+}
+
+#tray-contents {
+    background-color: var(--accent);
+    padding: 10px 20px 20px 20px;
+    width: calc(100% - 90px);
+    max-width: 500px;
+    height: 100%;
+    border-radius: 20px 20px 0 0;
+    margin: 0 auto 0 auto;
+}
+
+#food-tray-heading {
+    font-size: 14pt;
+    font-weight: 600;
+    text-align: center;
+    width: auto;
+    color: var(--highlight);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+/* ---------- End of Food Tray ---------- */

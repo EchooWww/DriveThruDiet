@@ -9,10 +9,6 @@ const saltRounds = 12;
 const port = process.env.PORT || 3030;
 const app = express();
 const Joi = require("joi");
-const cors = require("cors");
-const Swal = require("sweetalert2");
-const axios = require("axios");
-const bodyParser = require("body-parser");
 
 // Changed to 24 hours for testing purposes so that we don't have to keep logging in
 // Session Expiry time set to 1 hour
@@ -118,34 +114,41 @@ app.post("/submitUser", async (req, res) => {
   var birthday = req.body.birthday;
   var password = req.body.password;
   if (!username) {
-    res.render("signup_error", { error: "Username" });
+    return res.status(400).json({ error: "Username is required" });
   }
   if (!firstName) {
-    res.render("signup_error", { error: "First Name" });
+    return res.status(400).json({ error: "First Name is required" });
   }
   if (!lastName) {
-    res.render("signup_error", { error: "Last Name" });
+    return res.status(400).json({ error: "Last Name is required" });
   }
   if (!email) {
-    res.render("signup_error", { error: "Email" });
+    return res.status(400).json({ error: "Email is required" });
   }
   if (!birthday) {
-    res.render("signup_error", { error: "Birthday" });
+    return res.status(400).json({ error: "Birthday is required" });
   }
   if (!password) {
-    res.render("signup_error", { error: "Password" });
+    return res.status(400).json({ error: "Password is required" });
   }
 
   // GPT_Promt_2
 
   // Check if username or email already exists in the database
   const existingUser = await userCollection.findOne({
-    $or: [{ username: username }, { email: email }],
+    username: username,
   });
+  const existingEmail = await userCollection.findOne({
+    email: email,
+  });
+
   if (existingUser) {
     // Render an error message indicating that the username or email is already taken
-    res.render("signup_error", { error: "Username or email is already taken" });
-    return;
+    return res.status(400).json({ error: "Username is already taken" });
+  }
+  if (existingEmail) {
+    // Render an error message indicating that the username or email is already taken
+    return res.status(400).json({ error: "Email already exists" });
   }
 
   const schema = Joi.object({

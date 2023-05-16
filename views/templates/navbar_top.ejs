@@ -4,6 +4,7 @@
   href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
 />
 
+<!-- Top NavBar -->
 <div id="top-nav-container">
   <!-- Profile icon -->
   <div>
@@ -51,16 +52,13 @@
     </form>
   </div>
 
+
   <!-- Tray Icon -->
   <div>
     <img onClick="iconToggle()" id="tray-icon" />
   </div>
 </div>
 
-<!-- Right Sidebar -->
-<div id="right-sidebar-container">
-  <div></div>
-</div>
 
 <!-- Live Search -->
 <div class="search-results-container hidden">
@@ -70,17 +68,10 @@
       <a
         href="/item/<%= locals.searchList[i].restaurant %>/<%= locals.searchList[i].item %>"
       >
-        <div
-          style="
-            width: 105px;
-            min-width: 105px;
-            max-width: 105px;
-            color: #4b4b4b;
-          "
-        >
+        <div id="search-results-restaurant">
           <%= locals.searchList[i].restaurant %>
         </div>
-        <div>
+        <div style="color: #1f1f1f;">
           <%= locals.searchList[i].item %><br />
           <span style="font-size: 9pt; color: #4b4b4b">
             <%= locals.searchList[i].calories %> Calories
@@ -91,6 +82,7 @@
     <% } %>
   </ul>
 </div>
+
 
 <!-- Filter card -->
 <div class="filter-card-container hidden">
@@ -115,6 +107,23 @@
   </form>
 </div>
 
+<!-- Right Sidebar -->
+<div id="right-sidebar-container">
+  <div></div>
+</div>
+
+<!-- Tray Banner -->
+<div id="tray-banner-container" onClick="trayToggle()">
+  <div id="tray-contents">
+    <div id="food-tray-heading">
+      <div>Food Tray</div>
+      <div>Calories: xxxx</div>
+    </div>
+    <div>Contents</div>
+  </div>
+</div>
+
+
 <script>
   function showFilter() {
     var filterCard = document.getElementsByClassName("filter-card-container");
@@ -123,9 +132,11 @@
 
   const image = document.getElementById("tray-icon");
   const rightSidebar = document.getElementById("right-sidebar-container");
-
-  console.log("image loaded");
+  const foodTray = document.getElementById("tray-banner-container");
+  
   image.src = "/images/icon-tray.png";
+
+  var trayToggleState = false;
   var toggleState = false;
   var images = [
     "/images/icon-tray-opt.gif",
@@ -174,6 +185,27 @@
       !image.contains(e.target)
     ) {
       iconToggle();
+    }
+  });
+
+
+  // Toggles the food tray between open and closed.
+  function trayToggle() {
+    if (trayToggleState === false) {
+      foodTray.style.transform = "translateY(-200px)";
+    } else {
+      foodTray.style.transform = "translateY(0px)";
+    }
+    trayToggleState = !trayToggleState;
+  }
+
+  // Closes the food tray when the user clicks outside of it.
+  document.addEventListener("mousedown", function (e) {
+    if (
+      !foodTray.contains(e.target) &&
+      trayToggleState === true
+    ) {
+      trayToggle();
     }
   });
 

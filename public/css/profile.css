@@ -1,7 +1,4 @@
 /* CSS for cards most referenced from https://uiverse.io/alexmaracinaru/pink-tiger-66 */
-.placeholder {
-  height: 80px;
-}
 
 label {
   display: inline;
@@ -15,13 +12,13 @@ input, select {
   border-radius: 10px;
 }
 
-body {
-  display: block;
-  color: #524e50
-}
-
 .page-container {
   overflow-y: scroll;
+  color: var(--dark);
+}
+
+h2 {
+  color: var(--accent);
 }
 
 #activity {

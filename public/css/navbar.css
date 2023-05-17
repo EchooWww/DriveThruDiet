@@ -266,13 +266,13 @@
     cursor: pointer;
     border-radius: 5px;
     display: inline;
-    border-width: 1px;
+    border-width: 2px;
     border-style: none;
 }
 
 /* Style the selected button */
 .filter-button.selected {
-    background-color: var(--accent-hover);
+    background-color: #fff5f7;
     border: solid 1px var(--accent);
     color: var(--accent);
 }
@@ -314,3 +314,5 @@
     justify-content: space-between;
     margin-bottom: 10px;
 }
+
+/* ---------- End of Food Tray ---------- */

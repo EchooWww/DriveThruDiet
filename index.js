@@ -750,14 +750,17 @@ app.get("/compare", async (req, res) => {
   let item = await foodCollection
     .find({ _id: new ObjectId(itemID) })
     .toArray();
-  compareList = await userCollection.find({ username: username }).project({ compareItems: 1 }).toArray();
-  compareList = await compareList[0].compareItems;
-  if (compareList.length < 20) {
-    await userCollection.updateOne({ username: username }, { $push: { compareItems: item[0] } });
     
+  compareList = await userCollection.find({ username: username }).project({ compareItems: 1 }).toArray();
+  compareList = compareList[0].compareItems;
+
+  if (compareList.length < 2) {
+    await userCollection.updateOne({ username: username }, { $push: { compareItems: item[0] } });
+    compareList = await userCollection.find({ username: username }).project({ compareItems: 1 }).toArray();
+    compareList = compareList[0].compareItems;
   };
   console.log(compareList);
-  
+
   res.redirect("item/" + item[0].restaurant + "/" + item[0].item);
 });
 

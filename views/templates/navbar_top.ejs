@@ -114,13 +114,13 @@
   </div>
   <div>
     Compare Items
-      <% for (var i = 0; i < locals.compareList.length; i++) { %>
+      <% for (let i = 0; i < locals.compareList.length; i++) { %>
         <div class="compare-item-container">
-        <div> <%= locals.compareList[i].restaurant %> </div>
-        <div> <%= locals.compareList[i].item %></div>
-        <form>
-          <button> X </button>
-        </form>
+          <div> <%= locals.compareList[i].restaurant %> </div>
+          <div> <%= locals.compareList[i].item %></div>
+          <form>
+            <button> X </button>
+          </form>
         </div>
       <% } %>
   </div>

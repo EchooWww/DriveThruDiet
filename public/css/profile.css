@@ -167,3 +167,7 @@ h2 {
   color: var(--accent);
   margin-left: 25px;
 }
+
+.tray-count {
+  display: none;
+}

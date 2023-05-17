@@ -54,6 +54,11 @@
     height: 42px;
 }
 
+.tray-icon-container {
+    position: relative;
+    display: inline-block;
+  }
+
 #tray-icon:hover {
     cursor: pointer;
 }
@@ -63,6 +68,18 @@
     width: 47px;
     height: 47px;
 }
+  
+.tray-count {
+    position: absolute;
+    top: 1.25em;
+    right: 2.45em;
+    padding: 3.7px 3.7px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    color: #f7f7f7;
+    font-size: 0.8em;
+  }
+  
 /* ---------- End of Top NavBar ---------- */
 
 

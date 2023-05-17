@@ -32,7 +32,6 @@
 
 <script>
   const addButtons = document.querySelectorAll('.add-btn');
-  const trayCountElement = document.getElementById('tray-count');
 
   addButtons.forEach(button => {
     button.addEventListener('click', (e) => {
@@ -48,7 +47,7 @@
       }).then(response => response.json())
         .then(data => {
           if (data.success) {
-            trayCountElement.textContent = data.trayItemCount;
+            updateTrayCount(data.trayItemCount);
           } else {
             // Handle error
           }
@@ -56,6 +55,7 @@
     });
   });
 </script>
+
 
 
 <%- include('templates/navbar_bottom') %> 

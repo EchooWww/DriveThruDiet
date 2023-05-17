@@ -54,9 +54,9 @@
 
 
   <!-- Tray Icon -->
-  <div>
+  <div class="tray-icon-container">
     <img onClick="iconToggle()" id="tray-icon" />
-    <span id="tray-count">0</span>
+    <span class="tray-count" id="tray-count">0</span>
   </div>
 </div>
 
@@ -263,5 +263,20 @@
       }
     }
   });
+
+  // Show tray count on page load
+  const trayCountElement = document.getElementById('tray-count');
+
+  function updateTrayCount(count) {
+    trayCountElement.textContent = count;
+  }
+
+  window.onload = function() {
+    fetch('/trayItemCount')
+      .then(response => response.json())
+      .then(data => {
+        updateTrayCount(data.trayItemCount);
+      });
+  };
 
 </script>

@@ -683,6 +683,20 @@ app.post("/addItem", async (req, res) => {
   }
 });
 
+app.get("/trayItemCount", async (req, res) => {
+  const username = req.session.username;
+
+  const userCollection = database.db(mongodb_database).collection("users");
+
+  try {
+    const user = await userCollection.findOne({ username: username });
+    const trayItemCount = user.trayItems.length;
+    res.json({ trayItemCount: trayItemCount });
+  } catch (error) {
+    console.error(error);
+    res.json({ trayItemCount: 0 });
+  }
+});
 
 app.get("/filter", async (req, res) => {
   const checkedFilters = Array.isArray(req.query.filter)

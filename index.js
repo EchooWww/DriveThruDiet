@@ -49,6 +49,7 @@ app.use("/", (req, res, next) => {
   next();
 });
 
+var compareList = [];
 var searchList = [];
 async function createSearchArray() {
   searchList = await foodCollection
@@ -742,7 +743,6 @@ app.get("/item/:restaurant/:item", async (req, res) => {
   });
 });
 
-var compareList = [];
 // Add item to compare list.
 app.get("/compare", async (req, res) => {
   let username = req.session.username;
@@ -763,6 +763,23 @@ app.get("/compare", async (req, res) => {
 
   res.redirect("item/" + item[0].restaurant + "/" + item[0].item);
 });
+
+// Remove item from compare list.
+app.get("/removeCompare", async (req, res) => {
+  let username = req.session.username;
+  let itemID = req.query.compareID;
+  console.log(itemID);
+  let item = await foodCollection
+    .find({ _id: new ObjectId(itemID) })
+    .toArray();
+
+  // Finds the item in the compare list by _id and removed it.
+  await userCollection.updateOne({ username: username }, { $pull: { compareItems: { _id: new ObjectId(itemID) } } });
+  compareList = await userCollection.find({ username: username }).project({ compareItems: 1 }).toArray();
+  compareList = compareList[0].compareItems;
+
+  res.redirect("/item/" + item[0].restaurant + "/" + item[0].item);
+}) 
 
 app.get("/logout", (req, res) => {
   req.session.destroy();

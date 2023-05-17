@@ -11,6 +11,7 @@
   <% const fatGoalPercent = total_fat / fat_goal * 100; %>
   <% const carbGoalPercent = total_carb / carbs_goal * 100; %>
   <% const proteinGoalPercent = protein / protein_goal * 100; %>
+  <% let compareExists = false; %>
 
   <div class="page-container">
     <div class="nutrition-container">
@@ -30,7 +31,21 @@
         <div>
           <form>
             <button id="add-btn"> ADD </button>
-            <button id="compare-btn" name="compareID" formaction="/compare" method="get" type="submit" value="<%= id %>"> COMPARE </button>
+            <button id="compare-btn" name="compareID"  type="submit" value="<%= id %>"
+              <% for (let i = 0; i < locals.compareList.length; i++) { %>
+                <% console.log(locals.compareList[i]._id, id); %>
+                <% if (id.toString() == locals.compareList[i]._id.toString() && locals.compareList.length < 2) { %> 
+                  <% compareExists = true; %>
+                  onclick = "alert('Item already exists');"
+                  compareExists = false;
+                <% } %>
+              <% } %> 
+              <% if (compareExists == false && locals.compareList.length < 2) { %> 
+                formaction="/compare" method="get"
+              <% } else if (locals.compareList.length >= 2) { %>
+                onclick = "alert('You can only compare up to 2 items!');"
+              <% } %>
+            > COMPARE </button>
           </form>
         </div>
       </div>

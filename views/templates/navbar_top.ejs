@@ -119,7 +119,7 @@
           <div> <%= locals.compareList[i].restaurant %> </div>
           <div> <%= locals.compareList[i].item %></div>
           <form>
-            <button> X </button>
+            <button formaction="/removeCompare" method="get" name="compareID" value="<%= locals.compareList[i]._id %>"> X </button>
           </form>
         </div>
       <% } %>

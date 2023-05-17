@@ -12,11 +12,11 @@
   margin-bottom: 10px;
 }
 
-#intro-msg{
+#intro-msg {
   color: var(--accent);
 }
 
-#initial-form > * {
+#initial-form>* {
   text-align: center !important;
   margin: auto auto !important;
   background-color: white !important;
@@ -24,7 +24,7 @@
 }
 
 
-#restaurant, 
+#restaurant,
 #mealtime,
 #dietary-restrictions {
   box-sizing: border-box;
@@ -101,4 +101,9 @@ button {
   border-radius: var(--btnradius);
   border: 1px solid var(--accent);
   margin-bottom: 0.5em;
+}
+
+
+#tray-banner-container {
+  display: none;
 }

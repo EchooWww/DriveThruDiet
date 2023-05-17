@@ -1,0 +1,37 @@
+<%- include("templates/header") %> 
+
+<link rel="stylesheet" href="/css/mytray.css">
+
+</head>
+
+<body>
+<header>
+  <h1>My Tray</h1>
+</header>
+<main>
+  <% trayItems.forEach(function(item) { %>
+  <div class="card">
+    <img src="<%= item.restaurant.image %>" alt="<%= item.restaurant.name %>" />
+    <div class="item-details">
+      <h2><%= item.item %></h2>
+      <p>
+        <small><strong>Calories:</strong> <%= item.calories %>Cals</small>
+      </p>
+      <p>
+        <small><strong>Protein:</strong> <%= item.protein %>g</small>
+      </p>
+      <p>
+        <small><strong>Fat:</strong> <%= item.total_fat %>g</small>
+      </p>
+    </div>
+    <button class="remove-btn" id="<%= item._id %>">Remove</button>
+  </div>
+  <% }); %>
+</main>
+<div class="placeholder"></div>
+
+<script>
+  
+</script>
+
+<%- include("templates/footer") %>

@@ -53,8 +53,9 @@
   </div>
 
   <!-- Tray Icon -->
-  <div>
+  <div class="tray-icon-container">
     <img onClick="iconToggle()" id="tray-icon" />
+    <!-- <span class="tray-count" id="tray-count">0</span> -->
   </div>
 </div>
 
@@ -69,6 +70,7 @@
         <div id="search-results-restaurant">
           <%= locals.searchList[i].restaurant %>
         </div>
+        <div style="color: #1f1f1f">
         <div style="color: #1f1f1f">
           <%= locals.searchList[i].item %><br />
           <span style="font-size: 9pt; color: #4b4b4b">
@@ -130,6 +132,7 @@
   const rightSidebar = document.getElementById("right-sidebar-container");
   const foodTray = document.getElementById("tray-banner-container");
 
+
   image.src = "/images/icon-tray.png";
 
   var trayToggleState = false;
@@ -147,29 +150,67 @@
     }
   }
 
-  // Toggles the tray icon between open and closed.
-  function iconToggle() {
-    preLoadImages();
-    if (toggleState === false) {
-      setTimeout(function () {
-        image.src = "/images/icon-tray-opt.gif";
-      }, 50);
-      rightSidebarToggle(toggleState);
-    } else {
-      setTimeout(function () {
-        image.src = "/images/icon-tray-reverse-opt.gif";
-      }, 50);
-      rightSidebarToggle(toggleState);
-    }
-    toggleState = !toggleState;
+  // Fetch data from the server to update the right sidebar container
+  function updateMyTray() {
+  fetch("/mytray")
+    .then((response) => response.text())
+    .then((data) => {
+      const sidebarContainer = document.getElementById("right-sidebar-container");
+      sidebarContainer.innerHTML = data;
+
+      const removeButtons = sidebarContainer.querySelectorAll('.remove-btn');
+
+      removeButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          console.log('Remove Button clicked!');
+          const itemId = e.target.id;
+
+          fetch('/removeItem', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ itemId: itemId })
+          }).then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                updateMyTray();
+              } else {
+                // Handle error
+              }
+            });
+        });
+      });
+    })
+    .catch((error) => console.error(error));
+}
+
+// Toggle the tray icon image and update the tray content
+function iconToggle() {
+  preLoadImages();
+  if (toggleState === false) {
+    setTimeout(function () {
+      image.src = "/images/icon-tray-opt.gif";
+    }, 50);
+
+    updateMyTray();
+    
+    rightSidebarToggle(toggleState);
+  } else {
+    setTimeout(function () {
+      image.src = "/images/icon-tray-reverse-opt.gif";
+    }, 50);
+    rightSidebarToggle(toggleState);
   }
+  toggleState = !toggleState;
+}
 
   // Toggles the right sidebar between open and closed.
   function rightSidebarToggle(toggleState) {
     if (toggleState === false) {
       rightSidebar.style.transform = "translateX(-350px)";
     } else {
-      rightSidebar.style.transform = "translateX(0px)";
+      rightSidebar.style.transform = "translateX(50px)";
     }
   }
 
@@ -196,6 +237,7 @@
 
   // Closes the food tray when the user clicks outside of it.
   document.addEventListener("mousedown", function (e) {
+    if (!foodTray.contains(e.target) && trayToggleState === true) {
     if (!foodTray.contains(e.target) && trayToggleState === true) {
       trayToggle();
     }
@@ -250,4 +292,19 @@
       console.log("Incorrect Key");
     }
   }
+
+  // // Show tray count on page load
+  // const trayCountElement = document.getElementById("tray-count");
+
+  // function updateTrayCount(count) {
+  //   trayCountElement.textContent = count;
+  // }
+
+  // window.onload = function () {
+  //   fetch("/trayItemCount")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       updateTrayCount(data.trayItemCount);
+  //     });
+  // };
 </script>

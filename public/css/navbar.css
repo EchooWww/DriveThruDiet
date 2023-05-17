@@ -54,6 +54,11 @@
     height: 42px;
 }
 
+.tray-icon-container {
+    position: relative;
+    display: inline-block;
+  }
+
 #tray-icon:hover {
     cursor: pointer;
 }
@@ -63,22 +68,36 @@
     width: 47px;
     height: 47px;
 }
+  
+.tray-count {
+    position: absolute;
+    top: 1.25em;
+    right: 2.45em;
+    padding: 3.7px 3.7px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    color: #f7f7f7;
+    font-size: 0.8em;
+  }
+  
 /* ---------- End of Top NavBar ---------- */
 
 
 
 /* ---------- Right SideBar ---------- */
 #right-sidebar-container {
-    background-color: #e9ecef;
+    /* background-color: #e9ecef; */
+    background-color: white;
     position: fixed;
     right: -350px;
     top: 60px;
     height: calc(100% - 130px);
-    width: 350px;
+    width: 400px;
     z-index: 99;
     transition: transform 0.3s ease;
     box-shadow: -2px 0 5px rgba(0, 0, 0, .1);
     transform: translateX(250px);
+    overflow: auto;
 }
 /* ---------- End of Right SideBar ---------- */
 

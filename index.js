@@ -10,7 +10,7 @@ const port = process.env.PORT || 3030;
 const app = express();
 const Joi = require("joi");
 
-// OPENAI related stuff
+// OPENAI API Connection
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
 app.use(express.json());
@@ -25,9 +25,9 @@ io.on("connection", (socket) => {
   socket.on("chat message", async (msg) => {
     const response = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: "You are an AI assistant named FastFoodie that is a fast food nutrition expert.\nYou know about all the best fast food menu options and which options are healthier compared to others. \nStart by introducing yourself and asking where the user is dining today.\nThen you must ask if they are looking for breakfast, lunch or dinner.\nThen you will ask if they have any dietary restrictions.\nOnce you have the above 3 questions, provide an appropriate recommendation on a menu item.\nIf the user asks a question unrelated to fast food or nutrition, please respond with the phrase \"I'm just a FastFoodie, I'm not quite sure how to answer your questions.\"\n\n",
+      prompt: msg,
       temperature: 1,
-      max_tokens: 500,
+      max_tokens: 100,
     });
     io.emit("chat message", response.data.choices[0].text);
   });

@@ -1,121 +1,104 @@
-/*Button design referenced https://codepen.io/Mizukukun/pen/mdVQEKm */
-
-.page-container {
-  overflow-y: scroll;
-  background-color: rgba(255, 255, 255, 0.5);
-  margin-top: 20px;
-  margin-right: 10%;
-
+#chat-box-body {
+  height: calc(100% - 2em);
+  padding: 1em;
 }
 
 .conversation-window {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  margin-left: 10px;
+  border-radius: var(--btnradius);
+  padding: 0.5em;
+  margin-bottom: 10px;
 }
 
-.chat-message, .options {
-  margin-top: 30px;
-  margin-bottom: 20px;
-  display: inline-block;
-  max-width: 60%;
-  padding: 5px;
-  padding-left: 14px;
-  padding-right: 14px;
-  border-radius: 5px;
-  margin-top: 10px;
-  margin-left: 15px;
+#intro-msg{
+  color: var(--accent);
 }
 
-.chat-message {
-  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);
+#initial-form > * {
+  text-align: center !important;
+  margin: auto auto !important;
+  background-color: white !important;
+  box-shadow: none !important;
 }
 
 
-.chat-message p {
-  margin: 5px;
+#restaurant, 
+#mealtime,
+#dietary-restrictions {
+  box-sizing: border-box;
+  width: 90%;
+  padding: 1em;
+  border-radius: var(--btnradius);
+  border: 1px solid var(--accent);
+  margin-bottom: 0.5em;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+.submit-btn {
+  border: none;
+  background-color: var(--accent);
+  color: white;
+  padding: 1em;
+  border-radius: var(--btnradius);
+  margin: 0.5em auto 0.5em auto;
+}
+
+.submit-btn:hover {
+  background-color: var(--medium);
+}
+
+.submit-btn:active {
+  background-color: var(--dark);
 }
 
 .received {
+  background-color: var(--highlight);
   max-width: 70%;
   text-align: left;
+  border-top-left-radius: var(--btnradius);
+  border-top-right-radius: var(--btnradius);
+  border-bottom-right-radius: var(--btnradius);
 }
 
-#breakfast, #subway-btn {
-  background-color: var(--carbs-text);
-}
-
-#lunch, #burgerking-btn {
-  background-color: var(--protein-text);
-}
-
-#dinner, #tacobell-btn {
-  background-color: var(--calories-text);
-}
-
-#mcdonanlds-btn {
-  background-color: var(--fat-text);
-}
-
-#kfc-btn {
+.sent {
   background-color: var(--accent);
-}
-
-
-.options {
-  margin-top: 0;
-  margin-right: 0;
-  padding-right: 0;
-  justify-content: right;
-  text-align: right;
-}
-
-
-.button {
-  padding: 10px;
-  font-size: 10pt;
   color: white;
-  border-radius: 7px;
-  border-style: none;
-  margin-top: 3px;
-  text-align: center;
+  align-self: flex-end;
+  max-width: 70%;
+  text-align: justify;
+  border-top-left-radius: var(--btnradius);
+  border-top-right-radius: var(--btnradius);
+  border-bottom-left-radius: var(--btnradius);
 }
 
-.button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
+
+.received p,
+.sent p {
+  margin: 1em 2em;
 }
 
-.button span:after {
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
+#messages {
+  overflow-y: auto;
+  height: calc(100% - 100px);
 }
 
-.button:hover span {
-  padding-right: 25px;
+#message-form {
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
 }
 
-.button:hover span:after {
-  opacity: 1;
-  right: 0;
-}
-
-#breakfast span:after {
-  content: "🥐";
-}
-
-#lunch span:after {
-  font-family: "Material Icons";
-  content: "🍔";
-}
-
-#dinner span:after {
-  font-family: "Material Icons";
-  content: "🍝";
+#m {
+  box-sizing: border-box;
+  width: 85%;
+  padding: 1em;
+  border-radius: var(--btnradius);
+  border: 1px solid var(--accent);
+  margin-bottom: 0.5em;
 }

@@ -148,46 +148,51 @@
     }
   }
 
-  // Toggles the tray icon between open and closed.
-  function iconToggle() {
+  // Fetch data from the server to update the right sidebar container
+  function updateMyTray() {
+  fetch("/mytray")
+    .then((response) => response.text())
+    .then((data) => {
+      const sidebarContainer = document.getElementById("right-sidebar-container");
+      sidebarContainer.innerHTML = data;
+
+      const removeButtons = sidebarContainer.querySelectorAll('.remove-btn');
+
+      removeButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          console.log('Remove Button clicked!');
+          const itemId = e.target.id;
+
+          fetch('/removeItem', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ itemId: itemId })
+          }).then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                updateMyTray();
+              } else {
+                // Handle error
+              }
+            });
+        });
+      });
+    })
+    .catch((error) => console.error(error));
+}
+
+// Toggle the tray icon image and update the tray content
+function iconToggle() {
   preLoadImages();
   if (toggleState === false) {
     setTimeout(function () {
       image.src = "/images/icon-tray-opt.gif";
     }, 50);
 
-    fetch("/mytray")
-      .then((response) => response.text())
-      .then((data) => {
-        const sidebarContainer = document.getElementById("right-sidebar-container");
-        sidebarContainer.innerHTML = data;
-
-        const removeButtons = sidebarContainer.querySelectorAll('.remove-btn');
-
-        removeButtons.forEach(button => {
-          button.addEventListener('click', (e) => {
-            console.log('Remove Button clicked!');
-            const itemId = e.target.id;
-
-            fetch('/removeItem', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ itemId: itemId })
-            }).then(response => response.json())
-              .then(data => {
-                if (data.success) {
-                  window.location.reload();
-                } else {
-                  // Handle error
-                }
-              });
-          });
-        });
-      })
-      .catch((error) => console.error(error));
-
+    updateMyTray();
+    
     rightSidebarToggle(toggleState);
   } else {
     setTimeout(function () {

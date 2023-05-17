@@ -10,7 +10,8 @@
           <div class="conversation-window">
             <form id="initial-form">
               <div class="chat-message received">
-                <p>Please provide the following information:</p>
+                <h3 id="intro-msg">Hello, my name is FastFoodie!</h3>
+                <p id="intro-direction">Please provide the following information:</p>
               </div>
               <div class="chat-message received">
                 <label for="restaurant"></label>
@@ -38,18 +39,18 @@
                   placeholder="Enter any dietary restrictions?">
               </div>
               <div class="chat-message received">
-                <button type="submit">ASK FASTFOODIE</button>
+                <button class="submit-btn" type="submit">ASK FASTFOODIE</button>
               </div>
             </form>
           </div>
 
-          <div id="messages" style="list-style: none;">
+          <div id="messages" style="list-style: none; display: none;">
           </div>
 
           <div class="input-container" style="display: none;">
             <form id="message-form" action="">
               <input id="m" autocomplete="off" placeholder="Type your question here..." autofocus />
-              <button id="send-message">SEND</button>
+              <button class="submit-btn" id="send-message">SEND</button>
             </form>
           </div>
         </div>
@@ -79,6 +80,8 @@
             $("#initial-form").hide();
             // Show input field
             $(".input-container").show();
+            // Show messages field
+            $("#messages").show();
 
             // Display the initial prompt message
             const $message = $('<div class="conversation-window"><div class="chat-message sent"><p></p></div></div>');

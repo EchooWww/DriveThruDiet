@@ -86,16 +86,18 @@
 
 /* ---------- Right SideBar ---------- */
 #right-sidebar-container {
-    background-color: #e9ecef;
+    /* background-color: #e9ecef; */
+    background-color: white;
     position: fixed;
     right: -350px;
     top: 60px;
     height: calc(100% - 130px);
-    width: 350px;
+    width: 400px;
     z-index: 99;
     transition: transform 0.3s ease;
     box-shadow: -2px 0 5px rgba(0, 0, 0, .1);
     transform: translateX(250px);
+    overflow: auto;
 }
 /* ---------- End of Right SideBar ---------- */
 

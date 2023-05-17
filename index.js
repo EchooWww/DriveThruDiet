@@ -644,17 +644,22 @@ app.post("/addItem", async (req, res) => {
 
   const itemId = req.body.itemId;
   const username = req.session.username;
-  console.log("itemId:", itemId); 
+  console.log("itemId:", itemId);
   console.log("username:", username);
 
   const userCollection = database.db(mongodb_database).collection("users");
-  const menuCollection = database.db(mongodb_database).collection("fastfoodnutrition");
+  const menuCollection = database
+    .db(mongodb_database)
+    .collection("fastfoodnutrition");
 
   try {
     const user = await userCollection.findOne({ username: username });
     const userId = user._id;
-    
-    if (!mongodb.ObjectId.isValid(itemId) || !mongodb.ObjectId.isValid(userId)) {
+
+    if (
+      !mongodb.ObjectId.isValid(itemId) ||
+      !mongodb.ObjectId.isValid(userId)
+    ) {
       console.error("Invalid itemId or userId");
       return res.json({ success: false });
     }
@@ -662,16 +667,18 @@ app.post("/addItem", async (req, res) => {
     const item = await menuCollection.findOne({
       _id: new mongodb.ObjectId(itemId),
     });
-    console.log("item:", item); 
+    console.log("item:", item);
 
     const updateResult = await userCollection.updateOne(
       { _id: new mongodb.ObjectId(userId) },
       { $push: { trayItems: item } }
     );
-    console.log("updateResult:", updateResult); 
+    console.log("updateResult:", updateResult);
 
     if (updateResult.matchedCount > 0) {
-      const updatedUser = await userCollection.findOne({ _id: new mongodb.ObjectId(userId) });
+      const updatedUser = await userCollection.findOne({
+        _id: new mongodb.ObjectId(userId),
+      });
       const trayItemCount = updatedUser.trayItems.length;
       res.json({ success: true, trayItemCount: trayItemCount });
     } else {
@@ -695,6 +702,69 @@ app.get("/trayItemCount", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.json({ trayItemCount: 0 });
+  }
+});
+
+app.get("/mytray", async (req, res) => {
+  const username = req.session.username;
+  const userCollection = database.db(mongodb_database).collection("users");
+  const restaurantCollection = database
+    .db(mongodb_database)
+    .collection("restaurants");
+
+  try {
+    const user = await userCollection.findOne({ username: username });
+    const trayItems = user.trayItems;
+
+    const trayItemsWithRestaurant = await Promise.all(
+      trayItems.map(async (item) => {
+        const restaurant = await restaurantCollection.findOne({
+          name: item.restaurant,
+        });
+        return {
+          ...item,
+          restaurant,
+        };
+      })
+    );
+
+    res.render("mytray", { trayItems: trayItemsWithRestaurant, username });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post("/removeItem", async (req, res) => {
+  const itemId = req.body.itemId;
+  const username = req.session.username;
+
+  const userCollection = database.db(mongodb_database).collection("users");
+
+  try {
+    const user = await userCollection.findOne({ username: username });
+    const userId = user._id;
+
+    if (
+      !mongodb.ObjectId.isValid(itemId) ||
+      !mongodb.ObjectId.isValid(userId)
+    ) {
+      return res.json({ success: false });
+    }
+
+    const updateResult = await userCollection.updateOne(
+      { _id: new mongodb.ObjectId(userId) },
+      { $pull: { trayItems: { _id: new mongodb.ObjectId(itemId) } } }
+    );
+
+    if (updateResult.matchedCount > 0) {
+      res.json({ success: true });
+    } else {
+      res.json({ success: false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.json({ success: false });
   }
 });
 

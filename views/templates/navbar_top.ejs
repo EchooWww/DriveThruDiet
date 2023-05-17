@@ -150,28 +150,53 @@
 
   // Toggles the tray icon between open and closed.
   function iconToggle() {
-    preLoadImages();
-    if (toggleState === false) {
-      setTimeout(function () {
-        image.src = "/images/icon-tray-opt.gif";
-      }, 50);
+  preLoadImages();
+  if (toggleState === false) {
+    setTimeout(function () {
+      image.src = "/images/icon-tray-opt.gif";
+    }, 50);
 
-      fetch("/mytray")
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById("right-sidebar-container").innerHTML = data;
-        })
-        .catch((error) => console.error(error));
+    fetch("/mytray")
+      .then((response) => response.text())
+      .then((data) => {
+        const sidebarContainer = document.getElementById("right-sidebar-container");
+        sidebarContainer.innerHTML = data;
 
-      rightSidebarToggle(toggleState);
-    } else {
-      setTimeout(function () {
-        image.src = "/images/icon-tray-reverse-opt.gif";
-      }, 50);
-      rightSidebarToggle(toggleState);
-    }
-    toggleState = !toggleState;
+        const removeButtons = sidebarContainer.querySelectorAll('.remove-btn');
+
+        removeButtons.forEach(button => {
+          button.addEventListener('click', (e) => {
+            console.log('Remove Button clicked!');
+            const itemId = e.target.id;
+
+            fetch('/removeItem', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ itemId: itemId })
+            }).then(response => response.json())
+              .then(data => {
+                if (data.success) {
+                  window.location.reload();
+                } else {
+                  // Handle error
+                }
+              });
+          });
+        });
+      })
+      .catch((error) => console.error(error));
+
+    rightSidebarToggle(toggleState);
+  } else {
+    setTimeout(function () {
+      image.src = "/images/icon-tray-reverse-opt.gif";
+    }, 50);
+    rightSidebarToggle(toggleState);
   }
+  toggleState = !toggleState;
+}
 
   // Toggles the right sidebar between open and closed.
   function rightSidebarToggle(toggleState) {
@@ -209,19 +234,6 @@
       trayToggle();
     }
   });
-
-  //   // Function to load the tray page
-  //   function loadTrayPage() {
-  //   fetch('/mytray')
-  //     .then(response => response.text())
-  //     .then(content => {
-  //       const rightSidebar = document.getElementById('right-sidebar-container');
-  //       rightSidebar.innerHTML = content;
-  //     });
-  //   }
-
-  // // Call the loadTrayPage function when the tray icon is clicked
-  //   document.getElementById('tray-icon').addEventListener('click', loadTrayPage);
 
   // Displays the search results when the user types in the search bar.
   function showResults(search) {

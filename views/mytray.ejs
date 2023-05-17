@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="/css/mytray.css">
 
 </head>
+
 <body>
 <header>
   <h1>My Tray</h1>
@@ -30,29 +31,7 @@
 <div class="placeholder"></div>
 
 <script>
-  const removeButtons = document.querySelectorAll('.remove-btn');
-
-  removeButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-      console.log('Remove Button clicked!');
-      const itemId = e.target.id;
-
-      fetch('/removeItem', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ itemId: itemId })
-      }).then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            window.location.reload();
-          } else {
-            // Handle error
-          }
-        });
-    });
-  });
+  
 </script>
 
 <%- include("templates/footer") %>

@@ -749,6 +749,7 @@ app.post("/removeItem", async (req, res) => {
       !mongodb.ObjectId.isValid(itemId) ||
       !mongodb.ObjectId.isValid(userId)
     ) {
+      console.error("Invalid itemId or userId");
       return res.json({ success: false });
     }
 

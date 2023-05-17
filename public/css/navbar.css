@@ -1,4 +1,6 @@
+
 /* ---------- Top NavBar ---------- */
+
 #top-nav-container {
     position: fixed;
     top: 0;
@@ -63,13 +65,15 @@
     width: 47px;
     height: 47px;
 }
+
 /* ---------- End of Top NavBar ---------- */
 
 
 
 /* ---------- Right SideBar ---------- */
+
 #right-sidebar-container {
-    background-color: #e9ecef;
+    background-color: #f3f3f3;
     position: fixed;
     right: -350px;
     top: 60px;
@@ -80,11 +84,18 @@
     box-shadow: -2px 0 5px rgba(0, 0, 0, .1);
     transform: translateX(250px);
 }
+
+.compare-item-container {
+    display: flex; 
+    justify-content: space-between;
+}
+
 /* ---------- End of Right SideBar ---------- */
 
 
 
 /* ---------- Bottom NavBar ---------- */
+
 #bottom-nav-container {
     position: fixed;
     bottom: 0;
@@ -102,11 +113,13 @@
     width: 36px;
     height: 36px;
 }
+
 /* ---------- End of Bottom NavBar ---------- */
 
 
 
 /* ---------- Search Results ---------- */
+
 .search-results-container::-webkit-scrollbar {
     background: transparent;
 }
@@ -131,7 +144,7 @@
     display: flex;
     flex-direction: column;
     border-radius: 0 0 10px 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .3);
 }
 
 .search-results-container>ul {
@@ -167,6 +180,8 @@
 }
 
 #search-results-restaurant {
+    font-size: 11pt;
+    font-weight: 300;
     width: 105px;
     max-width: 105px;
     min-width: 105px;
@@ -178,12 +193,11 @@
     color: #666564
 }
 
-
-
 /* ---------- End ofSearch Results ---------- */
 
 
 /* ---------- Filter ---------- */
+
 .filter-card-container {
     position: fixed;
     top: 60px;
@@ -225,6 +239,7 @@
     cursor: pointer;
     border-radius: 30px;
 }
+
 /* ---------- End of Filter ---------- */
 
 
@@ -250,6 +265,7 @@
     height: 100%;
     border-radius: 20px 20px 0 0;
     margin: 0 auto 0 auto;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 #food-tray-heading {

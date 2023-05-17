@@ -109,7 +109,21 @@
 
 <!-- Right Sidebar -->
 <div id="right-sidebar-container">
-  <div></div>
+  <div>
+    Food Tray Items
+  </div>
+  <div>
+    Compare Items
+      <% for (var i = 0; i < locals.compareList.length; i++) { %>
+        <div class="compare-item-container">
+        <div> <%= locals.compareList[i].restaurant %> </div>
+        <div> <%= locals.compareList[i].item %></div>
+        <form>
+          <button> X </button>
+        </form>
+        </div>
+      <% } %>
+  </div>
 </div>
 
 <!-- Tray Banner -->
@@ -236,6 +250,7 @@
     }
   }
 
+  // Closes the search results when the user clicks outside of it.
   document.addEventListener("mousedown", function (e) {
     var searchList = document.getElementsByClassName(
       "search-results-container"
@@ -249,4 +264,5 @@
       }
     }
   });
+
 </script>

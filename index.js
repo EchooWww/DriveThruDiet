@@ -9,6 +9,7 @@ const saltRounds = 12;
 const port = process.env.PORT || 3030;
 const app = express();
 const Joi = require("joi");
+const { ObjectId } = require('mongodb');
 
 // Changed to 24 hours for testing purposes so that we don't have to keep logging in
 // Session Expiry time set to 1 hour
@@ -39,17 +40,18 @@ const navLinks = [
   { name: "Chat", link: "/chat", file: "icon-chatbot" },
 ];
 
-// Middleware for navbar links
+// Middleware for global variables
 app.use("/", (req, res, next) => {
   app.locals.navLinks = navLinks;
   app.locals.currentURL = url.parse(req.url, false, false).pathname;
   app.locals.searchList = searchList;
+  app.locals.compareList = compareList;
   next();
 });
 
 var searchList = [];
 async function createSearchArray() {
-  var searchResults = await foodCollection
+  searchList = await foodCollection
     .find()
     .sort()
     .project({
@@ -61,7 +63,6 @@ async function createSearchArray() {
       protein: 1,
     })
     .toArray();
-  searchList = searchResults;
 }
 createSearchArray();
 
@@ -698,6 +699,7 @@ app.get("/item/:restaurant/:item", async (req, res) => {
   const itemDetails = await foodCollection
     .find({ restaurant: restaurant, item: item })
     .project({
+      _id: 1,
       calories: 1,
       cal_fat: 1,
       total_fat: 1,
@@ -718,6 +720,7 @@ app.get("/item/:restaurant/:item", async (req, res) => {
   res.render("item", {
     restaurant: restaurant,
     item: item,
+    id: itemDetails[0]._id,
     calories: itemDetails[0].calories,
     cal_fat: itemDetails[0].cal_fat,
     total_fat: itemDetails[0].total_fat,
@@ -737,6 +740,25 @@ app.get("/item/:restaurant/:item", async (req, res) => {
     protein_goal: goals[0].protein,
     fat_goal: goals[0].fat,
   });
+});
+
+var compareList = [];
+// Add item to compare list.
+app.get("/compare", async (req, res) => {
+  let username = req.session.username;
+  let itemID = req.query.compareID;
+  let item = await foodCollection
+    .find({ _id: new ObjectId(itemID) })
+    .toArray();
+  compareList = await userCollection.find({ username: username }).project({ compareItems: 1 }).toArray();
+  compareList = await compareList[0].compareItems;
+  if (compareList.length < 20) {
+    await userCollection.updateOne({ username: username }, { $push: { compareItems: item[0] } });
+    
+  };
+  console.log(compareList);
+  
+  res.redirect("item/" + item[0].restaurant + "/" + item[0].item);
 });
 
 app.get("/logout", (req, res) => {

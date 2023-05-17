@@ -8,7 +8,11 @@
   max-width: 600px;
 }
 
-.item-headings {
+#item-header {
+  padding: 0 12px 0 12px;
+}
+
+.subheadings {
   display: flex;
   justify-content: space-between;
   font-size: 11pt;
@@ -34,6 +38,32 @@
   font-size: 16pt;
   font-weight: bold;
   margin-bottom: 15px;
+}
+
+#add-btn {
+  width: 110px;
+  height: 40px;
+  border-radius: 20px;
+  border-style: solid;
+  border-color: var(--accent);
+  background-color: var(--accent);
+  color: white;
+  font-size: 11pt;
+  font-weight: 400;
+  margin: 0 5px 20px 0;
+}
+
+#compare-btn {
+  width: 110px;
+  height: 40px;
+  border-radius: 20px;
+  border-style: solid;
+  border-color: var(--accent);
+  background-color: white;
+  color: var(--accent);
+  font-size: 11pt;
+  font-weight: 400;
+  margin: 0 0 20px 0;
 }
 
 .total-bar {

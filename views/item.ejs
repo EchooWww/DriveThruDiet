@@ -14,18 +14,28 @@
 
   <div class="page-container">
     <div class="nutrition-container">
-      <div id="item-restaurant">
-        <img src="/images/<%= restaurant %>1.png" style="height: 35px;">
-        &ensp;<%= restaurant.toUpperCase() %>
+      <div id="item-header">
+        <div id="item-restaurant">
+          <img src="/images/<%= restaurant %>1.png" style="height: 35px;">
+          &ensp;<%= restaurant.toUpperCase() %>
+        </div>
+        
+        <div id="item-item">
+          <%= item %>
+        </div>
+        
+        <div id="item-calories">
+          <%= calories %> Calories
+        </div>
+        <div>
+          <form>
+            <button id="add-btn"> ADD </button>
+            <button id="compare-btn" name="compareID" formaction="/compare" method="get" type="submit" value="<%= id %>"> COMPARE </button>
+          </form>
+        </div>
       </div>
-      
-      <div id="item-item">
-        <%= item %>
-      </div>
-      
-      <div id="item-calories"> <%= calories %> Calories </div>
 
-      <div class="item-headings">COMPOSITION</div>
+      <div class="subheadings">COMPOSITION</div>
       <div class="total-bar">
         <div class="white-border">
           <div id="fat-bar" style="width: <%= calFatPercent %>%"></div>
@@ -46,9 +56,9 @@
         </div>
       </div>
 
-      <div class="item-headings">
+      <div class="subheadings">
         <div>CALORIES</div>
-        <div> <%= calories %> / <%= calorie_goal %> cal </div>
+        <div <% if(calGoalPercent > 100) { %> style="color:var(--accent);" <% } %> > <%= calories %> / <%= calorie_goal %> cal </div>
       </div>
       <div class="total-bar">
         <div class="white-border">
@@ -56,9 +66,9 @@
         </div>  
       </div>
 
-      <div class="item-headings">
+      <div class="subheadings">
         <div>FAT</div>
-        <div>
+        <div <% if(fatGoalPercent > 100) { %> style="color:var(--accent);" <% } %>>
           <%= total_fat %> / <%= fat_goal %> g
         </div>
       </div>
@@ -68,9 +78,9 @@
         </div>
       </div>
 
-      <div class="item-headings">
+      <div class="subheadings">
         <div>CARBOHYDRATES</div>
-        <div>
+        <div <% if(carbGoalPercent > 100) { %> style="color:var(--accent);" <% } %>>
           <%= total_carb %> / <%= carbs_goal %> g
         </div>
       </div>
@@ -80,9 +90,9 @@
         </div>
       </div>
 
-      <div class="item-headings">
+      <div class="subheadings">
         <div>PROTEIN</div>
-        <div>
+        <div <% if(proteinGoalPercent > 100) { %> style="color:var(--accent);" <% } %>>
           <%= protein %> / <%= protein_goal %> g
         </div>
       </div>
@@ -110,5 +120,23 @@
     </div>
   </div>
 
+
+  <script>
+
+    function compareItemLimit() {
+        Swal.fire({
+          title: 'You can only compare up to 2 items.',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, logout!',
+          cancelButtonText: 'No, cancel'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // window.location.href = '/logout';
+          }
+        });
+      }
+
+  </script>
 <%- include("templates/navbar_bottom") %>
 <%- include("templates/footer") %>

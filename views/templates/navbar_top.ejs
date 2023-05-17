@@ -56,6 +56,7 @@
   <!-- Tray Icon -->
   <div>
     <img onClick="iconToggle()" id="tray-icon" />
+    <span id="tray-count">0</span>
   </div>
 </div>
 
@@ -209,6 +210,19 @@
     }
   });
 
+//   // Function to load the tray page
+//   function loadTrayPage() {
+//   fetch('/mytray')
+//     .then(response => response.text())
+//     .then(content => {
+//       const rightSidebar = document.getElementById('right-sidebar-container');
+//       rightSidebar.innerHTML = content;
+//     });
+//   }
+  
+// // Call the loadTrayPage function when the tray icon is clicked
+//   document.getElementById('tray-icon').addEventListener('click', loadTrayPage);
+
   // Displays the search results when the user types in the search bar.
   function showResults(search) {
     console.log(search);
@@ -249,4 +263,5 @@
       }
     }
   });
+
 </script>

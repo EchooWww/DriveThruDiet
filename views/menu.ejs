@@ -4,12 +4,10 @@
 <link rel="stylesheet" href="/css/menu.css">
 
 </head>
-
 <body>
 <header>
   <h1><%= restaurant.name %></h1>
 </header>
-
 <main>
   <% menu.forEach(function(item) { %>
   <div class="card">
@@ -26,124 +24,39 @@
         <small><strong>Fat:</strong> <%= item.total_fat %>g</small>
       </p>
     </div>
-    <button class="add-btn" onclick="addToCart(<%= JSON.stringify(item) %>)">Add</button>
+    <button class="add-btn" id="<%= item._id %>">Add</button>
   </div>
   <% }); %>
 </main>
-
-<div id="tray-preview" style="display:none">
-  <button id="close-btn" onclick="closeTrayPreview()">x</button>
-  <h2>Nutrition Values of My Tray</h2>
-  <p id="total-calories"></p>
-  <p id="total-carbs"></p>
-  <p id="total-protein"></p>
-  <p id="total-fat"></p>
-
-  <div id="detailed-info" style="display:none">
-    <p id="total-fiber"></p>
-    <p id="total-sugar"></p>
-    <p id="total-vita-a"></p>
-    <p id="total-vita-c"></p>
-    <p id="total-calcium"></p>
-    <p id="total-sodium"></p>
-    <p id="total-cholesterol"></p>
-  </div>
-  
-  <button id="more-btn" onclick="showMore()">More</button>
-</div>
-
 <div class="placeholder"></div>
 
 <script>
-function closeTrayPreview() {
-  const trayPreview = document.getElementById('tray-preview');
-  trayPreview.style.display = 'none';
+  const addButtons = document.querySelectorAll('.add-btn');
+  const trayCountElement = document.getElementById('tray-count');
 
-  totalCalories = 0;
-  totalCarbs = 0;
-  totalProtein = 0;
-  totalFat = 0;
-  totalFiber = 0;
-  totalSugar = 0;
-  totalVitaA = 0;
-  totalVitaC = 0;
-  totalCalcium = 0;
-  totalSodium = 0;
-  totalCholesterol = 0;
+  addButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      console.log('Button clicked!');
+      const itemId = e.target.id;
 
-  document.getElementById('total-calories').textContent = '';
-  document.getElementById('total-carbs').textContent = '';
-  document.getElementById('total-protein').textContent = '';
-  document.getElementById('total-fat').textContent = '';
-  document.getElementById('total-fiber').textContent = '';
-  document.getElementById('total-sugar').textContent = '';
-  document.getElementById('total-vita-a').textContent = '';
-  document.getElementById('total-vita-c').textContent = '';
-  document.getElementById('total-calcium').textContent = '';
-  document.getElementById('total-sodium').textContent = '';
-  document.getElementById('total-cholesterol').textContent = '';
-}
-
-let totalCalories = 0;
-let totalCarbs = 0;
-let totalProtein = 0;
-let totalFat = 0;
-let totalFiber = 0;
-let totalSugar = 0;
-let totalVitaA = 0;
-let totalVitaC = 0;
-let totalCalcium = 0;
-let totalSodium = 0;
-let totalCholesterol = 0;
-
-function addToCart(item) {
-  totalCalories += item.calories;
-  totalCarbs += item.total_carb;
-  totalProtein += item.protein;
-  totalFat += item.total_fat;
-  totalFiber += parseFloat(item.fiber);
-  totalSugar += item.sugar;
-  totalVitaA += parseFloat(item.vit_a);
-  totalVitaC += parseFloat(item.vit_c);
-  totalCalcium += parseFloat(item.calcium);
-  totalSodium += item.sodium;
-  totalCholesterol += item.cholesterol;
-  
-  document.getElementById('total-calories').innerHTML = `<strong>Total Calories:</strong> ${totalCalories}Cals`;
-  document.getElementById('total-carbs').innerHTML = `<strong>Total Carbs:</strong> ${totalCarbs}g`;
-  document.getElementById('total-protein').innerHTML = `<strong>Total Protein:</strong> ${totalProtein}g`;
-  document.getElementById('total-fat').innerHTML = `<strong>Total Fat:</strong> ${totalFat}g`;
-
-  const trayPreview = document.getElementById('tray-preview');
-  if (trayPreview.style.display === 'none') {
-    trayPreview.style.display = 'block';
-  }
-}
-
-let isMoreClicked = false;
-
-function showMore() {
-  const detailedInfo = document.getElementById('detailed-info');
-  if (isMoreClicked) {
-    detailedInfo.style.display = 'none';
-    document.getElementById('more-btn').textContent = 'More';
-    isMoreClicked = false;
-  } else {
-    detailedInfo.style.display = 'block';
-    document.getElementById('more-btn').textContent = 'Less';
-    isMoreClicked = true;
-
-    document.getElementById('total-fiber').innerHTML = `<strong>Total Fiber:</strong> ${totalFiber}g`;
-    document.getElementById('total-sugar').innerHTML = `<strong>Total Sugar:</strong> ${totalSugar}g`;
-    document.getElementById('total-vita-a').innerHTML = `<strong>Total Vitamin A:</strong> ${totalVitaA}%`;
-    document.getElementById('total-vita-c').innerHTML = `<strong>Total Vitamin C:</strong> ${totalVitaC}%`;
-    document.getElementById('total-calcium').innerHTML = `<strong>Total Calcium:</strong> ${totalCalcium}%`;
-    document.getElementById('total-sodium').innerHTML = `<strong>Total Sodium:</strong> ${totalSodium}mg`;
-    document.getElementById('total-cholesterol').innerHTML = `<strong>Total Cholesterol:</strong> ${totalCholesterol}mg`;
-  }
-}
-
+      fetch('/addItem', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ itemId: itemId })
+      }).then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            trayCountElement.textContent = data.trayItemCount;
+          } else {
+            // Handle error
+          }
+        });
+    });
+  });
 </script>
+
 
 <%- include('templates/navbar_bottom') %> 
 <%- include("templates/footer") %>

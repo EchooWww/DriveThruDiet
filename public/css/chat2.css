@@ -1,0 +1,121 @@
+/*Button design referenced https://codepen.io/Mizukukun/pen/mdVQEKm */
+
+.page-container {
+  overflow-y: scroll;
+  background-color: rgba(255, 255, 255, 0.5);
+  margin-top: 20px;
+  margin-right: 10%;
+
+}
+
+.conversation-window {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+}
+
+.chat-message, .options {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  display: inline-block;
+  max-width: 60%;
+  padding: 5px;
+  padding-left: 14px;
+  padding-right: 14px;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-left: 15px;
+}
+
+.chat-message {
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);
+}
+
+
+.chat-message p {
+  margin: 5px;
+}
+
+.received {
+  max-width: 70%;
+  text-align: left;
+}
+
+#breakfast, #subway-btn {
+  background-color: var(--carbs-text);
+}
+
+#lunch, #burgerking-btn {
+  background-color: var(--protein-text);
+}
+
+#dinner, #tacobell-btn {
+  background-color: var(--calories-text);
+}
+
+#mcdonanlds-btn {
+  background-color: var(--fat-text);
+}
+
+#kfc-btn {
+  background-color: var(--accent);
+}
+
+
+.options {
+  margin-top: 0;
+  margin-right: 0;
+  padding-right: 0;
+  justify-content: right;
+  text-align: right;
+}
+
+
+.button {
+  padding: 10px;
+  font-size: 10pt;
+  color: white;
+  border-radius: 7px;
+  border-style: none;
+  margin-top: 3px;
+  text-align: center;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+#breakfast span:after {
+  content: "🥐";
+}
+
+#lunch span:after {
+  font-family: "Material Icons";
+  content: "🍔";
+}
+
+#dinner span:after {
+  font-family: "Material Icons";
+  content: "🍝";
+}

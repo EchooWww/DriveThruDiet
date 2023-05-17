@@ -1,98 +1,76 @@
 <%- include("templates/header") %>
-<script src="https://cdn.socket.io/4.6.0/socket.io.js"></script>
-<link rel="stylesheet" href="css/chat.css">
-</head>
-<body>
-<%- include("templates/navbar_top") %>
+  <script src="https://cdn.socket.io/4.6.0/socket.io.js"></script>
+  <link rel="stylesheet" href="css/chat.css">
+  </head>
 
-<div class="page-container">
-  <div class="body-container" id="scroller">
-    <div class="conversation-window">
-      <div class="chat-message received">
-        <p>Hi there! I'm your dedicated nutritionalist😼 Which meal are you planning to eat?
-        </p>
-      </div>
-    </div>
+  <body>
+    <%- include("templates/navbar_top") %>
+      <div class="page-container">
+        <div id="chat-box-body">
+          <div class="conversation-window">
+            <div class="chat-message received">
+              <p>You can ask me about fast food nutrition or for recommendations on what food items to eat...
+              </p>
+            </div>
+          </div>
 
-    <div class="options">
-      <button class="button" id="breakfast"><span>Breakfast</span></button>
-      <button class="button" id="lunch"><span>Lunch</span></button>
-      <button class="button" id="dinner"><span>Dinner</span></button>
-    </div>
+          <div id="messages" style="list-style: none;">
+          </div>
 
-    <div class="conversation-window">
-      <div class="chat-message received">
-        <p>I see! which restaurant are you planning to eat at?
-        </p>
-      </div>
-    </div>
-  
-    <div class="options">
-      <button class="button" id="mcdonanlds-btn"><span>McDonanlds</span></button>
-      <button class="button" id="subway-btn"><span>Subway</span></button>
-      <button class="button" id="burgerking-btn"><span>Burger King</span></button>
-      <button class="button" id="tacobell-btn"><span>Taco Bell</span></button>
-      <button class="button" id="kfc-btn"><span>KFC</span></button>
-    </div>
-
-    <div class="conversation-window">
-      <div class="chat-message received">
-        <p>Generating recommendations...</p>
-      </div>
-    </div>
-    <div class="conversation-window">
-      <div class="chat-message received">
-        <p>Here are recommendations for you!</p>
-        <div class="recommendation-container">
+          <div class="input-container">
+            <form id="message-form" action="">
+              <input id="m" autocomplete="off" placeholder="Type your question here..." autofocus />
+              <button id="send-message">SEND</button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
+        <script>
+          $(function () {
+            const socket = io();
+            const $messages = $('#messages');
 
-<%-include('templates/navbar_bottom') %> 
+            // Handle sending a message
+            $("form").submit(function (e) {
+              e.preventDefault();
+
+              // Get the message text
+              const message = $("#m").val();
+
+              // Add the message to the messages list as a new chat message
+              const $message = $('<div class="conversation-window"><div class="chat-message sent"><p></p></div></div>');
+              $message.find('p').text(message);
+              $messages.append($message);
+
+              // Scrolls to bottom of the chat
+              const chatMessages = document.getElementById('chat-box-body');
+              chatMessages.scrollTop = chatMessages.scrollHeight;
+
+              // Send the message to the server
+              socket.emit("chat message", message);
+
+              // Clear the input field
+              $("#m").val("");
+              return false;
+            });
+
+            // Handle receiving a message
+            socket.on("chat message", function (msg) {
+              const response = msg.split("FastFoodie:")[1];
+              // Add the message to the messages list as a new chat message
+              const $message = $('<div class="conversation-window"><div class="chat-message received"><p></p></div></div>');
+              $message.find('p').text(response);
+              $messages.append($message);
+              console.log(msg);
+
+              // Scrolls to bottom of the chat
+              const chatMessages = document.getElementById('chat-box-body');
+              chatMessages.scrollTop = chatMessages.scrollHeight;
+            });
+          });
 
 
-<script>
-  $(function () {
-    const socket = io();
-    const $messages = $('#messages');
-  
-    // Handle sending a message
-    $("form").submit(function (e) {
-      e.preventDefault();
-  
-      // Get the message text
-      const message = $("#m").val();
-  
-      // Add the message to the messages list as a new chat message
-      const $message = $('<div class="conversation-window"><div class="chat-message sent"><p></p></div></div>');
-      $message.find('p').text(message);
-      $messages.append($message);
-  
-      // Scrolls to bottom of the chat
-      const chatMessages = document.getElementById('page-container');
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-  
-      // Send the message to the server
-      socket.emit("chat message", message);
-  
-      // Clear the input field
-      $("#m").val("");
-      return false;
-    });
-  
-    // Handle receiving a message
-    socket.on("chat message", function (msg) {
-      // Add the message to the messages list as a new chat message
-      const $message = $('<div class="conversation-window"><div class="chat-message received"><p></p></div></div>');
-      $message.find('p').text(msg);
-      $messages.append($message);
-  
-      // Scrolls to bottom of the chat
-      const chatMessages = document.getElementById('page-container');
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    });
-  });
-  </script>
+        </script>
+
+<%- include("templates/navbar_bottom") %>
 <%- include("templates/footer") %>

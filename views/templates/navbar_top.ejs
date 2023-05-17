@@ -93,32 +93,75 @@
 </div>
 
 <!-- Filter card -->
-<div class="filter-card-container hidden">
+<div class="filter-card-container">
   <form action="/filter" method="get" id="filter-form">
-    <label>
-      <input type="checkbox" name="filter" value="calorie" />
+    <button
+      type="button"
+      name="filter"
+      value="calorie"
+      onclick="toggleButton(this)"
+      class="filter-button"
+    >
       Calories < 400
-    </label>
-    <label>
-      <input type="checkbox" name="filter" value="protein" />
+    </button>
+    <button
+      type="button"
+      name="filter"
+      value="protein"
+      onclick="toggleButton(this)"
+      class="filter-button"
+    >
       High Protein
-    </label>
-    <label>
-      <input type="checkbox" name="filter" value="fat" />
+    </button>
+    <button
+      type="button"
+      name="filter"
+      value="fat"
+      onclick="toggleButton(this)"
+      class="filter-button"
+    >
       Low Fat
-    </label>
-    <label>
-      <input type="checkbox" name="filter" value="carb" />
+    </button>
+    <button
+      type="button"
+      name="filter"
+      value="carb"
+      onclick="toggleButton(this)"
+      class="filter-button"
+    >
       Low Carb
-    </label>
-    <input type="submit" value="Apply Filter" />
+    </button>
+    <input type="hidden" name="filter" id="selected-filter" value="" />
+    <button type="submit" value="Apply Filter" id="filter-submit-btn">
+      Apply Filter
+    </button>
   </form>
 </div>
 
 <script>
+  //Function to show filter card
   function showFilter() {
     var filterCard = document.getElementsByClassName("filter-card-container");
-    filterCard[0].classList.toggle("hidden");
+    filterCard[0].classList.toggle("show");
+  }
+
+  var checkedFilters = [];
+
+  function toggleButton(button) {
+    // Toggle the selected state of the button
+    button.classList.toggle("selected");
+
+    // Update the checkedFilters array with the selected buttons
+    checkedFilters = [];
+    var buttons = document.getElementsByName("filter");
+    for (var i = 0; i < buttons.length; i++) {
+      if (buttons[i].classList.contains("selected")) {
+        checkedFilters.push(buttons[i].value);
+      }
+    }
+
+    // Update the value of the hidden input field with the checkedFilters array
+    document.getElementById("selected-filter").value = checkedFilters.join(",");
   }
 
   const image = document.getElementById("tray-icon");

@@ -79,43 +79,24 @@
     }
   }
 
-  h1 {
+  h1, h2 {
 	font-weight: 800;
-	/* color: $dark; */
 	text-align: center;
-	font-size: 2.5em;
-	padding-top: 20px;
-	
-	@media screen and (max-width: $break) {
-		padding-left: 20px;
-		padding-right: 20px;
-		font-size: 2em;
+    margin-top: 0;
+    padding-left: 2%;
+    padding-right: 2%;
+    font-family: 'Roboto', sans-serif;
+    color: var(--accent-hover);
   	}
-}
 
-  .btn {
-	font-family: "Open Sans";
-	font-weight: 400;
-	padding: 20px;
-	/* background-color: rgba($blue,1.0); */
-	color: white;
-	width: 320px;
-	margin: 0 auto;
-	text-align: center;
-	font-size: 1.2em;
-	border-radius: 5px;
-	cursor: pointer; 
-	margin-top: 80px;
-	margin-bottom: 50px;
-	transition: all .2s linear;
-	
-	@media screen and (max-width: $break) {
-		margin: 0 auto;
-		margin-top: 60px;
-		margin-bottom: 50px;
-    	width: 200px;
-  	}
-}
+  h1 {
+    font-size: 30pt;
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    font-size: 25pt;
+  }
 
   #tray-banner-container {
     display: none;

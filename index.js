@@ -49,24 +49,6 @@ app.use("/", (req, res, next) => {
   next();
 });
 
-var compareList = [];
-var searchList = [];
-async function createSearchArray() {
-  searchList = await foodCollection
-    .find()
-    .sort()
-    .project({
-      restaurant: 1,
-      item: 1,
-      calories: 1,
-      total_fat: 1,
-      total_carb: 1,
-      protein: 1,
-    })
-    .toArray();
-}
-createSearchArray();
-
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: false }));
@@ -115,6 +97,7 @@ app.post("/submitUser", async (req, res) => {
   var email = req.body.email;
   var birthday = req.body.birthday;
   var password = req.body.password;
+  compareList = [];
   if (!username) {
     return res.status(400).json({ error: "Username is required" });
   }
@@ -186,6 +169,7 @@ app.post("/submitUser", async (req, res) => {
     birthday: birthday,
     password: hashedPassword,
     user_type: "user",
+    compareItems: [],
   });
   console.log("User Created");
   req.session.authenticated = true;
@@ -683,6 +667,24 @@ app.get("/chat", (req, res) => {
   res.render("chat");
 });
 
+var compareList = [];
+var searchList = [];
+async function createSearchArray() {
+  searchList = await foodCollection
+    .find()
+    .sort()
+    .project({
+      restaurant: 1,
+      item: 1,
+      calories: 1,
+      total_fat: 1,
+      total_carb: 1,
+      protein: 1,
+    })
+    .toArray();
+}
+createSearchArray();
+
 app.get("/item/:restaurant/:item", async (req, res) => {
   var restaurant = req.params.restaurant;
   var item = req.params.item;
@@ -759,7 +761,6 @@ app.get("/addCompare", async (req, res) => {
     compareList = await userCollection.find({ username: username }).project({ compareItems: 1 }).toArray();
     compareList = compareList[0].compareItems;
   };
-  console.log(compareList);
 
   res.redirect('back');
 });
@@ -768,7 +769,6 @@ app.get("/addCompare", async (req, res) => {
 app.get("/removeCompare", async (req, res) => {
   let username = req.session.username;
   let itemID = req.query.compareID;
-  console.log(itemID);
   let item = await foodCollection
     .find({ _id: new ObjectId(itemID) })
     .toArray();

@@ -4,6 +4,9 @@
   href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
 />
 
+<!-- SweetAlert library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 <!-- Top NavBar -->
 <div id="top-nav-container">
   <!-- Profile icon -->
@@ -119,12 +122,12 @@
         <div class="compare-side-restaurant"> <%= locals.compareList[i].restaurant %> </div>
         <div class="compare-side-item"> <%= locals.compareList[i].item %></div>
         <form>
-          <button formaction="/removeCompare" method="get" name="compareID" value="<%= locals.compareList[i]._id %>"> X </button>
+          <button <% if (locals.currentURL == "/compare") { %> class="hidden" <% } %> formaction="/removeCompare" method="get" name="compareID" value="<%= locals.compareList[i]._id %>"> X </button>
         </form>
       </div>
     <% } %>
     <form id="compare-form">
-      <button formaction="/compare" type="submit" id="compare-btn"> COMPARE </button>
+      <button <% if (locals.compareList.length === 2) { %> formaction="/compare" type="submit" <% } else { %> onclick="addCompareAlert()" <% } %> id="compare-btn"> COMPARE </button>
     </form>
   </div>
 </div>
@@ -267,5 +270,15 @@
       }
     }
   });
+
+  function addCompareAlert() {
+    Swal.fire({
+      title: 'Please add at least 2 items.',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonText: 'Ok'
+    });
+    event.preventDefault();
+  }
 
 </script>

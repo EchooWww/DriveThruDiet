@@ -121,6 +121,58 @@ app.use(
   })
 );
 
+app.use(async (req, res, next) => {
+  const username = req.session.username;
+  const userCollection = database.db(mongodb_database).collection("users");
+
+  try {
+    const user = await userCollection.findOne({ username: username });
+    const trayItems = user.trayItems;
+
+    let totalCalories = 0;
+    let totalCarbs = 0;
+    let totalProtein = 0;
+    let totalFat = 0;
+    let totalFiber = 0;
+    let totalCholesterol = 0;
+    let totalSodium = 0;
+    let totalSugar = 0;
+    let totalVitA = 0;
+    let totalVitC = 0;
+    let totalCalcium = 0;
+    trayItems.forEach(item => {
+      totalCalories += item.calories;
+      totalCarbs += item.total_carb;
+      totalProtein += item.protein;
+      totalFat += item.total_fat;
+      totalFiber += item.fiber;
+      totalCholesterol += item.cholesterol;
+      totalSodium += item.sodium;
+      totalSugar += item.sugar;
+      totalVitA += item.vit_a !== "NA" ? item.vit_a : 0; // handle "NA" values
+      totalVitC += item.vit_c !== "NA" ? item.vit_c : 0; // handle "NA" values
+      totalCalcium += item.calcium !== "NA" ? item.calcium : 0; // handle "NA" values
+    });
+
+    res.locals.totalCalories = totalCalories;
+    res.locals.totalCarbs = totalCarbs;
+    res.locals.totalProtein = totalProtein;
+    res.locals.totalFat = totalFat;
+    res.locals.totalFiber = totalFiber;
+    res.locals.totalCholesterol = totalCholesterol;
+    res.locals.totalSodium = totalSodium;
+    res.locals.totalSugar = totalSugar;
+    res.locals.totalVitA = totalVitA;
+    res.locals.totalVitC = totalVitC;
+    res.locals.totalCalcium = totalCalcium;
+
+    next();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 app.get("/", async (req, res) => {
   var name = req.query.user;
   if (!req.session.authenticated) {

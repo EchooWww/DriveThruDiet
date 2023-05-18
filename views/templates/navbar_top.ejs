@@ -138,10 +138,43 @@
 <div id="tray-banner-container" onClick="trayToggle()">
   <div id="tray-contents">
     <div id="food-tray-heading">
-      <div>Food Tray</div>
-      <div>Calories: xxxx</div>
+      <div id="foodTray">Food Tray</div>
+      <div id="totalCalories">
+        <strong>Total Calories:</strong> <%=totalCalories%>Cals
+      </div>
     </div>
-    <div>Contents</div>
+    <div id="totalOthers">
+          <p>
+              <strong>Total Protein:</strong> <%=totalProtein%>g
+          </p>
+          <p>
+              <strong>Total Fat:</strong> <%=totalFat%>g
+          </p>
+          <p>
+              <strong>Total Carbs:</strong> <%=totalCarbs%>g
+          </p> 
+          <!-- <p>
+              <strong>Total Fiber:</strong> <%=totalFiber%>g
+          </p>  
+          <p>
+              <strong>Total Sugar:</strong> <%=totalSugar%>g
+          </p>
+          <p>
+              <strong>Total Sodium:</strong> <%=totalSodium%>mg
+          </p>
+          <p>
+              <strong>Total Cholesterol:</strong> <%=totalCholesterol%>mg
+          </p>
+          <p>
+              <strong>Total Vitamin A:</strong> <%=totalVitA%>%
+          </p>
+          <p>
+              <strong>Total Vitamin C:</strong> <%=totalVitC%>%
+          </p>
+          <p>
+              <strong>Total Calcium:</strong> <%=totalCalcium%>%
+          </p> -->
+    </div>
   </div>
 </div>
 

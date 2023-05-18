@@ -39,10 +39,10 @@ function updateTrayBanner() {
   fetch("/trayTotals")
     .then((response) => response.json())
     .then((data) => {
-      document.getElementById("totalCalories").innerHTML = `Total Calories: ${data.totalCalories}Cals`;
-      document.getElementById("totalProtein").innerHTML = `Total Protein: ${data.totalProtein}g`;
-      document.getElementById("totalFat").innerHTML = `Total Fat: ${data.totalFat}g`;
-      document.getElementById("totalCarbs").innerHTML = `Total Carbs: ${data.totalCarbs}g`;
+      document.getElementById("totalCalories").innerHTML = `<strong>Total Calories:</strong> ${data.totalCalories}Cals`;
+      document.getElementById("totalProtein").innerHTML = `<strong>Total Protein:</strong> ${data.totalProtein}g`;
+      document.getElementById("totalFat").innerHTML = `<strong>Total Fat:</strong> ${data.totalFat}g`;
+      document.getElementById("totalCarbs").innerHTML = `<strong>Total Carbs:</strong> ${data.totalCarbs}g`;
     })
     .catch((error) => console.error(error));
 }

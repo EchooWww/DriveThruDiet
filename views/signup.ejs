@@ -73,15 +73,15 @@
         });
       });
 
-      // $("#usernameInput", "#firstNameInput", "#lastNameInput", "#emailInput", "#birthdayInput", "#passwordInput").on("input", function () {
-      //   var inputId = $(this).attr("id");
-      //   var errorId = inputId.replace("Input", "Error");
+      $("#usernameInput, #firstNameInput, #lastNameInput, #emailInput, #birthdayInput, #passwordInput").on("input", function () {
+      var inputId = $(this).attr("id");
+      var errorId = inputId.replace("Input", "Error");
 
-      //   if ($(this).hasClass("is-invalid") && $(this).get(0).checkValidity()) {
-      //     $(this).removeClass("is-invalid");
-      //     $("#" + errorId).hide();
-      //   }
-      // });
+      if ($(this).hasClass("is-invalid") && $(this).get(0).checkValidity()) {
+        $(this).removeClass("is-invalid");
+        $("#" + errorId).hide();
+      }
+    });
     </script>
 
     <!-- JS Scripts go here -->

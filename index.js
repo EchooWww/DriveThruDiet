@@ -121,6 +121,66 @@ app.use(
   })
 );
 
+async function calculateTotals(username) {
+  const userCollection = database.db(mongodb_database).collection("users");
+  const user = await userCollection.findOne({ username: username });
+  const trayItems = user.trayItems || [];
+
+  let totalCalories = 0;
+  let totalCarbs = 0;
+  let totalProtein = 0;
+  let totalFat = 0;
+  let totalFiber = 0;
+  let totalCholesterol = 0;
+  let totalSodium = 0;
+  let totalSugar = 0;
+  let totalVitA = 0;
+  let totalVitC = 0;
+  let totalCalcium = 0;
+
+  trayItems.forEach((item) => {
+    totalCalories += item.calories;
+    totalCarbs += item.total_carb;
+    totalProtein += item.protein;
+    totalFat += item.total_fat;
+    totalFiber += item.fiber;
+    totalCholesterol += item.cholesterol;
+    totalSodium += item.sodium;
+    totalSugar += item.sugar;
+    totalVitA += item.vit_a !== "NA" ? item.vit_a : 0; // handle "NA" values
+    totalVitC += item.vit_c !== "NA" ? item.vit_c : 0; // handle "NA" values
+    totalCalcium += item.calcium !== "NA" ? item.calcium : 0; // handle "NA" values
+  });
+
+  return {
+    totalCalories,
+    totalCarbs,
+    totalProtein,
+    totalFat,
+    totalFiber,
+    totalCholesterol,
+    totalSodium,
+    totalSugar,
+    totalVitA,
+    totalVitC,
+    totalCalcium,
+    trayItems,
+  };
+}
+
+app.use(async (req, res, next) => {
+  try {
+    const username = req.session.username;
+    const totals = await calculateTotals(username);
+
+    Object.assign(res.locals, totals);
+    next();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 app.get("/", async (req, res) => {
   var name = req.query.user;
   if (!req.session.authenticated) {
@@ -740,20 +800,20 @@ app.post("/addItem", async (req, res) => {
   }
 });
 
-// app.get("/trayItemCount", async (req, res) => {
-//   const username = req.session.username;
+app.get("/trayCount", async (req, res) => {
+  const username = req.session.username;
 
-//   const userCollection = database.db(mongodb_database).collection("users");
+  const userCollection = database.db(mongodb_database).collection("users");
 
-//   try {
-//     const user = await userCollection.findOne({ username: username });
-//     const trayItemCount = user.trayItems.length;
-//     res.json({ trayItemCount: trayItemCount });
-//   } catch (error) {
-//     console.error(error);
-//     res.json({ trayItemCount: 0 });
-//   }
-// });
+  try {
+    const user = await userCollection.findOne({ username: username });
+    const trayItemCount = user.trayItems.length;
+    res.json({ trayItemCount: trayItemCount });
+  } catch (error) {
+    console.error(error);
+    res.json({ trayItemCount: 0 });
+  }
+});
 
 app.get("/mytray", async (req, res) => {
   const username = req.session.username;
@@ -784,6 +844,19 @@ app.get("/mytray", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+app.get('/trayTotals', async (req, res) => {
+  try {
+    const username = req.session.username;
+    const totals = await calculateTotals(username);
+    
+    res.json(totals);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 
 app.post("/removeItem", async (req, res) => {
   const itemId = req.body.itemId;

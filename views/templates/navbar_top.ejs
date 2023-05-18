@@ -55,7 +55,7 @@
   <!-- Tray Icon -->
   <div class="tray-icon-container">
     <img onClick="iconToggle()" id="tray-icon" />
-    <!-- <span class="tray-count" id="tray-count">0</span> -->
+    <span class="tray-count" id="tray-count">0</span>
   </div>
 </div>
 
@@ -135,13 +135,46 @@
 </div>
 
 <!-- Tray Banner -->
-<div id="tray-banner-container" onClick="trayToggle()">
+<div id="tray-banner-container" style="<%= trayItems && trayItems.length > 0 ? '' : 'display: none;' %>" onClick="trayToggle()">
   <div id="tray-contents">
     <div id="food-tray-heading">
-      <div>Food Tray</div>
-      <div>Calories: xxxx</div>
+      <div id="foodTray">Food Tray</div>
+      <div id="totalCalories">
+        <strong>Total Calories:</strong> <%=totalCalories%>Cals
+      </div>
     </div>
-    <div>Contents</div>
+    <div id="totalOthers">
+          <p id="totalProtein">
+              <strong>Total Protein:</strong> <%=totalProtein%>g
+          </p>
+          <p id="totalFat">
+              <strong>Total Fat:</strong> <%=totalFat%>g
+          </p>
+          <p id="totalCarbs">
+              <strong>Total Carbs:</strong> <%=totalCarbs%>g
+          </p> 
+          <!-- <p>
+              <strong>Total Fiber:</strong> <%=totalFiber%>g
+          </p>  
+          <p>
+              <strong>Total Sugar:</strong> <%=totalSugar%>g
+          </p>
+          <p>
+              <strong>Total Sodium:</strong> <%=totalSodium%>mg
+          </p>
+          <p>
+              <strong>Total Cholesterol:</strong> <%=totalCholesterol%>mg
+          </p>
+          <p>
+              <strong>Total Vitamin A:</strong> <%=totalVitA%>%
+          </p>
+          <p>
+              <strong>Total Vitamin C:</strong> <%=totalVitC%>%
+          </p>
+          <p>
+              <strong>Total Calcium:</strong> <%=totalCalcium%>%
+          </p> -->
+    </div>
   </div>
 </div>
 
@@ -193,6 +226,28 @@
     }
   }
 
+  function updateTrayBanner() {
+  fetch("/trayTotals")
+    .then((response) => response.json())
+    .then((data) => {
+      document.getElementById("totalCalories").innerHTML = `Total Calories: ${data.totalCalories}Cals`;
+      document.getElementById("totalProtein").innerHTML = `Total Protein: ${data.totalProtein}g`;
+      document.getElementById("totalFat").innerHTML = `Total Fat: ${data.totalFat}g`;
+      document.getElementById("totalCarbs").innerHTML = `Total Carbs: ${data.totalCarbs}g`;
+    })
+    .catch((error) => console.error(error));
+  }
+
+  function updateTrayCount() {
+  fetch('/trayCount')
+    .then(response => response.json())
+    .then(data => {
+      const trayItemCount = data.trayItemCount;
+      const trayCountElement = document.getElementById('tray-count');
+      trayCountElement.textContent = trayItemCount;
+    });
+  }
+
   // Fetch data from the server to update the right sidebar container
   function updateMyTray() {
   fetch("/mytray")
@@ -218,6 +273,16 @@
             .then(data => {
               if (data.success) {
                 updateMyTray();
+                updateTrayBanner();
+                updateTrayCount(); 
+
+                fetch('/trayCount')
+                  .then(response => response.json())
+                  .then(data => {
+                    if (data.trayItemCount === 0) {
+                      document.getElementById("tray-banner-container").style.display = 'none';
+                    }
+                  });
               } else {
                 // Handle error
               }
@@ -231,19 +296,25 @@
 // Toggle the tray icon image and update the tray content
 function iconToggle() {
   preLoadImages();
+
+  const trayCountElement = document.getElementById('tray-count');
+
   if (toggleState === false) {
     setTimeout(function () {
       image.src = "/images/icon-tray-opt.gif";
     }, 50);
 
     updateMyTray();
-    
     rightSidebarToggle(toggleState);
+
+    trayCountElement.style.display = 'none';
   } else {
     setTimeout(function () {
       image.src = "/images/icon-tray-reverse-opt.gif";
     }, 50);
     rightSidebarToggle(toggleState);
+
+    trayCountElement.style.display = 'block';
   }
   toggleState = !toggleState;
 }
@@ -262,7 +333,8 @@ function iconToggle() {
     if (
       !rightSidebar.contains(e.target) &&
       toggleState === true &&
-      !image.contains(e.target)
+      !image.contains(e.target) &&
+      !trayBannerContainer.contains(e.target)
     ) {
       iconToggle();
     }
@@ -337,18 +409,6 @@ function iconToggle() {
     }
   }
 
-  // // Show tray count on page load
-  // const trayCountElement = document.getElementById("tray-count");
+  updateTrayCount();
 
-  // function updateTrayCount(count) {
-  //   trayCountElement.textContent = count;
-  // }
-
-  // window.onload = function () {
-  //   fetch("/trayItemCount")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       updateTrayCount(data.trayItemCount);
-  //     });
-  // };
 </script>

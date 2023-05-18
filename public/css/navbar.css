@@ -71,13 +71,14 @@
 
 .tray-count {
     position: absolute;
-    top: 1.25em;
-    right: 2.45em;
-    padding: 3.7px 3.7px;
+    top: 1.045em;
+    right: 2.34em;
+    /* padding: 3.7px 3.7px;
     border-radius: 50%;
-    background-color: var(--accent);
-    color: #f7f7f7;
-    font-size: 0.8em;
+    background-color: var(--accent); */
+    color: var(--accent);
+    font-size: 1em;
+    font-weight: bold;
 }
 
 /* ---------- End of Top NavBar ---------- */
@@ -93,7 +94,7 @@
     top: 60px;
     height: calc(100% - 130px);
     width: 400px;
-    z-index: 99;
+    z-index: 97;
     transition: transform 0.3s ease;
     box-shadow: -2px 0 5px rgba(0, 0, 0, .1);
     transform: translateX(250px);
@@ -282,7 +283,7 @@
 
 /* ---------- Food Tray ---------- */
 
-#tray-banner-container {
+/* #tray-banner-container {
     position: fixed;
     top: calc(100% - 110px);
     z-index: 98;
@@ -313,6 +314,59 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+} */
+
+#tray-banner-container {
+    position: fixed;
+    top: calc(100% - 110px);
+    z-index: 98;
+    width: 100%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    transition: transform 0.3s ease;
+}
+
+#tray-contents {
+    background-color: var(--light);
+    padding: 10px 20px 20px 20px;
+    width: calc(100% - 90px);
+    max-width: 500px;
+    height: 100%;
+    border-radius: 20px 20px 0 0;
+    margin: 0 auto 0 auto;
+}
+
+#food-tray-heading {
+    font-size: 14pt;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#foodTray {
+    font-weight: bolder;
+}
+
+#totalCalories {
+    font-size: 12pt;
+    text-align: right;
+}
+
+#totalOthers {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    text-align: right;
+}
+
+#totalOthers p {
+    width: 100%;
+    /* border-top: 1px solid var(--med-grey); */
+    margin-bottom: 10px;
+    padding-bottom: 10px;
 }
 
 /* ---------- End of Food Tray ---------- */

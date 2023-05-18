@@ -310,7 +310,8 @@ function iconToggle() {
     if (
       !rightSidebar.contains(e.target) &&
       toggleState === true &&
-      !image.contains(e.target)
+      !image.contains(e.target) &&
+      !trayBannerContainer.contains(e.target)
     ) {
       iconToggle();
     }

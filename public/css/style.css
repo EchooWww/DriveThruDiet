@@ -1,5 +1,7 @@
 :root {
   --accent: #ff385c;
+  --accent-light: #ff7f96;
+  --accent-lighter: #ffabba;
   --accent-hover: #FFB3C2;
   --dark: #524e50;
   --med-grey: #666564;
@@ -31,7 +33,7 @@ body {
 .page-container {
   position: fixed;
   top: 60px;
-  width: 100%;
+  width: 100vw;
   height: calc(100% - 130px);
   overflow-y: scroll;
 }

@@ -10,6 +10,7 @@ const saltRounds = 12;
 const port = process.env.PORT || 3030;
 const app = express();
 const Joi = require("joi");
+const { ObjectId } = require('mongodb');
 
 // OPENAI API Connection
 const http = require("http").Server(app);
@@ -67,31 +68,14 @@ const navLinks = [
   { name: "Chat", link: "/chat", file: "icon-chatbot" },
 ];
 
-// Middleware for navbar links
+// Middleware for global variables
 app.use("/", (req, res, next) => {
   app.locals.navLinks = navLinks;
   app.locals.currentURL = url.parse(req.url, false, false).pathname;
   app.locals.searchList = searchList;
+  app.locals.compareList = compareList;
   next();
 });
-
-var searchList = [];
-async function createSearchArray() {
-  var searchResults = await foodCollection
-    .find()
-    .sort()
-    .project({
-      restaurant: 1,
-      item: 1,
-      calories: 1,
-      total_fat: 1,
-      total_carb: 1,
-      protein: 1,
-    })
-    .toArray();
-  searchList = searchResults;
-}
-createSearchArray();
 
 app.set("view engine", "ejs");
 
@@ -221,6 +205,7 @@ app.post("/submitUser", async (req, res) => {
   var email = req.body.email;
   var birthday = req.body.birthday;
   var password = req.body.password;
+  compareList = [];
   if (!username) {
     return res.status(400).json({ error: "Username is required" });
   }
@@ -292,6 +277,7 @@ app.post("/submitUser", async (req, res) => {
     birthday: birthday,
     password: hashedPassword,
     user_type: "user",
+    compareItems: [],
   });
   console.log("User Created");
   req.session.authenticated = true;
@@ -927,6 +913,24 @@ app.get("/chat", (req, res) => {
   res.render("chat");
 });
 
+var compareList = [];
+var searchList = [];
+async function createSearchArray() {
+  searchList = await foodCollection
+    .find()
+    .sort()
+    .project({
+      restaurant: 1,
+      item: 1,
+      calories: 1,
+      total_fat: 1,
+      total_carb: 1,
+      protein: 1,
+    })
+    .toArray();
+}
+createSearchArray();
+
 app.get("/item/:restaurant/:item", async (req, res) => {
   var restaurant = req.params.restaurant;
   var item = req.params.item;
@@ -944,6 +948,7 @@ app.get("/item/:restaurant/:item", async (req, res) => {
   const itemDetails = await foodCollection
     .find({ restaurant: restaurant, item: item })
     .project({
+      _id: 1,
       calories: 1,
       cal_fat: 1,
       total_fat: 1,
@@ -964,6 +969,7 @@ app.get("/item/:restaurant/:item", async (req, res) => {
   res.render("item", {
     restaurant: restaurant,
     item: item,
+    id: itemDetails[0]._id,
     calories: itemDetails[0].calories,
     cal_fat: itemDetails[0].cal_fat,
     total_fat: itemDetails[0].total_fat,
@@ -982,6 +988,62 @@ app.get("/item/:restaurant/:item", async (req, res) => {
     carbs_goal: goals[0].carbs,
     protein_goal: goals[0].protein,
     fat_goal: goals[0].fat,
+  });
+});
+
+// Add item to compare list.
+app.get("/addCompare", async (req, res) => {
+  let username = req.session.username;
+  let itemID = req.query.compareID;
+  let item = await foodCollection
+    .find({ _id: new ObjectId(itemID) })
+    .toArray();
+    
+  compareList = await userCollection.find({ username: username }).project({ compareItems: 1 }).toArray();
+  compareList = compareList[0].compareItems;
+
+  if (compareList.length < 2) {
+    await userCollection.updateOne({ username: username }, { $push: { compareItems: item[0] } });
+    compareList = await userCollection.find({ username: username }).project({ compareItems: 1 }).toArray();
+    compareList = compareList[0].compareItems;
+  };
+
+  res.redirect('back');
+});
+
+// Remove item from compare list.
+app.get("/removeCompare", async (req, res) => {
+  let username = req.session.username;
+  let itemID = req.query.compareID;
+  let item = await foodCollection
+    .find({ _id: new ObjectId(itemID) })
+    .toArray();
+
+  // Finds the item in the compare list by _id and removed it.
+  await userCollection.updateOne({ username: username }, { $pull: { compareItems: { _id: new ObjectId(itemID) } } });
+  compareList = await userCollection.find({ username: username }).project({ compareItems: 1 }).toArray();
+  compareList = compareList[0].compareItems;
+
+  res.redirect('back');
+}) 
+
+app.get("/compare", async (req, res) => {
+  var username = req.session.username;
+  const userGoals = await userCollection
+    .find({ username: username })
+    .project({
+      calorieNeeds: 1,
+      protein: 1,
+      carbs: 1,
+      fat: 1,
+    })
+    .toArray();
+
+  res.render("compare", {
+    cal_goal: userGoals[0].calorieNeeds,
+    carbs_goal: userGoals[0].carbs,
+    protein_goal: userGoals[0].protein,
+    fat_goal: userGoals[0].fat,
   });
 });
 

@@ -1,6 +1,11 @@
   <%- include("templates/header") %>
   <%- include("templates/navbar_top") %>
+
   <link rel="stylesheet" href="/css/item.css">
+  
+  <!-- SweetAlert library -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 </head>
 
 <body>
@@ -11,21 +16,46 @@
   <% const fatGoalPercent = total_fat / fat_goal * 100; %>
   <% const carbGoalPercent = total_carb / carbs_goal * 100; %>
   <% const proteinGoalPercent = protein / protein_goal * 100; %>
+  <% let compareExists = false; %>
 
   <div class="page-container">
     <div class="nutrition-container">
-      <div id="item-restaurant">
-        <img src="/images/<%= restaurant %>1.png" style="height: 35px;">
-        &ensp;<%= restaurant.toUpperCase() %>
+      <div id="item-header">
+        <div id="item-restaurant">
+          <img src="/images/<%= restaurant %>1.png" style="height: 35px;">
+          &ensp;<%= restaurant.toUpperCase() %>
+        </div>
+        
+        <div id="item-item">
+          <%= item %>
+        </div>
+        
+        <div id="item-calories">
+          <%= calories %> Calories
+        </div>
+        <div>
+          <form>
+            <button id="add-btn"> ADD </button>
+            <button id="add-compare-btn" name="compareID" value="<%= id %>"
+              <% for (let i = 0; i < locals.compareList.length; i++) { %>
+                <% console.log(locals.compareList[i]._id, id); %>
+                <% if (id.toString() == locals.compareList[i]._id.toString() && locals.compareList.length < 2) { %> 
+                  <% compareExists = true; %>
+                  onclick = "compareExists(event)"
+                  compareExists = false;
+                <% } %>
+              <% } %> 
+              <% if (compareExists == false && locals.compareList.length < 2) { %> 
+                formaction="/addCompare" method="get" type="submit"
+              <% } else if (locals.compareList.length >= 2) { %>
+                onclick = "compareLimit(event)"
+              <% } %>
+            > COMPARE </button>
+          </form>
+        </div>
       </div>
-      
-      <div id="item-item">
-        <%= item %>
-      </div>
-      
-      <div id="item-calories"> <%= calories %> Calories </div>
 
-      <div class="item-headings">COMPOSITION</div>
+      <div class="subheadings">COMPOSITION</div>
       <div class="total-bar">
         <div class="white-border">
           <div id="fat-bar" style="width: <%= calFatPercent %>%"></div>
@@ -39,16 +69,16 @@
           <div style="height: 10px; width: 10px; background-color: var(--accent); border-radius:50%;"></div>&ensp;Fat
         </div> 
         <div style="display: flex; align-items: center;">
-          <div style="height: 10px; width: 10px; background-color: #ff7f96; border-radius:50%;"></div>&ensp;Carbohydrate
+          <div style="height: 10px; width: 10px; background-color: var(--accent-light); border-radius:50%;"></div>&ensp;Carbohydrate
         </div>
         <div style="display: flex; align-items: center;">
-          <div style="height: 10px; width: 10px; background-color: #ffabba; border-radius:50%;"></div>&ensp;Protein
+          <div style="height: 10px; width: 10px; background-color: var(--accent-lighter); border-radius:50%;"></div>&ensp;Protein
         </div>
       </div>
 
-      <div class="item-headings">
+      <div class="subheadings">
         <div>CALORIES</div>
-        <div> <%= calories %> / <%= calorie_goal %> cal </div>
+        <div <% if(calGoalPercent > 100) { %> style="color:var(--accent);" <% } %> > <%= calories %> / <%= calorie_goal %> cal </div>
       </div>
       <div class="total-bar">
         <div class="white-border">
@@ -56,9 +86,9 @@
         </div>  
       </div>
 
-      <div class="item-headings">
+      <div class="subheadings">
         <div>FAT</div>
-        <div>
+        <div <% if(fatGoalPercent > 100) { %> style="color:var(--accent);" <% } %>>
           <%= total_fat %> / <%= fat_goal %> g
         </div>
       </div>
@@ -68,9 +98,9 @@
         </div>
       </div>
 
-      <div class="item-headings">
+      <div class="subheadings">
         <div>CARBOHYDRATES</div>
-        <div>
+        <div <% if(carbGoalPercent > 100) { %> style="color:var(--accent);" <% } %>>
           <%= total_carb %> / <%= carbs_goal %> g
         </div>
       </div>
@@ -80,9 +110,9 @@
         </div>
       </div>
 
-      <div class="item-headings">
+      <div class="subheadings">
         <div>PROTEIN</div>
-        <div>
+        <div <% if(proteinGoalPercent > 100) { %> style="color:var(--accent);" <% } %>>
           <%= protein %> / <%= protein_goal %> g
         </div>
       </div>
@@ -110,5 +140,29 @@
     </div>
   </div>
 
+
+  <script>
+
+  function compareLimit() {
+    Swal.fire({
+      title: 'You can compare up to 2 items.',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonText: 'Ok'
+    });
+    event.preventDefault();
+    }
+
+  function compareExists() {
+    Swal.fire({
+      title: 'This item already exists.',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonText: 'Ok'
+    });
+    event.preventDefault();
+    }
+
+  </script>
 <%- include("templates/navbar_bottom") %>
 <%- include("templates/footer") %>

@@ -4,6 +4,9 @@
   href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
 />
 
+<!-- SweetAlert library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 <!-- Top NavBar -->
 <div id="top-nav-container">
   <!-- Profile icon -->
@@ -131,7 +134,24 @@
 
 <!-- Right Sidebar -->
 <div id="right-sidebar-container">
-  <div></div>
+  <div>
+    Food Tray Items
+  </div>
+  <div id="compare-list-container">
+    Compare Items
+    <% for (let i = 0; i < locals.compareList.length; i++) { %>
+      <div class="compare-list-items">
+        <div class="compare-side-restaurant"> <%= locals.compareList[i].restaurant %> </div>
+        <div class="compare-side-item"> <%= locals.compareList[i].item %></div>
+        <form>
+          <button <% if (locals.currentURL == "/compare") { %> class="hidden" <% } %> formaction="/removeCompare" method="get" name="compareID" value="<%= locals.compareList[i]._id %>"> X </button>
+        </form>
+      </div>
+    <% } %>
+    <form id="compare-form">
+      <button <% if (locals.compareList.length === 2) { %> formaction="/compare" type="submit" <% } else { %> onclick="addCompareAlert()" <% } %> id="compare-btn"> COMPARE </button>
+    </form>
+  </div>
 </div>
 
 <!-- Tray Banner -->
@@ -387,6 +407,7 @@ function iconToggle() {
     }
   }
 
+  // Closes the search results when the user clicks outside of it.
   document.addEventListener("mousedown", function (e) {
     var searchList = document.getElementsByClassName(
       "search-results-container"
@@ -411,5 +432,16 @@ function iconToggle() {
   }
 
   updateTrayCount();
+
+
+  function addCompareAlert() {
+    Swal.fire({
+      title: 'Please add at least 2 items.',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonText: 'Ok'
+    });
+    event.preventDefault();
+  }
 
 </script>

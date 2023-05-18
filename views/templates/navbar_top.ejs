@@ -135,7 +135,7 @@
 </div>
 
 <!-- Tray Banner -->
-<div id="tray-banner-container" style="<%= trayItems && trayItems.length > 0 ? '' : 'display: none;' %>" onClick="trayToggle()">
+<div id="tray-banner-container" style="<%= trayItems && trayItems.length > 0 ? '' : 'display: none;' %>" onClick="trayToggle()"> 
   <div id="tray-contents">
     <div id="food-tray-heading">
       <div id="foodTray">Food Tray</div>
@@ -144,15 +144,16 @@
       </div>
     </div>
     <div id="totalOthers">
+          <p id="totalCarbs">
+              <strong>Total Carbs:</strong> <%=totalCarbs%>g
+          </p> 
           <p id="totalProtein">
               <strong>Total Protein:</strong> <%=totalProtein%>g
           </p>
           <p id="totalFat">
               <strong>Total Fat:</strong> <%=totalFat%>g
           </p>
-          <p id="totalCarbs">
-              <strong>Total Carbs:</strong> <%=totalCarbs%>g
-          </p> 
+
           <!-- <p>
               <strong>Total Fiber:</strong> <%=totalFiber%>g
           </p>  

@@ -22,7 +22,7 @@
             <h2>75<span>%</span></h2>
             <br>
             Calories <br>
-            <%=current_calorie%>/<%=calorie_goal%>
+            <%=totalCalories%>/<%=calorie_goal%>
           </div>
         </div>
         <div class="percent2">
@@ -34,7 +34,7 @@
             <h2>33<span>%</span></h2>
             <br>
             Carbs <br>
-            <%=current_carbs%>/<%=carbs_goal%>
+            <%=totalCarbs%>/<%=carbs_goal%>
           </div>
         </div>
         <div class="percent3">
@@ -46,7 +46,7 @@
             <h2>33<span>%</span></h2>
             <br>
             Protein <br>
-            <%=current_protein%>/<%=protein_goal%>
+            <%=totalProtein%>/<%=protein_goal%>
           </div>
         </div>
         <div class="percent4">
@@ -58,7 +58,7 @@
             <h2>33<span>%</span></h2>
             <br>
             Fat <br>
-            <%=current_fat%>/<%=fat_goal%>
+            <%=totalFat%>/<%=fat_goal%>
             <br>
           </div>
         </div>
@@ -67,10 +67,10 @@
   </div>
   
   
-  <% const calorie_progress = Math.round((current_calorie / calorie_goal) * 100); %>
-  <% const carbs_progress = Math.round((current_carbs / carbs_goal) * 100); %>
-  <% const protein_progress = Math.round((current_protein / protein_goal) * 100); %>
-  <% const fat_progress = Math.round((current_fat / fat_goal) * 100); %>    
+  <% const calorie_progress = Math.round((totalCalories / calorie_goal) * 100); %>
+  <% const carbs_progress = Math.round((totalCarbs / carbs_goal) * 100); %>
+  <% const protein_progress = Math.round((totalProtein / protein_goal) * 100); %>
+  <% const fat_progress = Math.round((totalFat / fat_goal) * 100); %>    
   <div id="nearby">  
     <h2>Nearby</h2>
     <div id="map" style="display: none;"></div>    

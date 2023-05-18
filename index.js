@@ -205,11 +205,6 @@ app.get("/", async (req, res) => {
       carbs_goal: result[0].carbs,
       protein_goal: result[0].protein,
       fat_goal: result[0].fat,
-      //current values are placeholders, to be replaced with actual ones
-      current_calorie: 200,
-      current_carbs: 30,
-      current_protein: 30,
-      current_fat: 25,
     });
   }
 });
@@ -585,11 +580,6 @@ app.get("/home", async (req, res) => {
       carbs_goal: result[0].carbs,
       protein_goal: result[0].protein,
       fat_goal: result[0].fat,
-      //current values are placeholders, to be replaced with actual ones
-      current_calorie: 200,
-      current_carbs: 30,
-      current_protein: 30,
-      current_fat: 25,
     });
   }
 });

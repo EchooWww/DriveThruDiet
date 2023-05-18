@@ -53,7 +53,9 @@
   
   
   .main{
-    min-height: 600px;
+    /* min-height: 600px; */
+    padding-top: 130px;
+    padding-bottom: 40px;
     margin: 0px auto;
     width: auto;
     max-width: 460px;
@@ -80,7 +82,7 @@
   }
 
   #message {
-	font-weight: 650;
+	font-weight: 580;
 	text-align: center;
     margin-top: 0;
     margin-left: 3px;
@@ -89,7 +91,7 @@
     padding-right: 2%;
     font-family: 'Roboto', sans-serif;
     color: var(--accent-hover);
-    font-size: 21pt;
+    font-size: 23pt;
   	}
 
   #tray-banner-container {

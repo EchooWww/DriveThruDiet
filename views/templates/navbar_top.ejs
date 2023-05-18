@@ -134,7 +134,7 @@
 
 <!-- Right Sidebar -->
 <div id="right-sidebar-container">
-  <div>
+  <div id="myTrayContents">
     Food Tray Items
   </div>
   <div id="compare-list-container">
@@ -274,7 +274,7 @@
   fetch("/mytray")
     .then((response) => response.text())
     .then((data) => {
-      const sidebarContainer = document.getElementById("right-sidebar-container");
+      const sidebarContainer = document.getElementById("myTrayContents");
       sidebarContainer.innerHTML = data;
 
       const removeButtons = sidebarContainer.querySelectorAll('.remove-btn');

@@ -145,13 +145,13 @@
       </div>
     </div>
     <div id="totalOthers">
-          <p>
+          <p id="totalProtein">
               <strong>Total Protein:</strong> <%=totalProtein%>g
           </p>
-          <p>
+          <p id="totalFat">
               <strong>Total Fat:</strong> <%=totalFat%>g
           </p>
-          <p>
+          <p id="totalCarbs">
               <strong>Total Carbs:</strong> <%=totalCarbs%>g
           </p> 
           <!-- <p>
@@ -228,6 +228,18 @@
     }
   }
 
+  function updateTrayBanner() {
+  fetch("/trayTotals")
+    .then((response) => response.json())
+    .then((data) => {
+      document.getElementById("totalCalories").innerHTML = `Total Calories: ${data.totalCalories}Cals`;
+      document.getElementById("totalProtein").innerHTML = `Total Protein: ${data.totalProtein}g`;
+      document.getElementById("totalFat").innerHTML = `Total Fat: ${data.totalFat}g`;
+      document.getElementById("totalCarbs").innerHTML = `Total Carbs: ${data.totalCarbs}g`;
+    })
+    .catch((error) => console.error(error));
+  }
+
   // Fetch data from the server to update the right sidebar container
   function updateMyTray() {
   fetch("/mytray")
@@ -253,6 +265,7 @@
             .then(data => {
               if (data.success) {
                 updateMyTray();
+                updateTrayBanner();
               } else {
                 // Handle error
               }

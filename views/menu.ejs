@@ -33,6 +33,19 @@
 <div class="placeholder"></div>
 </div>
 <script>
+
+function updateTrayBanner() {
+  fetch("/trayTotals")
+    .then((response) => response.json())
+    .then((data) => {
+      document.getElementById("totalCalories").innerHTML = `Total Calories: ${data.totalCalories}Cals`;
+      document.getElementById("totalProtein").innerHTML = `Total Protein: ${data.totalProtein}g`;
+      document.getElementById("totalFat").innerHTML = `Total Fat: ${data.totalFat}g`;
+      document.getElementById("totalCarbs").innerHTML = `Total Carbs: ${data.totalCarbs}g`;
+    })
+    .catch((error) => console.error(error));
+}
+
   const addButtons = document.querySelectorAll('.add-btn');
 
   addButtons.forEach(button => {
@@ -49,7 +62,7 @@
       }).then(response => response.json())
         .then(data => {
           if (data.success) {
-            // updateTrayCount(data.trayItemCount);
+            updateTrayBanner();
           } else {
             // Handle error
           }

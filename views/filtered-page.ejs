@@ -13,19 +13,21 @@
       <% filteredList.forEach(function(item) { %>
       <div class="card">
         <% if (item.restaurant === "Taco Bell") { %>
-        <img src="/images/TacoBell1.png" alt="Taco Bell" />
-        <% } else if (item.restaurant === "KFC") { %>
-        <img src="/images/KFC1.png" alt="KFC" />
+        <img src="/images/Taco Bell1.png" alt="Taco Bell" />
         <% } else if (item.restaurant === "Arbys") { %>
         <img src="/images/Arbys1.png" alt="Arby's" />
         <% } else if (item.restaurant === "Burger King") { %>
-        <img src="/images/BurgerKing1.png" alt="Burger King" />
+        <img src="/images/Burger King1.png" alt="Burger King" />
         <% } else if (item.restaurant === "Mcdonalds") { %>
         <img src="/images/Mcdonalds1.png" alt="McDonald's" />
         <% } else if (item.restaurant === "Subway") { %>
         <img src="/images/Subway1.png" alt="Subway" />
         <% } else if (item.restaurant === "Dairy Queen") { %>
-        <img src="/images/DairyQueen.png" alt="DairyQueen" />
+        <img src="/images/Dairy Queen1.png" alt="DairyQueen" />
+        <% } else if (item.restaurant === "Sonic") { %>
+        <img src="/images/Sonic1.png" alt="Sonic" />
+        <% } else if (item.restaurant === "Chick Fil-A") { %>
+        <img src="/images/Chick Fil-A1.png" alt="Chick Fil-A" />
         <% }%>
     
         <div class="item-details">
@@ -43,12 +45,39 @@
             <small><strong>Fat:</strong> <%= item.total_fat %>g</small>
           </p>
         </div>
-        <button onclick="addToTray" class="add-btn">
-          <span class="material-symbols-outlined" id="add"> add</span>
+          <button class="add-btn" id="<%= item._id %>">Add</button>
         </button>
       </div>
       <% }); %>
     </main>
   </div>
+
+  <script>
+      const addButtons = document.querySelectorAll('.add-btn');
+
+addButtons.forEach(button => {
+  button.addEventListener('click', (e) => {
+    console.log('Button clicked!');
+    const itemId = e.target.id;
+
+    fetch('/addItem', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ itemId: itemId })
+    }).then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          updateTrayBanner();
+          updateTrayCount(); 
+          document.getElementById("tray-banner-container").style.display = 'block';
+        } else {
+          // Handle error
+        }
+      });
+  });
+});
+  </script>
 
 <%- include('templates/navbar_bottom') %> <%- include("templates/footer") %>

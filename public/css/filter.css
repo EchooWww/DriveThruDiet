@@ -51,21 +51,15 @@ main {
 }
 
 .add-btn {
-  background-color: transparent;
+  background-color: var(--accent);
+  color: #f7f7f7;
   border: none;
-  padding: 10px;
+  border-radius: 5px;
+  padding: 7px 15px;
+  font-size: 15px;
   cursor: pointer;
   position: relative;
-  right: 0px;
+  top: 39px;
+  right: 8px;
   margin-left: auto;
-}
-
-.add-btn:hover {
-  color: var(--accent);
-}
-
-
-#add {
-  font-size: 24px;
-  font-weight: bold;
 }

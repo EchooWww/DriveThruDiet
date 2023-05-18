@@ -32,6 +32,7 @@
 </main>
 <div class="placeholder"></div>
 </div>
+
 <script>
 
 function updateTrayBanner() {
@@ -74,6 +75,7 @@ function updateTrayCount() {
           if (data.success) {
             updateTrayBanner();
             updateTrayCount(); 
+            document.getElementById("tray-banner-container").style.display = 'block';
           } else {
             // Handle error
           }

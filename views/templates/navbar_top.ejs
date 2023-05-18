@@ -135,8 +135,7 @@
 </div>
 
 <!-- Tray Banner -->
-<% if (trayItems && trayItems.length > 0) { %>
-<div id="tray-banner-container" onClick="trayToggle()">
+<div id="tray-banner-container" style="<%= trayItems && trayItems.length > 0 ? '' : 'display: none;' %>" onClick="trayToggle()">
   <div id="tray-contents">
     <div id="food-tray-heading">
       <div id="foodTray">Food Tray</div>
@@ -178,7 +177,6 @@
     </div>
   </div>
 </div>
-<% } %>
 
 <script>
   //Function to show filter card
@@ -277,6 +275,14 @@
                 updateMyTray();
                 updateTrayBanner();
                 updateTrayCount(); 
+
+                fetch('/trayCount')
+                  .then(response => response.json())
+                  .then(data => {
+                    if (data.trayItemCount === 0) {
+                      document.getElementById("tray-banner-container").style.display = 'none';
+                    }
+                  });
               } else {
                 // Handle error
               }

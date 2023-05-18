@@ -56,3 +56,16 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.swal2-styled.swal2-confirm {
+  background-color: var(--accent) !important;
+  border-radius: var(--btnradius) !important;
+}
+
+.swal2-styled.swal2-confirm:hover {
+  background-color: var(--medium) !important;
+}
+
+.swal2-styled.swal2-confirm:active {
+  background-color: var(--dark) !important;
+}

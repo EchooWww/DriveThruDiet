@@ -46,6 +46,16 @@ function updateTrayBanner() {
     .catch((error) => console.error(error));
 }
 
+function updateTrayCount() {
+  fetch('/trayCount')
+    .then(response => response.json())
+    .then(data => {
+      const trayItemCount = data.trayItemCount;
+      const trayCountElement = document.getElementById('tray-count');
+      trayCountElement.textContent = trayItemCount;
+    });
+}
+
   const addButtons = document.querySelectorAll('.add-btn');
 
   addButtons.forEach(button => {
@@ -63,6 +73,7 @@ function updateTrayBanner() {
         .then(data => {
           if (data.success) {
             updateTrayBanner();
+            updateTrayCount(); 
           } else {
             // Handle error
           }

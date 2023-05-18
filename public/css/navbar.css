@@ -71,13 +71,14 @@
 
 .tray-count {
     position: absolute;
-    top: 1.25em;
-    right: 2.45em;
-    padding: 3.7px 3.7px;
+    top: 1.045em;
+    right: 2.34em;
+    /* padding: 3.7px 3.7px;
     border-radius: 50%;
-    background-color: var(--accent);
-    color: #f7f7f7;
-    font-size: 0.8em;
+    background-color: var(--accent); */
+    color: var(--accent);
+    font-size: 1em;
+    font-weight: bold;
 }
 
 /* ---------- End of Top NavBar ---------- */

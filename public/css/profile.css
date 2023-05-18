@@ -171,3 +171,7 @@ h2 {
 #tray-banner-container {
   display: none;
 }
+
+#tray-count {
+  display: none;
+}

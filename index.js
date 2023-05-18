@@ -124,7 +124,8 @@ app.use(
 async function calculateTotals(username) {
   const userCollection = database.db(mongodb_database).collection("users");
   const user = await userCollection.findOne({ username: username });
-  const trayItems = user.trayItems || [];
+
+  const trayItems = (user && user.trayItems) || [];
 
   let totalCalories = 0;
   let totalCarbs = 0;
@@ -846,18 +847,17 @@ app.get("/mytray", async (req, res) => {
   }
 });
 
-app.get('/trayTotals', async (req, res) => {
+app.get("/trayTotals", async (req, res) => {
   try {
     const username = req.session.username;
     const totals = await calculateTotals(username);
-    
+
     res.json(totals);
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
   }
 });
-
 
 app.post("/removeItem", async (req, res) => {
   const itemId = req.body.itemId;
@@ -1009,7 +1009,7 @@ app.use(express.static(__dirname + "/public"));
 
 app.get("*", (req, res) => {
   res.status(404);
-  res.render("404");
+  res.render("404", { svgWidth: 500, svgHeight: 350 });
 });
 
 http.listen(port, () => {

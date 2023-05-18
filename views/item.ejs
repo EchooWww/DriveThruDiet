@@ -1,6 +1,11 @@
   <%- include("templates/header") %>
   <%- include("templates/navbar_top") %>
+
   <link rel="stylesheet" href="/css/item.css">
+  
+  <!-- SweetAlert library -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 </head>
 
 <body>
@@ -31,19 +36,19 @@
         <div>
           <form>
             <button id="add-btn"> ADD </button>
-            <button id="compare-btn" name="compareID"  type="submit" value="<%= id %>"
+            <button id="add-compare-btn" name="compareID" value="<%= id %>"
               <% for (let i = 0; i < locals.compareList.length; i++) { %>
                 <% console.log(locals.compareList[i]._id, id); %>
                 <% if (id.toString() == locals.compareList[i]._id.toString() && locals.compareList.length < 2) { %> 
                   <% compareExists = true; %>
-                  onclick = "alert('Item already exists');"
+                  onclick = "compareExists(event)"
                   compareExists = false;
                 <% } %>
               <% } %> 
               <% if (compareExists == false && locals.compareList.length < 2) { %> 
-                formaction="/compare" method="get"
+                formaction="/addCompare" method="get" type="submit"
               <% } else if (locals.compareList.length >= 2) { %>
-                onclick = "alert('You can only compare up to 2 items!');"
+                onclick = "compareLimit(event)"
               <% } %>
             > COMPARE </button>
           </form>
@@ -64,10 +69,10 @@
           <div style="height: 10px; width: 10px; background-color: var(--accent); border-radius:50%;"></div>&ensp;Fat
         </div> 
         <div style="display: flex; align-items: center;">
-          <div style="height: 10px; width: 10px; background-color: #ff7f96; border-radius:50%;"></div>&ensp;Carbohydrate
+          <div style="height: 10px; width: 10px; background-color: var(--accent-light); border-radius:50%;"></div>&ensp;Carbohydrate
         </div>
         <div style="display: flex; align-items: center;">
-          <div style="height: 10px; width: 10px; background-color: #ffabba; border-radius:50%;"></div>&ensp;Protein
+          <div style="height: 10px; width: 10px; background-color: var(--accent-lighter); border-radius:50%;"></div>&ensp;Protein
         </div>
       </div>
 
@@ -138,19 +143,25 @@
 
   <script>
 
-    function compareItemLimit() {
-        Swal.fire({
-          title: 'You can only compare up to 2 items.',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Yes, logout!',
-          cancelButtonText: 'No, cancel'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // window.location.href = '/logout';
-          }
-        });
-      }
+  function compareLimit() {
+    Swal.fire({
+      title: 'You can compare up to 2 items.',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonText: 'Ok'
+    });
+    event.preventDefault();
+    }
+
+  function compareExists() {
+    Swal.fire({
+      title: 'Item already exists.',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonText: 'Ok'
+    });
+    event.preventDefault();
+    }
 
   </script>
 <%- include("templates/navbar_bottom") %>

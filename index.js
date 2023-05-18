@@ -744,7 +744,7 @@ app.get("/item/:restaurant/:item", async (req, res) => {
 });
 
 // Add item to compare list.
-app.get("/compare", async (req, res) => {
+app.get("/addCompare", async (req, res) => {
   let username = req.session.username;
   let itemID = req.query.compareID;
   let item = await foodCollection
@@ -761,7 +761,7 @@ app.get("/compare", async (req, res) => {
   };
   console.log(compareList);
 
-  res.redirect("item/" + item[0].restaurant + "/" + item[0].item);
+  res.redirect('back');
 });
 
 // Remove item from compare list.
@@ -778,8 +778,28 @@ app.get("/removeCompare", async (req, res) => {
   compareList = await userCollection.find({ username: username }).project({ compareItems: 1 }).toArray();
   compareList = compareList[0].compareItems;
 
-  res.redirect("/item/" + item[0].restaurant + "/" + item[0].item);
+  res.redirect('back');
 }) 
+
+app.get("/compare", async (req, res) => {
+  var username = req.session.username;
+  const userGoals = await userCollection
+    .find({ username: username })
+    .project({
+      calorieNeeds: 1,
+      protein: 1,
+      carbs: 1,
+      fat: 1,
+    })
+    .toArray();
+
+  res.render("compare", {
+    cal_goal: userGoals[0].calorieNeeds,
+    carbs_goal: userGoals[0].carbs,
+    protein_goal: userGoals[0].protein,
+    fat_goal: userGoals[0].fat,
+  });
+});
 
 app.get("/logout", (req, res) => {
   req.session.destroy();

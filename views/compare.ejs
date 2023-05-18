@@ -1,0 +1,329 @@
+  <%- include("templates/header") %>
+  <%- include("templates/navbar_top") %>
+
+  <link rel="stylesheet" href="/css/item.css">
+  <link rel="stylesheet" href="/css/compare.css">
+</head>
+
+<% const item1 = locals.compareList[0]; %>
+<% const item2 = locals.compareList[1]; %>
+
+<!-- Calculated variables for item1 -->
+<% let calFatPercent1 = item1.cal_fat / item1.calories * 100; %>
+<% let calProteinPercent1 = item1.protein * 4 / item1.calories * 100; %>
+<% let calCarbsPercent1 = item1.total_carb * 4 / item1.calories * 100; %>
+<% const calGoalPercent1 = item1.calories / cal_goal * 100; %>
+<% const fatGoalPercent1 = item1.total_fat / fat_goal * 100; %>
+<% const carbGoalPercent1 = item1.total_carb / carbs_goal * 100; %>
+<% const proteinGoalPercent1 = item1.protein / protein_goal * 100; %>
+
+<!-- Calculated variables for item2 -->
+<% let calFatPercent2=item2.cal_fat / item2.calories * 100; %>
+<% let calProteinPercent2=item2.protein * 4 / item2.calories * 100; %>
+<% let calCarbsPercent2=item2.total_carb * 4 / item2.calories * 100; %>
+<% const calGoalPercent2=item2.calories / cal_goal * 100; %>
+<% const fatGoalPercent2=item2.total_fat / fat_goal * 100; %>
+<% const carbGoalPercent2=item2.total_carb / carbs_goal * 100; %>
+<% const proteinGoalPercent2=item2.protein / protein_goal * 100; %>
+
+<!-- Calculate calorie ratios -->
+<% const calRatio1 = item1.calories / item2.calories; %>
+<% const calRatio2 = item2.calories / item1.calories; %>
+<% if (item2.calories > item1.calories) { %>
+  <% calFatPercent1 *= calRatio1; %>
+  <% calCarbsPercent1 *= calRatio1; %>
+  <% calProteinPercent1 *= calRatio1; %>
+<% } %>
+
+<% if (item1.calories > item2.calories) { %>
+  <% calFatPercent2 *= calRatio2; %>
+  <% calCarbsPercent2 *= calRatio2; %>
+  <% calProteinPercent2 *= calRatio2; %>
+<% } %>
+
+<!-- Calculate relative macro ratios -->
+<%const fatRatio1 = item1.total_fat / (item1.total_fat + item2.total_fat) * 100; %>
+<%const fatRatio2 = 100 - fatRatio1; %>
+<%const carbRatio1 = item1.total_carb / (item1.total_carb + item2.total_carb) * 100; %>
+<%const carbRatio2 = 100 - carbRatio1; %>
+<%const proteinRatio1 = item1.protein / (item1.protein + item2.protein) * 100; %>
+<%const proteinRatio2 = 100 - proteinRatio1; %>
+<%const satFatRatio1 = item1.sat_fat / (item1.sat_fat + item2.sat_fat) * 100; %>
+<%const satFatRatio2 = 100 - satFatRatio1; %>
+<%const cholesterolRatio1 = item1.cholesterol / (item1.cholesterol + item2.cholesterol) * 100; %>
+<%const cholesterolRatio2 = 100 - cholesterolRatio1; %>
+<%const sodiumRatio1 = item1.sodium / (item1.sodium + item2.sodium) * 100; %>
+<%const sodiumRatio2 = 100 - sodiumRatio1; %>
+<%const sugarRatio1 = item1.sugar / (item1.sugar + item2.sugar) * 100; %>
+<%const sugarRatio2 = 100 - sugarRatio1; %>
+<%const fiberRatio1 = parseInt(item1.fiber) / (parseInt(item1.fiber) + parseInt(item2.fiber)) * 100; %>
+<%const fiberRatio2 = 100 - fiberRatio1; %>
+<%const vitARatio1 = parseInt(item1.vit_a) / (parseInt(item1.vit_a) + parseInt(item2.vit_a)) * 100; %>
+<%const vitARatio2 = 100 - vitARatio1; %>
+<%const vitCRatio1 = parseInt(item1.vit_c) / (parseInt(item1.vit_c) + parseInt(item2.vit_c)) * 100; %>
+<%const vitCRatio2 = 100 - vitCRatio1; %>
+<%const calciumRatio1 = parseInt(item1.calcium) / (parseInt(item1.calcium) + parseInt(item2.calcium)) * 100; %>
+<%const calciumRatio2 = 100 - calciumRatio1; %>
+
+<body>
+  <div class="cmpr-page-container page-container">
+    <div class="cmpr-page-headings">
+      <div class="cmpr-headings">
+        <div class="cmpr-restaurant"> <%= item1.restaurant %> </div>
+        <div class="cmpr-name"> <%= item1.item %> </div>
+        <div class="cmpr-calories"> <%= item1.calories %> Calories </div>
+      </div>
+      <div class="cmpr-headings">
+        <div class="cmpr-restaurant"> <%= item2.restaurant %> </div>
+        <div class="cmpr-name"> <%= item2.item %> </div>
+        <div class="cmpr-calories"> <%= item2.calories %> Calories </div>
+      </div>
+    </div>
+
+    <div class="cmpr-details-container">
+      <div class="cmpr-subheadings"> MACROS AT A GLANCE </div>
+      <div class="cal-graph-container">
+        <div class="cal-graph-subcontainer">
+          <div class="invis-bar-container">
+            <div class="cmpr-label">
+              <div style="font-weight: 700;"> <%= item1.calories %> Calories </div>
+              <div style="display: flex; align-items: center;">
+                <div style="height: 10px; width: 10px; background-color: var(--accent-lighter); border-radius:50%;"></div>&nbsp; <%= item1.protein %> g Protein
+              </div>
+              <div style="display: flex; align-items: center;">
+                <div style="height: 10px; width: 10px; background-color: var(--accent-light); border-radius:50%;"></div>&nbsp; <%= item1.total_carb %> g Carbs
+              </div>
+              <div style="display: flex; align-items: center;">
+                <div style="height: 10px; width: 10px; background-color: var(--accent); border-radius:50%;"></div>&nbsp; <%= item1.total_fat %> g Fat
+              </div>
+            </div>
+            <div class="invis-bar" style="height: <%= (calProteinPercent1 + calCarbsPercent1 + calFatPercent1) * 0.7 %>%"></div>
+          </div>
+
+          <div class="cal-graph">
+            <div class="cmpr-total-bar">
+              <div class="cmpr-white-border">
+                <div class="cmpr-protein-bar" style="height: <%= calProteinPercent1 %>%"></div>
+                <div class="cmpr-carbs-bar" style="height: <%= calCarbsPercent1 %>%"></div>
+                <div class="cmpr-fat-bar" style="height: <%= calFatPercent1 %>%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cal-graph-subcontainer">
+          <div class="cal-graph">
+            <div class="cmpr-total-bar">
+              <div class="cmpr-white-border">
+                
+                <div class="cmpr-protein-bar" style="height: <%= calProteinPercent2 %>%"></div>
+                <div class="cmpr-carbs-bar" style="height: <%= calCarbsPercent2 %>%"></div>
+                <div class="cmpr-fat-bar" style="height: <%= calFatPercent2 %>%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="invis-bar-container">
+            <div class="cmpr-label">
+              <div style="font-weight: 700;">
+                <%= item2.calories %> Calories
+              </div>
+              <div style="display: flex; align-items: center;">
+                <div style="height: 10px; width: 10px; background-color: var(--accent-lighter); border-radius:50%;"></div>&nbsp;
+                <%= item2.protein %> g Protein
+              </div>
+              <div style="display: flex; align-items: center;">
+                <div style="height: 10px; width: 10px; background-color: var(--accent-light); border-radius:50%;"></div>&nbsp; <%=
+                  item2.total_carb %> g Carbs
+              </div>
+              <div style="display: flex; align-items: center;">
+                <div style="height: 10px; width: 10px; background-color: var(--accent); border-radius:50%;"></div>&nbsp; <%=
+                  item2.total_fat %> g Fat
+              </div>
+            </div>
+            <div class="invis-bar" style="height: <%= (calProteinPercent2 + calCarbsPercent2 + calFatPercent2) * 0.65 %>%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmpr-subheading-container">
+        <div class="cmpr-subheadings"> <%= item1.total_fat %> g </div>
+        <div class="cmpr-subheadings"> Total Fat </div>
+        <div class="cmpr-subheadings"> <%= item2.total_fat %> g </div>
+      </div>
+      <div class="cmpr-category-bar">
+        <div class="white-hrzn-border">
+          <div class="item1-hrzn-bar" style="width: <%= fatRatio1 %>%;"></div>
+          <div class="item2-hrzn-bar" style="width: <%= fatRatio2 %>%;"></div>
+        </div>
+      </div>
+
+      <div class="cmpr-subheading-container">
+        <div class="cmpr-subheadings">
+          <%= item1.sat_fat %> g
+        </div>
+        <div class="cmpr-subheadings"> Saturated Fat  </div>
+        <div class="cmpr-subheadings">
+          <%= item2.sat_fat %> g
+        </div>
+      </div>
+      <div class="cmpr-category-bar">
+        <div class="white-hrzn-border">
+          <div class="item1-hrzn-bar" style="width: <%= satFatRatio1 %>%;"></div>
+          <div class="item2-hrzn-bar" style="width: <%= satFatRatio2 %>%;"></div>
+        </div>
+      </div>
+
+      <div class="cmpr-subheading-container">
+        <div class="cmpr-subheadings">
+          <%= item1.cholesterol %> mg
+        </div>
+        <div class="cmpr-subheadings"> Cholesterol </div>
+        <div class="cmpr-subheadings">
+          <%= item2.cholesterol %> mg
+        </div>
+      </div>
+      <div class="cmpr-category-bar">
+        <div class="white-hrzn-border">
+          <div class="item1-hrzn-bar" style="width: <%= cholesterolRatio1 %>%;"></div>
+          <div class="item2-hrzn-bar" style="width: <%= cholesterolRatio2 %>%;"></div>
+        </div>
+      </div>
+
+      <div class="cmpr-subheading-container">
+        <div class="cmpr-subheadings">
+          <%= item1.sodium %> mg
+        </div>
+        <div class="cmpr-subheadings"> Sodium </div>
+        <div class="cmpr-subheadings">
+          <%= item2.sodium %> mg
+        </div>
+      </div>
+      <div class="cmpr-category-bar">
+        <div class="white-hrzn-border">
+          <div class="item1-hrzn-bar" style="width: <%= sodiumRatio1 %>%;"></div>
+          <div class="item2-hrzn-bar" style="width: <%= sodiumRatio2 %>%;"></div>
+        </div>
+      </div>
+
+      <div class="cmpr-subheading-container">
+        <div class="cmpr-subheadings">
+          <%= item1.total_carb %> g
+        </div>
+        <div class="cmpr-subheadings"> Total Carbohydrates </div>
+        <div class="cmpr-subheadings">
+          <%= item2.total_carb %> g
+        </div>
+      </div>
+      <div class="cmpr-category-bar">
+        <div class="white-hrzn-border">
+          <div class="item1-hrzn-bar" style="width: <%= carbRatio1 %>%;"></div>
+          <div class="item2-hrzn-bar" style="width: <%= carbRatio2 %>%;"></div>
+        </div>
+      </div>
+
+      <div class="cmpr-subheading-container">
+        <div class="cmpr-subheadings">
+          <%= item1.fiber %> g
+        </div>
+        <div class="cmpr-subheadings"> Fiber </div>
+        <div class="cmpr-subheadings">
+          <%= item2.fiber %> g
+        </div>
+      </div>
+      <div class="cmpr-category-bar">
+        <div class="white-hrzn-border">
+          <div class="item1-hrzn-bar" style="width: <%= fiberRatio1 %>%;"></div>
+          <div class="item2-hrzn-bar" style="width: <%= fiberRatio2 %>%;"></div>
+        </div>
+      </div>
+
+      <div class="cmpr-subheading-container">
+        <div class="cmpr-subheadings">
+          <%= item1.sugar %> g
+        </div>
+        <div class="cmpr-subheadings"> Sugar </div>
+        <div class="cmpr-subheadings">
+          <%= item2.sugar %> g
+        </div>
+      </div>
+      <div class="cmpr-category-bar">
+        <div class="white-hrzn-border">
+          <div class="item1-hrzn-bar" style="width: <%= sugarRatio1 %>%;"></div>
+          <div class="item2-hrzn-bar" style="width: <%= sugarRatio2 %>%;"></div>
+        </div>
+      </div>
+
+      <div class="cmpr-subheading-container">
+        <div class="cmpr-subheadings">
+          <%= item1.protein %> g
+        </div>
+        <div class="cmpr-subheadings"> Protein </div>
+        <div class="cmpr-subheadings">
+          <%= item2.protein %> g
+        </div>
+      </div>
+      <div class="cmpr-category-bar">
+        <div class="white-hrzn-border">
+          <div class="item1-hrzn-bar" style="width: <%= proteinRatio1 %>%;"></div>
+          <div class="item2-hrzn-bar" style="width: <%= proteinRatio2 %>%;"></div>
+        </div>
+      </div>
+
+      <div class="cmpr-subheading-container">
+        <div class="cmpr-subheadings">
+          <%= item1.vit_a %> %
+        </div>
+        <div class="cmpr-subheadings"> Vitamin A </div>
+        <div class="cmpr-subheadings">
+          <%= item2.vit_a %> %
+        </div>
+      </div>
+      <div class="cmpr-category-bar">
+        <div class="white-hrzn-border">
+          <div class="item1-hrzn-bar" style="width: <%= vitARatio1 %>%;"></div>
+          <div class="item2-hrzn-bar" style="width: <%= vitARatio2 %>%;"></div>
+        </div>
+      </div>
+
+      <div class="cmpr-subheading-container">
+        <div class="cmpr-subheadings">
+          <%= item1.vit_c %> %
+        </div>
+        <div class="cmpr-subheadings"> Vitamin C </div>
+        <div class="cmpr-subheadings">
+          <%= item2.vit_c %> %
+        </div>
+      </div>
+      <div class="cmpr-category-bar">
+        <div class="white-hrzn-border">
+          <div class="item1-hrzn-bar" style="width: <%= vitCRatio1 %>%;"></div>
+          <div class="item2-hrzn-bar" style="width: <%= vitCRatio2 %>%;"></div>
+        </div>
+      </div>
+
+      <div class="cmpr-subheading-container">
+        <div class="cmpr-subheadings">
+          <%= item1.calcium %> %
+        </div>
+        <div class="cmpr-subheadings"> Calcium </div>
+        <div class="cmpr-subheadings">
+          <%= item2.calcium %> %
+        </div>
+      </div>
+      <div class="cmpr-category-bar">
+        <div class="white-hrzn-border">
+          <div class="item1-hrzn-bar" style="width: <%= calciumRatio1 %>%;"></div>
+          <div class="item2-hrzn-bar" style="width: <%= calciumRatio2 %>%;"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<script>
+  document.getElementById("compare-list-container").classList.add("hidden");
+</script>
+
+<%- include('templates/navbar_bottom') %>
+<%- include("templates/footer") %>

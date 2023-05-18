@@ -73,7 +73,8 @@
 /* ---------- Right SideBar ---------- */
 
 #right-sidebar-container {
-    background-color: #f3f3f3;
+    background-color: #f3f3f3b2;
+    backdrop-filter: blur(15px);
     position: fixed;
     right: -350px;
     top: 60px;
@@ -85,9 +86,54 @@
     transform: translateX(250px);
 }
 
-.compare-item-container {
-    display: flex; 
+#compare-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
     justify-content: space-between;
+    position: fixed;
+    bottom: 25px;   
+    padding: 20px 20px 0 20px;
+    width: calc(100% - 40px);
+}
+
+.compare-list-items {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 0 10px 0;
+}
+
+.compare-side-restaurant {
+    width: 90px;
+    text-align: left;
+    font-size: 12pt;
+    color: var(--dark);
+}
+
+.compare-side-item {
+    width: 170px;
+    text-align: left;
+    font-size: 12pt;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+#compare-form {
+    width: 100%;
+}
+
+#compare-btn {
+    margin: 0.5em 0 0 0;
+    padding: 0.5em 1em 0.5em 1em;
+    border: none;
+    border-radius: 50px;
+    width: 70%;
+    height: 50px;
+    font-size: 11pt;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+    background-color: var(--accent);
+    color: white;
 }
 
 /* ---------- End of Right SideBar ---------- */
@@ -193,7 +239,7 @@
     color: #666564
 }
 
-/* ---------- End ofSearch Results ---------- */
+/* ---------- End of Search Results ---------- */
 
 
 /* ---------- Filter ---------- */

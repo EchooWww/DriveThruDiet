@@ -135,6 +135,7 @@
 </div>
 
 <!-- Tray Banner -->
+<% if (trayItems && trayItems.length > 0) { %>
 <div id="tray-banner-container" onClick="trayToggle()">
   <div id="tray-contents">
     <div id="food-tray-heading">
@@ -177,6 +178,7 @@
     </div>
   </div>
 </div>
+<% } %>
 
 <script>
   //Function to show filter card

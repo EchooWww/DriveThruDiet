@@ -165,6 +165,7 @@ app.use(async (req, res, next) => {
     res.locals.totalVitA = totalVitA;
     res.locals.totalVitC = totalVitC;
     res.locals.totalCalcium = totalCalcium;
+    res.locals.trayItems = trayItems; 
 
     next();
   } catch (error) {

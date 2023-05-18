@@ -316,15 +316,15 @@ app.post("/security_answers", async (req, res) => {
   const questions = [
     {
       question: "What is your mother's maiden name?",
-      answer: question1,
+      answer: await bcrypt.hash(question1, saltRounds),
     },
     {
       question: "What was the name of your first pet?",
-      answer: question2,
+      answer: await bcrypt.hash(question2, saltRounds),
     },
     {
       question: "What is your favorite color?",
-      answer: question3,
+      answer: await bcrypt.hash(question3, saltRounds),
     },
   ];
 
@@ -467,7 +467,8 @@ app.post("/reset_password", async (req, res) => {
   }
 
   const question = user.questions[questionIndex];
-  if (question.answer !== answer) {
+  const isAnswerMatch = await bcrypt.compare(answer, question.answer);
+  if (!isAnswerMatch) {
     res.send(
       '<script>alert("Incorrect answer"); window.location.href = "/forgot";</script>'
     );

@@ -232,10 +232,10 @@
   fetch("/trayTotals")
     .then((response) => response.json())
     .then((data) => {
-      document.getElementById("totalCalories").innerHTML = `Total Calories: ${data.totalCalories} Cal`;
-      document.getElementById("totalProtein").innerHTML = `Total Protein: ${data.totalProtein} g`;
-      document.getElementById("totalFat").innerHTML = `Total Fat: ${data.totalFat} g`;
-      document.getElementById("totalCarbs").innerHTML = `Total Carbs: ${data.totalCarbs} g`;
+      document.getElementById("totalCalories").innerHTML = `<div><strong>Calories</strong></div><div>${data.totalCalories} Cal</div>`;
+      document.getElementById("totalProtein").innerHTML = `<div><strong>Protein</strong></div><div>${data.totalProtein} g</div>`;
+      document.getElementById("totalFat").innerHTML = `<div><strong>Fat</strong></div><div>${data.totalFat} g</div>`;
+      document.getElementById("totalCarbs").innerHTML = `<div><strong>Carbs</strong></div><div>${data.totalCarbs} g</div>`;
     })
     .catch((error) => console.error(error));
   }

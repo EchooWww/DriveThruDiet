@@ -11,11 +11,11 @@
   margin-left: 25px;
 }
 
-#backbutton:hover{
+#backbutton:hover {
   color: var(--medium);
 }
 
-#backbutton:active{
+#backbutton:active {
   color: var(--dark);
 }
 
@@ -112,14 +112,14 @@ label {
   display: inline;
   margin-bottom: 0.5em;
   font-size: 16px;
-  color: black;
+  color: var(--dark);
 }
 
 input,
 select {
   border: none;
-  font-size: 16px;
-  margin-bottom: 0.5em;
+  font-size: 14px;
+  margin-bottom: 1.2em;
   color: var(--dark-grey);
 }
 

@@ -69,13 +69,10 @@
   <ul id="search-results">
     <% for (var i=0; i < searchList.length; i++) { %>
     <li class="list-item">
-      <a
-        href="/item/<%= locals.searchList[i].restaurant %>/<%= locals.searchList[i].item %>"
-      >
+      <a href="/item/<%= locals.searchList[i].restaurant %>/<%= locals.searchList[i].item %>" >
         <div id="search-results-restaurant">
           <%= locals.searchList[i].restaurant %>
         </div>
-        <div style="color: #1f1f1f">
         <div style="color: #1f1f1f">
           <%= locals.searchList[i].item %><br />
           <span style="font-size: 9pt; color: #4b4b4b">
@@ -160,43 +157,21 @@
 <div id="tray-banner-container" style="<%= trayItems && trayItems.length > 0 ? '' : 'display: none;' %>" onClick="trayToggle()"> 
   <div id="tray-contents">
     <div id="food-tray-heading">
-      <div id="foodTray">Food Tray</div>
-      <div id="totalCalories">
-        <strong>Total Calories:</strong> <%=totalCalories%>Cals
-      </div>
+      <div id="foodTrayHeading">Tray Nutrition Total</div>
     </div>
-    <div id="totalOthers">
-          <p id="totalCarbs">
-              <strong>Total Carbs:</strong> <%=totalCarbs%>g
-          </p> 
-          <p id="totalProtein">
-              <strong>Total Protein:</strong> <%=totalProtein%>g
-          </p>
-          <p id="totalFat">
-              <strong>Total Fat:</strong> <%=totalFat%>g
-          </p>
-
-          <!-- <p>
-              <strong>Total Fiber:</strong> <%=totalFiber%>g
-          </p>  
-          <p>
-              <strong>Total Sugar:</strong> <%=totalSugar%>g
-          </p>
-          <p>
-              <strong>Total Sodium:</strong> <%=totalSodium%>mg
-          </p>
-          <p>
-              <strong>Total Cholesterol:</strong> <%=totalCholesterol%>mg
-          </p>
-          <p>
-              <strong>Total Vitamin A:</strong> <%=totalVitA%>%
-          </p>
-          <p>
-              <strong>Total Vitamin C:</strong> <%=totalVitC%>%
-          </p>
-          <p>
-              <strong>Total Calcium:</strong> <%=totalCalcium%>%
-          </p> -->
+    <div id="totalNutrition">
+      <div id="totalCalories">
+        <strong>Calories</strong> <%=totalCalories%>Cal
+      </div>
+      <div id="totalCarbs">
+        <strong>Carbs</strong> <%=totalCarbs%>g
+      </div> 
+      <div id="totalProtein">
+        <strong>Protein</strong> <%=totalProtein%>g
+      </div>
+      <div id="totalFat">
+        <strong>Fat</strong> <%=totalFat%>g
+      </div>
     </div>
   </div>
 </div>
@@ -253,7 +228,7 @@
   fetch("/trayTotals")
     .then((response) => response.json())
     .then((data) => {
-      document.getElementById("totalCalories").innerHTML = `Total Calories: ${data.totalCalories}Cals`;
+      document.getElementById("totalCalories").innerHTML = `Total Calories: ${data.totalCalories}Cal`;
       document.getElementById("totalProtein").innerHTML = `Total Protein: ${data.totalProtein}g`;
       document.getElementById("totalFat").innerHTML = `Total Fat: ${data.totalFat}g`;
       document.getElementById("totalCarbs").innerHTML = `Total Carbs: ${data.totalCarbs}g`;
@@ -268,6 +243,12 @@
       const trayItemCount = data.trayItemCount;
       const trayCountElement = document.getElementById('tray-count');
       trayCountElement.textContent = trayItemCount;
+
+      if (trayItemCount >= 10) {
+        trayCountElement.classList.add('small-font');
+      } else {
+        trayCountElement.classList.remove('small-font');
+      }     
     });
   }
 
@@ -357,7 +338,7 @@ function iconToggle() {
       !rightSidebar.contains(e.target) &&
       toggleState === true &&
       !image.contains(e.target) &&
-      !trayBannerContainer.contains(e.target)
+      !foodTray.contains(e.target)
     ) {
       iconToggle();
     }
@@ -366,7 +347,7 @@ function iconToggle() {
   // Toggles the food tray between open and closed.
   function trayToggle() {
     if (trayToggleState === false) {
-      foodTray.style.transform = "translateY(-200px)";
+      foodTray.style.transform = "translateY(-60px)";
     } else {
       foodTray.style.transform = "translateY(0px)";
     }
@@ -375,10 +356,8 @@ function iconToggle() {
 
   // Closes the food tray when the user clicks outside of it.
   document.addEventListener("mousedown", function (e) {
-    if (!foodTray.contains(e.target) && trayToggleState === true) {
-    if (!foodTray.contains(e.target) && trayToggleState === true) {
-      trayToggle();
-    }
+  if (!foodTray.contains(e.target) && trayToggleState === true && e.target.className !== "add-btn" && e.target.className !== "remove-btn") {
+    trayToggle();
   }
 });
 

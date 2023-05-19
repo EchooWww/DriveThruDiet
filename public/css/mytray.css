@@ -1,6 +1,6 @@
 body {
-  margin-top: 11%;
-  overflow: auto;
+  margin-top: 60px;
+  /* overflow: auto; */
 }
 
 header {
@@ -21,7 +21,6 @@ main {
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
-  /* margin: 20px; */
   margin-top: 0;
 }
 
@@ -89,4 +88,5 @@ main {
 #tray-list {
   height: calc(100% - 50px) !important;
   overflow-y: auto;
+  display: block !important;
 }

@@ -4,6 +4,7 @@ label {
   display: inline;
   margin-bottom: 0.5em;
   font-size: 18px;
+  color: black;
 }
 
 input,
@@ -11,6 +12,7 @@ select {
   border: none;
   font-size: 18px;
   margin-bottom: 0.5em;
+  color: var(--dark-grey);
 }
 
 .page-container {
@@ -40,7 +42,7 @@ h2 {
 
 .save-btn,
 .submit-btn {
-  padding: 0.5em;
+  padding: 0.8em;
   margin: 0.5em auto 0.5em auto;
   width: 30%
 }

@@ -3,7 +3,7 @@
 </header>
 <main id="tray-list">
   <% trayItems.forEach(function(item) { %>
-  <div class="trayCard">
+  <div class="trayCard" data-restaurant="<%= item.restaurant.name %>" data-item="<%= item.item %>">
     <img src="<%= item.restaurant.image %>" alt="<%= item.restaurant.name %>" />
     <div class="item-details">
       <h2><%= item.item %></h2>
@@ -23,3 +23,18 @@
   </div>
   <% }); %>
 </main>
+
+<script>
+const trayCards = document.querySelectorAll('.trayCard');
+
+trayCards.forEach(card => {
+  card.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('remove-btn')) {
+      const restaurant = e.currentTarget.dataset.restaurant;
+      const item = e.currentTarget.dataset.item;
+
+      window.location.href = `/item/${restaurant}/${item}`;
+    }
+  });
+});
+</script>

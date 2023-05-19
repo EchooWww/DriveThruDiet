@@ -297,6 +297,16 @@
             });
         });
       });
+      const trayCards = sidebarContainer.querySelectorAll('.trayCard');
+      trayCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+          if (!e.target.classList.contains('remove-btn')) {
+            const restaurant = e.currentTarget.dataset.restaurant;
+            const item = e.currentTarget.dataset.item;
+            window.location.href = `/item/${restaurant}/${item}`;
+          }
+        });
+      });
     })
     .catch((error) => console.error(error));
 }
@@ -417,7 +427,6 @@ function iconToggle() {
   }
 
   updateTrayCount();
-
 
   function addCompareAlert() {
     Swal.fire({

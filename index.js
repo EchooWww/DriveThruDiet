@@ -10,7 +10,7 @@ const saltRounds = 12;
 const port = process.env.PORT || 3030;
 const app = express();
 const Joi = require("joi");
-const { ObjectId } = require('mongodb');
+const { ObjectId } = require("mongodb");
 
 // OPENAI API Connection
 const http = require("http").Server(app);
@@ -49,8 +49,10 @@ const mongodb_user = process.env.MONGODB_USER;
 const mongodb_password = process.env.MONGODB_PASSWORD;
 const mongodb_database = process.env.MONGODB_DATABASE;
 const mongodb_session_secret = process.env.MONGODB_SESSION_SECRET;
-
 const node_session_secret = process.env.NODE_SESSION_SECRET;
+
+const map_api = process.env.GOOGLE_MAPS_API_KEY;
+
 /* END secret section */
 
 var { database } = include("databaseConnection");
@@ -189,6 +191,7 @@ app.get("/", async (req, res) => {
       carbs_goal: result[0].carbs,
       protein_goal: result[0].protein,
       fat_goal: result[0].fat,
+      map_api: map_api,
     });
   }
 });
@@ -566,6 +569,7 @@ app.get("/home", async (req, res) => {
       carbs_goal: result[0].carbs,
       protein_goal: result[0].protein,
       fat_goal: result[0].fat,
+      map_api: map_api,
     });
   }
 });
@@ -995,37 +999,48 @@ app.get("/item/:restaurant/:item", async (req, res) => {
 app.get("/addCompare", async (req, res) => {
   let username = req.session.username;
   let itemID = req.query.compareID;
-  let item = await foodCollection
-    .find({ _id: new ObjectId(itemID) })
+  let item = await foodCollection.find({ _id: new ObjectId(itemID) }).toArray();
+
+  compareList = await userCollection
+    .find({ username: username })
+    .project({ compareItems: 1 })
     .toArray();
-    
-  compareList = await userCollection.find({ username: username }).project({ compareItems: 1 }).toArray();
   compareList = compareList[0].compareItems;
 
   if (compareList.length < 2) {
-    await userCollection.updateOne({ username: username }, { $push: { compareItems: item[0] } });
-    compareList = await userCollection.find({ username: username }).project({ compareItems: 1 }).toArray();
+    await userCollection.updateOne(
+      { username: username },
+      { $push: { compareItems: item[0] } }
+    );
+    compareList = await userCollection
+      .find({ username: username })
+      .project({ compareItems: 1 })
+      .toArray();
     compareList = compareList[0].compareItems;
-  };
+  }
 
-  res.redirect('back');
+  res.redirect("back");
 });
 
 // Remove item from compare list.
 app.get("/removeCompare", async (req, res) => {
   let username = req.session.username;
   let itemID = req.query.compareID;
-  let item = await foodCollection
-    .find({ _id: new ObjectId(itemID) })
-    .toArray();
+  let item = await foodCollection.find({ _id: new ObjectId(itemID) }).toArray();
 
   // Finds the item in the compare list by _id and removed it.
-  await userCollection.updateOne({ username: username }, { $pull: { compareItems: { _id: new ObjectId(itemID) } } });
-  compareList = await userCollection.find({ username: username }).project({ compareItems: 1 }).toArray();
+  await userCollection.updateOne(
+    { username: username },
+    { $pull: { compareItems: { _id: new ObjectId(itemID) } } }
+  );
+  compareList = await userCollection
+    .find({ username: username })
+    .project({ compareItems: 1 })
+    .toArray();
   compareList = compareList[0].compareItems;
 
-  res.redirect('back');
-}) 
+  res.redirect("back");
+});
 
 app.get("/compare", async (req, res) => {
   var username = req.session.username;

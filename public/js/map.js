@@ -45,7 +45,13 @@ function showMapAndList() {
 
   // Define the search parameters
   // Define an array of keywords to search for
-  var keywords = ["KFC", "McDonald's", "Subway", "Tim Hortons"];
+  var keywords = [
+    "McDonald's",
+    "Subway",
+    "Burger King",
+    "Taco Bell",
+    "Diary Queen",
+  ];
   var sortByDistance = [];
   var promises = [];
 
@@ -60,6 +66,7 @@ function showMapAndList() {
       type: "restaurant", // Search for restaurants
       keyword: keyword, // Search for the current keyword
     };
+
     // Perform a nearby search using the PlacesService object with the current request
     var promise = new Promise(function (resolve, reject) {
       // Perform a nearby search using the PlacesService object with the current request
@@ -87,15 +94,22 @@ function showMapAndList() {
           }
           // Resolve the promise with a success message
           resolve("Search completed");
+        } else if (
+          status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS
+        ) {
+          // Resolve the promise with a message indicating no results for the current keyword
+          resolve("No results for keyword: " + keyword);
         } else {
           // Reject the promise with an error message
           reject("Search failed");
         }
       });
     });
+
     // Push the promise to the promises array
     promises.push(promise);
   }
+
   Promise.all(promises)
     .then(function (messages) {
       // If all promises are resolved, sort and display the sortByDistance array

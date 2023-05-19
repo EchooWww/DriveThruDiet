@@ -1,50 +1,14 @@
 /* CSS for cards most referenced from https://uiverse.io/alexmaracinaru/pink-tiger-66 */
 
-label {
-  display: inline;
-  margin-bottom: 0.5em;
-  font-size: 16px;
-  color: black;
-}
-
-input,
-select {
-  border: none;
-  font-size: 16px;
-  margin-bottom: 0.5em;
-  color: var(--dark-grey);
-}
-
+/* CSS for page layout */
 .page-container {
   overflow-y: scroll;
   color: var(--dark);
 }
 
-h2 {
+#backbutton {
   color: var(--accent);
-  font-weight: bold;
-}
-
-#activity {
-  width: 60%;
-}
-
-.container {
-  width: 280px;
-  margin: auto;
-  text-align: left;
-}
-
-.button-container {
-  display: flex;
-  justify-content: center;
-}
-
-.save-btn,
-.submit-btn {
-  padding: 0.8em;
-  margin: 0.5em auto 0.5em auto;
-  width: 30%
+  margin-left: 25px;
 }
 
 .logout-btn {
@@ -59,6 +23,7 @@ h2 {
   color: var(--accent);
 }
 
+/* CSS for Nutritional goal grid */
 .profile-card {
   width: 254px;
   height: 190px;
@@ -92,19 +57,19 @@ h2 {
 }
 
 .item--1 {
-  background: #c7c7ff;
+  background: var(--calories);
 }
 
 .item--2 {
-  background: #ffd8be;
+  background: var(--carbs);
 }
 
 .item--3 {
-  background: #a9ecbf;
+  background: var(--protein);
 }
 
 .item--4 {
-  background: #f3bbe1;
+  background: var(--fat);
 }
 
 .quantity {
@@ -119,30 +84,70 @@ h2 {
 }
 
 .text--1 {
-  color: rgba(149, 149, 255, 1);
+  color: var(--calories-text);
 }
 
 .text--2 {
-  color: rgba(252, 161, 71, 1);
+  color: var(--carbs-text);
 }
 
 .text--3 {
-  color: rgba(66, 193, 110, 1);
+  color: var(--protein-text);
 }
 
 .text--4 {
-  color: rgba(220, 91, 183, 1);
+  color: var(--fat-text);
 }
 
+/* CSS for Profile setting form */
+label {
+  display: inline;
+  margin-bottom: 0.5em;
+  font-size: 16px;
+  color: black;
+}
+
+input,
+select {
+  border: none;
+  font-size: 16px;
+  margin-bottom: 0.5em;
+  color: var(--dark-grey);
+}
+
+
+h2 {
+  color: var(--accent);
+  font-weight: bold;
+}
+
+#activity {
+  width: 60%;
+}
+
+.container {
+  width: 280px;
+  margin: auto;
+  text-align: left;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.save-btn,
+.submit-btn {
+  padding: 0.8em;
+  margin: 0.5em auto 0.5em auto;
+  width: 30%
+}
+
+/* Hide Top Navbar items and total nutrition banner */
 .search-container,
 #tray-icon,
 #profile-icon {
   display: none;
-}
-
-#backbutton {
-  color: var(--accent);
-  margin-left: 25px;
 }
 
 #tray-banner-container {

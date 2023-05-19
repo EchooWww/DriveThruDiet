@@ -59,22 +59,32 @@ body {
   background: #555;
 }
 
+button {
+  border: none;
+  cursor: pointer;
+}
+
+.submit-btn,
 .swal2-styled.swal2-confirm {
+  color: white;
   border: 2px solid var(--accent) !important;
   background-color: var(--accent) !important;
   border-radius: var(--btnradius) !important;
 }
 
+.submit-btn:hover,
 .swal2-styled.swal2-confirm:hover {
   border: 2px solid var(--medium) !important;
   background-color: var(--medium) !important;
 }
 
+.submit-btn:active,
 .swal2-styled.swal2-confirm:active {
   border: 2px solid var(--dark) !important;
   background-color: var(--dark) !important;
 }
 
+.save-btn,
 .swal2-styled.swal2-cancel {
   border-radius: var(--btnradius) !important;
   border: 2px solid var(--accent) !important;
@@ -82,12 +92,14 @@ body {
   color: var(--accent) !important;
 }
 
+.save-btn:hover,
 .swal2-styled.swal2-cancel:hover {
   border: 2px solid var(--medium) !important;
   background-color: var(--medium) !important;
   color: white !important;
 }
 
+.save-btn:active,
 .swal2-styled.swal2-cancel:active {
   border: 2px solid var(--dark) !important;
   background-color: var(--dark) !important;

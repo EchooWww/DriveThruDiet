@@ -19,28 +19,10 @@ body {
   margin-right: auto;
 }
 
-button {
-  border: none;
-  cursor: pointer;
-}
-
 .submit-btn {
-  border: none;
-  background-color: var(--accent);
-  color: white;
   padding: 1em;
-  border-radius: var(--btnradius);
-  cursor: pointer;
   margin: 0.5em auto 0.5em auto;
   width: 65%
-}
-
-.submit-btn:hover {
-  background-color: var(--medium);
-}
-
-.submit-btn:active {
-  background-color: var(--dark);
 }
 
 .link-btn {
@@ -63,11 +45,6 @@ button {
   border-radius: var(--btnradius);
   width: 100%;
 }
-
-/* .is-invalid {
-  border-color: red;
-  box-shadow: 0 0 0 0.1rem red;
-} */
 
 .is-invalid.hide {
   display: none;

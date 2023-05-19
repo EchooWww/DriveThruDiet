@@ -35,26 +35,9 @@
   margin-bottom: 0.5em;
 }
 
-button {
-  border: none;
-  cursor: pointer;
-}
-
 .submit-btn {
-  border: none;
-  background-color: var(--accent);
-  color: white;
   padding: 1em;
-  border-radius: var(--btnradius);
   margin: 0.5em auto 0.5em auto;
-}
-
-.submit-btn:hover {
-  background-color: var(--medium);
-}
-
-.submit-btn:active {
-  background-color: var(--dark);
 }
 
 .received {

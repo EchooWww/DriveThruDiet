@@ -92,6 +92,7 @@ button {
   color: var(--accent) !important;
 }
 
+.access-btn:hover,
 .save-btn:hover,
 .swal2-styled.swal2-cancel:hover {
   border: 2px solid var(--medium) !important;
@@ -99,6 +100,7 @@ button {
   color: white !important;
 }
 
+.access-btn:active,
 .save-btn:active,
 .swal2-styled.swal2-cancel:active {
   border: 2px solid var(--dark) !important;

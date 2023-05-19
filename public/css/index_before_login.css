@@ -22,9 +22,9 @@ body {
   width: 100%;
 }
 
-.submit-btn {
+.access-btn {
   width: 50%;
-  border: none;
+  border: 2px solid white;
   background-color: white;
   padding: 1em;
   border-radius: var(--btnradius);
@@ -33,10 +33,10 @@ body {
   margin-bottom: 0.5em;
 }
 
-.submit-btn:hover {
+.access-btn:hover {
   background-color: var(--medium);
 }
 
-.submit-btn:active {
+.access-btn:active {
   background-color: var(--dark);
 }

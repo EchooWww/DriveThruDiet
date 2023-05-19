@@ -11,6 +11,14 @@
   margin-left: 25px;
 }
 
+#backbutton:hover{
+  color: var(--medium);
+}
+
+#backbutton:active{
+  color: var(--dark);
+}
+
 .logout-btn {
   border: none;
   background-color: transparent;

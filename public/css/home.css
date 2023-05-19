@@ -108,7 +108,7 @@ ul {
 
 #nearby {
   display: inline-block;
-  margin-top: 330px;
+  margin-top: 300px;
   align-items: center;
   justify-content: center;
 }
@@ -140,11 +140,13 @@ ul {
 
 .greeting>h2 {
   color: #616161;
+  margin-top: 60px;
 }
 
 .goals>h2, #nearby>h2 {
   text-align: center;
   color: var(--accent);
+  margin-top: 50px;
 }
 
 #map {

@@ -164,7 +164,7 @@
     </div>
     <div id="totalNutrition">
       <div id="totalCalories">
-        <strong>Calories</strong> <%=totalCalories%>Cals
+        <strong>Calories</strong> <%=totalCalories%>Cal
       </div>
       <div id="totalCarbs">
         <strong>Carbs</strong> <%=totalCarbs%>g
@@ -231,7 +231,7 @@
   fetch("/trayTotals")
     .then((response) => response.json())
     .then((data) => {
-      document.getElementById("totalCalories").innerHTML = `Total Calories: ${data.totalCalories}Cals`;
+      document.getElementById("totalCalories").innerHTML = `Total Calories: ${data.totalCalories}Cal`;
       document.getElementById("totalProtein").innerHTML = `Total Protein: ${data.totalProtein}g`;
       document.getElementById("totalFat").innerHTML = `Total Fat: ${data.totalFat}g`;
       document.getElementById("totalCarbs").innerHTML = `Total Carbs: ${data.totalCarbs}g`;

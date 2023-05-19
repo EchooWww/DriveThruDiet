@@ -42,7 +42,7 @@ function updateTrayBanner() {
   fetch("/trayTotals")
     .then((response) => response.json())
     .then((data) => {
-      document.getElementById("totalCalories").innerHTML = `<strong>Calories</strong> ${data.totalCalories}Cals`;
+      document.getElementById("totalCalories").innerHTML = `<strong>Calories</strong> ${data.totalCalories}Cal`;
       document.getElementById("totalProtein").innerHTML = `<strong>Protein</strong> ${data.totalProtein}g`;
       document.getElementById("totalFat").innerHTML = `<strong>Fat</strong> ${data.totalFat}g`;
       document.getElementById("totalCarbs").innerHTML = `<strong>Carbs</strong> ${data.totalCarbs}g`;

@@ -83,6 +83,12 @@
     font-weight: bold;
 }
 
+.small-font {
+    font-size: 0.67em;
+    top: 1.85em;
+    right: 3.33em;
+}
+
 /* ---------- End of Top NavBar ---------- */
 
 

@@ -266,6 +266,12 @@
       const trayItemCount = data.trayItemCount;
       const trayCountElement = document.getElementById('tray-count');
       trayCountElement.textContent = trayItemCount;
+
+      if (trayItemCount >= 10) {
+        trayCountElement.classList.add('small-font');
+      } else {
+        trayCountElement.classList.remove('small-font');
+      }
     });
   }
 

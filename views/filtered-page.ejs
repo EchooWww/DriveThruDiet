@@ -11,7 +11,7 @@
   <div class="page-container">
     <main>
       <% filteredList.forEach(function(item) { %>
-      <div class="card">
+      <div class="card" data-restaurant="<%= item.restaurant %>" data-item="<%= item.item %>">
         <% if (item.restaurant === "Taco Bell") { %>
         <img src="/images/Taco Bell1.png" alt="Taco Bell" />
         <% } else if (item.restaurant === "Arbys") { %>
@@ -53,31 +53,43 @@
   </div>
 
   <script>
-      const addButtons = document.querySelectorAll('.add-btn');
+  const addButtons = document.querySelectorAll('.add-btn');
 
-addButtons.forEach(button => {
-  button.addEventListener('click', (e) => {
-    console.log('Button clicked!');
-    const itemId = e.target.id;
+  addButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      console.log('Button clicked!');
+      const itemId = e.target.id;
 
-    fetch('/addItem', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ itemId: itemId })
-    }).then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          updateTrayBanner();
-          updateTrayCount(); 
-          document.getElementById("tray-banner-container").style.display = 'block';
-        } else {
-          // Handle error
+      fetch('/addItem', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ itemId: itemId })
+      }).then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            updateTrayBanner();
+            updateTrayCount(); 
+            document.getElementById("tray-banner-container").style.display = 'block';
+          } else {
+            // Handle error
+          }
+        });
+    });
+  });
+
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (!e.target.classList.contains('add-btn')) {
+          const restaurant = e.currentTarget.dataset.restaurant;
+          const item = e.currentTarget.dataset.item;
+          window.location.href = `/item/${restaurant}/${item}`;
         }
       });
-  });
-});
+    });
   </script>
 
 <%- include('templates/navbar_bottom') %> <%- include("templates/footer") %>

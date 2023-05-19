@@ -3,16 +3,41 @@ require("./utils.js");
 require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
+const mongodb = require("mongodb");
 const MongoStore = require("connect-mongo");
 const bcrypt = require("bcrypt");
 const saltRounds = 12;
 const port = process.env.PORT || 3030;
 const app = express();
 const Joi = require("joi");
-const cors = require("cors");
-const Swal = require("sweetalert2");
-const axios = require("axios");
-const bodyParser = require("body-parser");
+const { ObjectId } = require("mongodb");
+
+// OPENAI API Connection
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
+app.use(express.json());
+const { Configuration, OpenAIApi } = require("openai");
+const config = new Configuration({
+  apiKey: process.env.OPEN_AI_KEY,
+});
+
+const openai = new OpenAIApi(config);
+io.on("connection", (socket) => {
+  console.log("a user connected");
+  socket.on("chat message", async (msg) => {
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: msg,
+      temperature: 1,
+      max_tokens: 100,
+    });
+    io.emit("chat message", response.data.choices[0].text);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
 
 // Changed to 24 hours for testing purposes so that we don't have to keep logging in
 // Session Expiry time set to 1 hour
@@ -24,8 +49,10 @@ const mongodb_user = process.env.MONGODB_USER;
 const mongodb_password = process.env.MONGODB_PASSWORD;
 const mongodb_database = process.env.MONGODB_DATABASE;
 const mongodb_session_secret = process.env.MONGODB_SESSION_SECRET;
-
 const node_session_secret = process.env.NODE_SESSION_SECRET;
+
+const map_api = process.env.GOOGLE_MAPS_API_KEY;
+
 /* END secret section */
 
 var { database } = include("databaseConnection");
@@ -43,36 +70,23 @@ const navLinks = [
   { name: "Chat", link: "/chat", file: "icon-chatbot" },
 ];
 
-// Middleware for navbar links
+// Middleware for global variables
 app.use("/", (req, res, next) => {
   app.locals.navLinks = navLinks;
   app.locals.currentURL = url.parse(req.url, false, false).pathname;
   app.locals.searchList = searchList;
+  app.locals.compareList = compareList;
   next();
 });
-
-var searchList = [];
-async function createSearchArray() {
-  var searchResults = await foodCollection
-    .find()
-    .sort()
-    .project({
-      restaurant: 1,
-      item: 1,
-      calories: 1,
-    })
-    .toArray();
-  searchList = searchResults;
-  console.log(searchList.length);
-}
-createSearchArray();
 
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json()); // for parsing application/json
 
 const goalCalculation = require("./public/js/goalCalculation.js");
 
+app.use(express.static("app"));
 app.use("/img", express.static("./public/images"));
 app.use("/css", express.static("./public/css"));
 app.use("/js", express.static("./public/js"));
@@ -93,13 +107,92 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
+async function calculateTotals(username) {
+  const userCollection = database.db(mongodb_database).collection("users");
+  const user = await userCollection.findOne({ username: username });
+
+  const trayItems = (user && user.trayItems) || [];
+
+  let totalCalories = 0;
+  let totalCarbs = 0;
+  let totalProtein = 0;
+  let totalFat = 0;
+  let totalFiber = 0;
+  let totalCholesterol = 0;
+  let totalSodium = 0;
+  let totalSugar = 0;
+  let totalVitA = 0;
+  let totalVitC = 0;
+  let totalCalcium = 0;
+
+  trayItems.forEach((item) => {
+    totalCalories += item.calories;
+    totalCarbs += item.total_carb;
+    totalProtein += item.protein;
+    totalFat += item.total_fat;
+    totalFiber += item.fiber;
+    totalCholesterol += item.cholesterol;
+    totalSodium += item.sodium;
+    totalSugar += item.sugar;
+    totalVitA += item.vit_a !== "NA" ? item.vit_a : 0; // handle "NA" values
+    totalVitC += item.vit_c !== "NA" ? item.vit_c : 0; // handle "NA" values
+    totalCalcium += item.calcium !== "NA" ? item.calcium : 0; // handle "NA" values
+  });
+
+  return {
+    totalCalories,
+    totalCarbs,
+    totalProtein,
+    totalFat,
+    totalFiber,
+    totalCholesterol,
+    totalSodium,
+    totalSugar,
+    totalVitA,
+    totalVitC,
+    totalCalcium,
+    trayItems,
+  };
+}
+
+app.use(async (req, res, next) => {
+  try {
+    const username = req.session.username;
+    const totals = await calculateTotals(username);
+
+    Object.assign(res.locals, totals);
+    next();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get("/", async (req, res) => {
   var name = req.query.user;
   if (!req.session.authenticated) {
     res.render("index_before_login");
     return;
   } else {
-    res.render("home", { name: req.session.name });
+    var username = req.session.username;
+    const result = await userCollection
+      .find({ username: username })
+      .project({
+        firstName: 1,
+        calorieNeeds: 1,
+        protein: 1,
+        carbs: 1,
+        fat: 1,
+      })
+      .toArray();
+    res.render("home", {
+      name: result[0].firstName,
+      calorie_goal: result[0].calorieNeeds,
+      carbs_goal: result[0].carbs,
+      protein_goal: result[0].protein,
+      fat_goal: result[0].fat,
+      map_api: map_api,
+    });
   }
 });
 
@@ -115,35 +208,43 @@ app.post("/submitUser", async (req, res) => {
   var email = req.body.email;
   var birthday = req.body.birthday;
   var password = req.body.password;
+  compareList = [];
   if (!username) {
-    res.render("signup_error", { error: "Username" });
+    return res.status(400).json({ error: "Username is required" });
   }
   if (!firstName) {
-    res.render("signup_error", { error: "First Name" });
+    return res.status(400).json({ error: "First Name is required" });
   }
   if (!lastName) {
-    res.render("signup_error", { error: "Last Name" });
+    return res.status(400).json({ error: "Last Name is required" });
   }
   if (!email) {
-    res.render("signup_error", { error: "Email" });
+    return res.status(400).json({ error: "Email is required" });
   }
   if (!birthday) {
-    res.render("signup_error", { error: "Birthday" });
+    return res.status(400).json({ error: "Birthday is required" });
   }
   if (!password) {
-    res.render("signup_error", { error: "Password" });
+    return res.status(400).json({ error: "Password is required" });
   }
 
   // GPT_Promt_2
 
   // Check if username or email already exists in the database
   const existingUser = await userCollection.findOne({
-    $or: [{ username: username }, { email: email }],
+    username: username,
   });
+  const existingEmail = await userCollection.findOne({
+    email: email,
+  });
+
   if (existingUser) {
     // Render an error message indicating that the username or email is already taken
-    res.render("signup_error", { error: "Username or email is already taken" });
-    return;
+    return res.status(400).json({ error: "Username is already taken" });
+  }
+  if (existingEmail) {
+    // Render an error message indicating that the username or email is already taken
+    return res.status(400).json({ error: "Email already exists" });
   }
 
   const schema = Joi.object({
@@ -167,7 +268,7 @@ app.post("/submitUser", async (req, res) => {
   });
   if (validationResult.error != null) {
     console.log(validationResult.error);
-    res.redirect("/signup");
+    res.json({ redirect: "/signup" });
     return;
   }
   var hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -179,12 +280,13 @@ app.post("/submitUser", async (req, res) => {
     birthday: birthday,
     password: hashedPassword,
     user_type: "user",
+    compareItems: [],
   });
   console.log("User Created");
   req.session.authenticated = true;
   req.session.username = username;
   req.session.cookie.maxAge = expireTime;
-  res.redirect("/security_questions");
+  res.json({ redirect: "/security_questions" });
   return;
 });
 
@@ -199,15 +301,15 @@ app.post("/security_answers", async (req, res) => {
   const questions = [
     {
       question: "What is your mother's maiden name?",
-      answer: question1,
+      answer: await bcrypt.hash(question1, saltRounds),
     },
     {
       question: "What was the name of your first pet?",
-      answer: question2,
+      answer: await bcrypt.hash(question2, saltRounds),
     },
     {
       question: "What is your favorite color?",
-      answer: question3,
+      answer: await bcrypt.hash(question3, saltRounds),
     },
   ];
 
@@ -292,28 +394,25 @@ app.post("/loggingIn", async (req, res) => {
 
   const schema = Joi.string().alphanum().max(20).required();
   const validationResult = schema.validate(username);
+
   if (validationResult.error != null) {
     console.log(validationResult.error);
-    res.render("login_error", { error: "Please enter a valid username" });
+    res.status(400).json({ error: "Please enter a valid username" });
     return;
   }
 
   const result = await userCollection
     .find({ username: username })
-    .project({
-      username: 1,
-      username: 1,
-      password: 1,
-      user_type: 1,
-      _id: 1,
-      firstName: 1,
-    })
+    .project({ username: 1, password: 1, user_type: 1, _id: 1, firstName: 1 })
     .toArray();
+
   console.log(result);
+
   if (result.length != 1) {
-    res.render("login_error", { error: "User not found." });
+    res.status(400).json({ error: "User not found" });
     return;
   }
+
   if (await bcrypt.compare(password, result[0].password)) {
     console.log("correct password");
     req.session.authenticated = true;
@@ -321,11 +420,11 @@ app.post("/loggingIn", async (req, res) => {
     req.session.firstName = result[0].firstName;
     req.session.user_type = result[0].user_type;
     req.session.cookie.maxAge = expireTime;
-    res.redirect("/home");
+    res.json({ redirect: "/home" });
     return;
   } else {
     console.log("incorrect password");
-    res.render("login_error", { error: "Incorrect password" });
+    res.status(400).json({ error: "Incorrect password" });
     return;
   }
 });
@@ -353,7 +452,8 @@ app.post("/reset_password", async (req, res) => {
   }
 
   const question = user.questions[questionIndex];
-  if (question.answer !== answer) {
+  const isAnswerMatch = await bcrypt.compare(answer, question.answer);
+  if (!isAnswerMatch) {
     res.send(
       '<script>alert("Incorrect answer"); window.location.href = "/forgot";</script>'
     );
@@ -469,11 +569,7 @@ app.get("/home", async (req, res) => {
       carbs_goal: result[0].carbs,
       protein_goal: result[0].protein,
       fat_goal: result[0].fat,
-      //current values are placeholders, to be replaced with actual ones
-      current_calorie: 200,
-      current_carbs: 30,
-      current_protein: 30,
-      current_fat: 25,
+      map_api: map_api,
     });
   }
 });
@@ -626,18 +722,349 @@ app.get("/menu/:restaurantName", async (req, res) => {
       menuCollection.find({ restaurant: restaurantName }).toArray(),
     ]);
 
-    console.log(restaurant),
-      console.log(menu),
-      res.render("menu", { restaurant, menu });
+    const username = req.session.username;
+
+    res.render("menu", { restaurant, menu, username });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
   }
 });
 
+app.post("/addItem", async (req, res) => {
+  console.log("req.body:", req.body);
+
+  const itemId = req.body.itemId;
+  const username = req.session.username;
+  console.log("itemId:", itemId);
+  console.log("username:", username);
+
+  const userCollection = database.db(mongodb_database).collection("users");
+  const menuCollection = database
+    .db(mongodb_database)
+    .collection("fastfoodnutrition");
+
+  try {
+    const user = await userCollection.findOne({ username: username });
+    const userId = user._id;
+
+    if (
+      !mongodb.ObjectId.isValid(itemId) ||
+      !mongodb.ObjectId.isValid(userId)
+    ) {
+      console.error("Invalid itemId or userId");
+      return res.json({ success: false });
+    }
+
+    const item = await menuCollection.findOne({
+      _id: new mongodb.ObjectId(itemId),
+    });
+    console.log("item:", item);
+
+    const updateResult = await userCollection.updateOne(
+      { _id: new mongodb.ObjectId(userId) },
+      { $push: { trayItems: item } }
+    );
+    console.log("updateResult:", updateResult);
+
+    if (updateResult.matchedCount > 0) {
+      const updatedUser = await userCollection.findOne({
+        _id: new mongodb.ObjectId(userId),
+      });
+      const trayItemCount = updatedUser.trayItems.length;
+      res.json({ success: true, trayItemCount: trayItemCount });
+    } else {
+      res.json({ success: false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.json({ success: false });
+  }
+});
+
+app.get("/trayCount", async (req, res) => {
+  const username = req.session.username;
+
+  const userCollection = database.db(mongodb_database).collection("users");
+
+  try {
+    const user = await userCollection.findOne({ username: username });
+    const trayItemCount = user.trayItems.length;
+    res.json({ trayItemCount: trayItemCount });
+  } catch (error) {
+    console.error(error);
+    res.json({ trayItemCount: 0 });
+  }
+});
+
+app.get("/mytray", async (req, res) => {
+  const username = req.session.username;
+  const userCollection = database.db(mongodb_database).collection("users");
+  const restaurantCollection = database
+    .db(mongodb_database)
+    .collection("restaurants");
+
+  try {
+    const user = await userCollection.findOne({ username: username });
+    const trayItems = user.trayItems;
+
+    const trayItemsWithRestaurant = await Promise.all(
+      trayItems.map(async (item) => {
+        const restaurant = await restaurantCollection.findOne({
+          name: item.restaurant,
+        });
+        return {
+          ...item,
+          restaurant,
+        };
+      })
+    );
+
+    res.render("mytray", { trayItems: trayItemsWithRestaurant, username });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get("/trayTotals", async (req, res) => {
+  try {
+    const username = req.session.username;
+    const totals = await calculateTotals(username);
+
+    res.json(totals);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post("/removeItem", async (req, res) => {
+  const itemId = req.body.itemId;
+  const username = req.session.username;
+
+  const userCollection = database.db(mongodb_database).collection("users");
+
+  try {
+    const user = await userCollection.findOne({ username: username });
+    const userId = user._id;
+
+    if (
+      !mongodb.ObjectId.isValid(itemId) ||
+      !mongodb.ObjectId.isValid(userId)
+    ) {
+      console.error("Invalid itemId or userId");
+      return res.json({ success: false });
+    }
+
+    const updateResult = await userCollection.updateOne(
+      { _id: new mongodb.ObjectId(userId) },
+      { $pull: { trayItems: { _id: new mongodb.ObjectId(itemId) } } }
+    );
+
+    if (updateResult.matchedCount > 0) {
+      res.json({ success: true });
+    } else {
+      res.json({ success: false });
+    }
+  } catch (error) {
+    console.error(error);
+    res.json({ success: false });
+  }
+});
+
+app.get("/filter", async (req, res) => {
+  const checkedFilters = Array.isArray(req.query.filter)
+    ? req.query.filter
+    : req.query.filter.split(",");
+  const searchListCopy = app.locals.searchList.slice();
+
+  const filteredList = searchListCopy.filter((item) => {
+    for (const filter of checkedFilters) {
+      switch (filter) {
+        case "calorie":
+          if (item.calories >= 400) {
+            return false;
+          }
+          break;
+        case "protein":
+          if (item.protein * 4 <= item.calories * 0.3) {
+            return false;
+          }
+          break;
+        case "fat":
+          if (item.total_fat * 9 >= item.calories * 0.2) {
+            return false;
+          }
+          break;
+        case "carb":
+          if (item.total_carb * 4 >= item.calories * 0.26) {
+            return false;
+          }
+          break;
+      }
+    }
+    return true;
+  });
+
+  // render the page with the filteredList
+  res.render("filtered-page", {
+    filteredList,
+  });
+});
 // Testing navbar icons
 app.get("/chat", (req, res) => {
   res.render("chat");
+});
+
+var compareList = [];
+var searchList = [];
+async function createSearchArray() {
+  searchList = await foodCollection
+    .find()
+    .sort()
+    .project({
+      restaurant: 1,
+      item: 1,
+      calories: 1,
+      total_fat: 1,
+      total_carb: 1,
+      protein: 1,
+    })
+    .toArray();
+}
+createSearchArray();
+
+app.get("/item/:restaurant/:item", async (req, res) => {
+  var restaurant = req.params.restaurant;
+  var item = req.params.item;
+  var username = req.session.username;
+  const goals = await userCollection
+    .find({ username: username })
+    .project({
+      calorieNeeds: 1,
+      protein: 1,
+      carbs: 1,
+      fat: 1,
+    })
+    .toArray();
+
+  const itemDetails = await foodCollection
+    .find({ restaurant: restaurant, item: item })
+    .project({
+      _id: 1,
+      calories: 1,
+      cal_fat: 1,
+      total_fat: 1,
+      sat_fat: 1,
+      trans_fat: 1,
+      cholesterol: 1,
+      sodium: 1,
+      total_carb: 1,
+      fiber: 1,
+      sugar: 1,
+      protein: 1,
+      vit_a: 1,
+      vit_c: 1,
+      calcium: 1,
+    })
+    .toArray();
+
+  res.render("item", {
+    restaurant: restaurant,
+    item: item,
+    id: itemDetails[0]._id,
+    calories: itemDetails[0].calories,
+    cal_fat: itemDetails[0].cal_fat,
+    total_fat: itemDetails[0].total_fat,
+    sat_fat: itemDetails[0].sat_fat,
+    trans_fat: itemDetails[0].trans_fat,
+    cholesterol: itemDetails[0].cholesterol,
+    sodium: itemDetails[0].sodium,
+    total_carb: itemDetails[0].total_carb,
+    fiber: itemDetails[0].fiber,
+    sugar: itemDetails[0].sugar,
+    protein: itemDetails[0].protein,
+    vit_a: itemDetails[0].vit_a,
+    vit_c: itemDetails[0].vit_c,
+    calcium: itemDetails[0].calcium,
+    calorie_goal: goals[0].calorieNeeds,
+    carbs_goal: goals[0].carbs,
+    protein_goal: goals[0].protein,
+    fat_goal: goals[0].fat,
+  });
+});
+
+// Add item to compare list.
+app.get("/addCompare", async (req, res) => {
+  let username = req.session.username;
+  let itemID = req.query.compareID;
+  let item = await foodCollection.find({ _id: new ObjectId(itemID) }).toArray();
+
+  compareList = await userCollection
+    .find({ username: username })
+    .project({ compareItems: 1 })
+    .toArray();
+  compareList = compareList[0].compareItems;
+
+  if (compareList.length < 2) {
+    await userCollection.updateOne(
+      { username: username },
+      { $push: { compareItems: item[0] } }
+    );
+    compareList = await userCollection
+      .find({ username: username })
+      .project({ compareItems: 1 })
+      .toArray();
+    compareList = compareList[0].compareItems;
+  }
+
+  res.redirect("back");
+});
+
+// Remove item from compare list.
+app.get("/removeCompare", async (req, res) => {
+  let username = req.session.username;
+  let itemID = req.query.compareID;
+  let item = await foodCollection.find({ _id: new ObjectId(itemID) }).toArray();
+
+  // Finds the item in the compare list by _id and removed it.
+  await userCollection.updateOne(
+    { username: username },
+    { $pull: { compareItems: { _id: new ObjectId(itemID) } } }
+  );
+  compareList = await userCollection
+    .find({ username: username })
+    .project({ compareItems: 1 })
+    .toArray();
+  compareList = compareList[0].compareItems;
+
+  res.redirect("back");
+});
+
+app.get("/compare", async (req, res) => {
+  var username = req.session.username;
+  const userGoals = await userCollection
+    .find({ username: username })
+    .project({
+      calorieNeeds: 1,
+      protein: 1,
+      carbs: 1,
+      fat: 1,
+    })
+    .toArray();
+
+  res.render("compare", {
+    cal_goal: userGoals[0].calorieNeeds,
+    carbs_goal: userGoals[0].carbs,
+    protein_goal: userGoals[0].protein,
+    fat_goal: userGoals[0].fat,
+  });
+});
+
+// Easter egg
+app.get("/easteregg", (req, res) => {
+  res.render("easteregg");
 });
 
 app.get("/logout", (req, res) => {
@@ -649,9 +1076,9 @@ app.use(express.static(__dirname + "/public"));
 
 app.get("*", (req, res) => {
   res.status(404);
-  res.render("404");
+  res.render("404", { svgWidth: 500, svgHeight: 350 });
 });
 
-app.listen(port, () => {
+http.listen(port, () => {
   console.log("Node application listening on port " + port);
 });

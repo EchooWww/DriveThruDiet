@@ -1,0 +1,92 @@
+#chat-box-body {
+  height: calc(100% - 2em);
+  padding: 1em;
+}
+
+.conversation-window {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--btnradius);
+  padding: 0.5em;
+  margin-bottom: 10px;
+}
+
+#intro-msg {
+  color: var(--accent);
+}
+
+#initial-form>* {
+  text-align: center !important;
+  margin: auto auto !important;
+  background-color: white !important;
+  box-shadow: none !important;
+}
+
+
+#restaurant,
+#mealtime,
+#dietary-restrictions {
+  box-sizing: border-box;
+  width: 90%;
+  padding: 1em;
+  border-radius: var(--btnradius);
+  border: 1px solid var(--accent);
+  margin-bottom: 0.5em;
+}
+
+.submit-btn {
+  padding: 1em;
+  margin: 0.5em auto 0.5em auto;
+}
+
+.received {
+  background-color: var(--highlight);
+  max-width: 70%;
+  text-align: left;
+  border-top-left-radius: var(--btnradius);
+  border-top-right-radius: var(--btnradius);
+  border-bottom-right-radius: var(--btnradius);
+}
+
+.sent {
+  background-color: var(--accent);
+  color: white;
+  align-self: flex-end;
+  max-width: 70%;
+  text-align: justify;
+  border-top-left-radius: var(--btnradius);
+  border-top-right-radius: var(--btnradius);
+  border-bottom-left-radius: var(--btnradius);
+}
+
+
+.received p,
+.sent p {
+  margin: 1em 2em;
+}
+
+#messages {
+  overflow-y: auto;
+  height: calc(100% - 100px);
+}
+
+#message-form {
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+}
+
+#m {
+  box-sizing: border-box;
+  width: 85%;
+  padding: 1em;
+  border-radius: var(--btnradius);
+  border: 1px solid var(--accent);
+  margin-bottom: 0.5em;
+}
+
+
+#tray-banner-container {
+  display: none;
+}

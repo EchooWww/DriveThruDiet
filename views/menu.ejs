@@ -1,28 +1,107 @@
-<%- include("templates/header") %> <%- include("templates/navbar_top") %>
-<link rel="stylesheet" href="/css/menu.css" />
+<%- include("templates/header") %> 
+<%- include("templates/navbar_top") %>
+
+<link rel="stylesheet" href="/css/menu.css">
+
+</head>
+
+<body>
+<div class="page-container">
 <header>
   <h1><%= restaurant.name %></h1>
 </header>
 <main>
   <% menu.forEach(function(item) { %>
-  <div class="card">
+  <div class="card" data-restaurant="<%= restaurant.name %>" data-item="<%= item.item %>">
     <img src="<%= restaurant.image %>" alt="<%= restaurant.name %>" />
     <div class="item-details">
       <h2><%= item.item %></h2>
       <p>
-        <small><strong>Calories:</strong> <%= item.calories %>Cals</small>
+        <small><strong>Calories:</strong> <%= item.calories %> cal</small>
       </p>
       <p>
-        <small><strong>Protein:</strong> <%= item.protein %>g</small>
+        <small><strong>Carbs:</strong> <%= item.total_carb %> g</small>
       </p>
       <p>
-        <small><strong>Fat:</strong> <%= item.total_fat %>g</small>
+        <small><strong>Protein:</strong> <%= item.protein %> g</small>
+      </p>
+      <p>
+        <small><strong>Fat:</strong> <%= item.total_fat %> g</small>
       </p>
     </div>
-    <button class="add-btn" onclick="addToCart">Add</button>
+    <button class="add-btn" id="<%= item._id %>">Add</button>
   </div>
   <% }); %>
 </main>
 <div class="placeholder"></div>
+</div>
 
-<%- include('templates/navbar_bottom') %> <%- include("templates/footer") %>
+<script>
+
+function updateTrayBanner() {
+  fetch("/trayTotals")
+    .then((response) => response.json())
+    .then((data) => {
+      document.getElementById("totalCalories").innerHTML = `<strong>Calories</strong> ${data.totalCalories} Cal`;
+      document.getElementById("totalProtein").innerHTML = `<strong>Protein</strong> ${data.totalProtein} g`;
+      document.getElementById("totalFat").innerHTML = `<strong>Fat</strong> ${data.totalFat} g`;
+      document.getElementById("totalCarbs").innerHTML = `<strong>Carbs</strong> ${data.totalCarbs} g`;
+    })
+    .catch((error) => console.error(error));
+}
+
+function updateTrayCount() {
+  fetch('/trayCount')
+    .then(response => response.json())
+    .then(data => {
+      const trayItemCount = data.trayItemCount;
+      const trayCountElement = document.getElementById('tray-count');
+      trayCountElement.textContent = trayItemCount;
+    });
+}
+
+  const addButtons = document.querySelectorAll('.add-btn');
+
+  addButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      console.log('Button clicked!');
+      const itemId = e.target.id;
+
+      fetch('/addItem', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ itemId: itemId })
+      }).then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            updateTrayBanner();
+            updateTrayCount(); 
+            document.getElementById("tray-banner-container").style.display = 'block';
+          } else {
+            // Handle error
+          }
+        });
+    });
+  });
+
+const cards = document.querySelectorAll('.card');
+
+cards.forEach(card => {
+  card.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('add-btn')) {
+      const restaurant = e.currentTarget.dataset.restaurant;
+      const item = e.currentTarget.dataset.item;
+
+      window.location.href = `/item/${restaurant}/${item}`;
+    }
+  });
+});
+
+</script>
+
+
+
+<%- include('templates/navbar_bottom') %> 
+<%- include("templates/footer") %>

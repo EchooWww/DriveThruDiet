@@ -45,7 +45,13 @@ function showMapAndList() {
 
   // Define the search parameters
   // Define an array of keywords to search for
-  var keywords = ["KFC", "McDonald's", "Subway", "Tim Hortons"];
+  var keywords = [
+    "McDonald's",
+    "Subway",
+    "Burger King",
+    "Taco Bell",
+    "Diary Queen",
+  ];
   var sortByDistance = [];
   var promises = [];
 
@@ -60,6 +66,7 @@ function showMapAndList() {
       type: "restaurant", // Search for restaurants
       keyword: keyword, // Search for the current keyword
     };
+
     // Perform a nearby search using the PlacesService object with the current request
     var promise = new Promise(function (resolve, reject) {
       // Perform a nearby search using the PlacesService object with the current request
@@ -87,15 +94,22 @@ function showMapAndList() {
           }
           // Resolve the promise with a success message
           resolve("Search completed");
+        } else if (
+          status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS
+        ) {
+          // Resolve the promise with a message indicating no results for the current keyword
+          resolve("No results for keyword: " + keyword);
         } else {
           // Reject the promise with an error message
           reject("Search failed");
         }
       });
     });
+
     // Push the promise to the promises array
     promises.push(promise);
   }
+
   Promise.all(promises)
     .then(function (messages) {
       // If all promises are resolved, sort and display the sortByDistance array
@@ -108,9 +122,13 @@ function showMapAndList() {
       console.log(sortByDistance); // Log the sorted array
       // Display the sorted results in the list after all promises are resolved
       for (var k = 0; k < Math.min(sortByDistance.length, 6); k++) {
-        var li = document.createElement("li");
-        li.innerHTML =
-          sortByDistance[k].name + " - " + sortByDistance[k].distance + "KM";
+        var tr = document.createElement("tr");
+        tr.innerHTML =
+          "<td>&nbsp;" +
+          sortByDistance[k].name +
+          "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>" +
+          sortByDistance[k].distance +
+          "KM</td>&nbsp;&nbsp;&nbsp;";
 
         var link = document.createElement("a");
         link.href =
@@ -125,8 +143,8 @@ function showMapAndList() {
         link.innerHTML =
           '<span class="material-symbols-outlined">near_me</span>';
         // Append the link element to the list item
-        li.appendChild(link);
-        document.getElementById("list").appendChild(li);
+        tr.appendChild(link);
+        document.getElementById("list").appendChild(tr);
       }
     })
     .catch(function (error) {

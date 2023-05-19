@@ -1,6 +1,12 @@
 <%- include("templates/header") %> 
 <%- include("templates/navbar_top") %>
-<link rel="stylesheet" href="/css/restaurant.css" />
+
+<link rel="stylesheet" href="/css/restaurant.css">
+
+</head>
+
+<body>
+<div class="page-container">
 <header>
   <h1 class="restaurant-title">Restaurants</h1>
 </header>
@@ -10,5 +16,7 @@
   <img src="<%= restaurants[i].image %>" alt="<%= restaurants[i].name %>" /></a>
   <% } %>
 </main>
+</div>
+
 <%- include('templates/navbar_bottom') %> 
 <%- include("templates/footer") %>

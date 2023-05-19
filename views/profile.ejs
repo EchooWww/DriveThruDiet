@@ -6,113 +6,61 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="/css/profile.css">
 
   <title>Profile</title>
-  
-  <style>
-    .placeholder {
-      height: 80px;
-    }
-    label {
-      display: inline;
-      margin-bottom: 5px;
-    }
-
-    input, select {
-      margin-bottom: 10px;
-      padding: 0.6em;
-      border: none;
-      border-radius: 10px;
-    }
-
-    body {
-      display: block;
-      overflow-y: scroll;
-    }
-
-    #activity{
-      width: 60%;
-    }
-
-    .container{
-      width: 250px;
-      margin: auto;
-      text-align: left;
-    }
-
-    .button-container{
-      display:flex;
-      justify-content: center;
-    }
-
-    .submit-btn {
-      border: none;
-      background-color: white;
-      padding: 1em;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 0.5em;
-      margin-bottom: 0.5em;
-    }
-
-    .submit-btn:hover {
-      background-color: #d9d8d5;
-    }
-
-    .submit-btn:active {
-      background-color: #e68b57c5;
-    }
-
-    .logout-btn{
-      border: none;
-      background-color: transparent;
-      padding: 1em;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 0.5em;
-      margin-bottom: 0.5em;
-    }
-
-    .logout-btn:hover {
-      color: #57b7e5;
-    }
-
-  </style>
 </head>
+
 <body>
   <%- include("templates/navbar_top") %>
-
-  <div class="placeholder"></div>
-  <h1>Nutritional Goals</h1>
-  <p>Calorie Needs: <%= calorieNeeds %>KCal</p>
-  <p>Carbs: <%= carbs %>g</p>
-  <p>Protein: <%= protein %>g</p>
-  <p>Fat: <%= fat %>g</p>
-  <h1>Profile</h1>
+  <div class="page-container">
+    <h2>Nutritional Goals</h2>
+  <div class="profile-card">
+    <div class="item item--1">
+    Calorie
+      <span class="quantity"> <%= calorieNeeds %> </span>
+      <span class="text text--1"> Calories </span>
+    </div>
+    <div class="item item--2">
+      Carbohydrate    <span class="quantity"> <%= carbs %> </span>
+      <span class="text text--2"> Grams </span>
+    </div>
+    <div class="item item--3">
+  Protein    <span class="quantity"> <%= protein %> </span>
+      <span class="text text--3"> Grams </span>
+    </div>
+    <div class="item item--4"> Fat
+      <span class="quantity"> <%= fat %></span>
+      <span class="text text--4"> Grams </span>
+    </div>
+  </div>
+  <br>
+  <br>
+  <h2>Profile</h2>
   <div class="container">
     <form id="profile-form" method="post" action="/update_profile">
-      <label for="firstName">First Name </label>
+      <label for="firstName">First Name: </label>
       <input type="text" id="firstName" name="firstName" value="<%= firstName %>" disabled><br>
 
-      <label for="lastName">Last Name </label>
+      <label for="lastName">Last Name: </label>
       <input type="text" id="lastName" name="lastName" value="<%= lastName %>" disabled><br>
 
-      <label for="sex">Sex &nbsp;</label> 
+      <label for="sex">Sex: &nbsp;</label> 
       <input type="radio" id="female" name="sex" value="female" class="sex" <% if(sex === 'female') { %> checked <% } %> disabled>   
-      <label for="female" >Female </label>        
+      <label for="female" class="sex-label" >Female </label>        
       <input type="radio" id="male" name="sex" value="male" class="sex" <% if(sex === 'male') { %> checked <% } %> disabled>
-      <label for="male">Male</label><br>
+      <label for="male" class="sex-label">Male</label><br>
 
-      <label for="birthday">Birthday </label>
+      <label for="birthday">Birthday: </label>
       <input type="date" id="birthday" name="birthday" value="<%= birthday %>" disabled><br>
 
-      <label for="height">Height(cm) </label>
+      <label for="height">Height(cm): </label>
       <input type="number" id="height" name="height" value="<%= height %>" disabled><br>
 
-      <label for="weight">Weight(kg) </label>
+      <label for="weight">Weight(kg): </label>
       <input type="number" id="weight" name="weight" value="<%= weight %>" disabled><br>
 
-      <label for="activity">Activity </label>
+      <label for="activity">Activity: </label>
       <select id="activity" name="activity" disabled>
         <option value="" selected disabled hidden>Choose activity level</option>
         <option value="sedentary">Sedentary (little or no exercise)</option>
@@ -122,7 +70,7 @@
         <option value="super-active">Super active (very hard exercise/sports, physical job or training)</option>
       </select><br>
 
-      <label for="goal">Goal </label>
+      <label for="goal">Goal: </label>
       <select id="goal" name="goal" disabled>
         <option value="lose-weight">Lose weight</option>
         <option value="maintain-weight">Maintain weight</option>
@@ -130,8 +78,8 @@
       </select><br>
           
       <div class="button-container">        
-        <button type="button" id="edit-button" class="submit-btn">Edit Profile</button>
-        <button type="submit" id="save-button" class="submit-btn">Save Changes</button>
+        <button type="button" id="edit-button" class="submit-btn">EDIT</button>
+        <button type="submit" id="save-button" class="save-btn">SAVE</button>
       </div>
 
     </form>
@@ -139,7 +87,8 @@
   <button onclick="confirmLogout()" class="logout-btn">
     <span class="material-symbols-outlined">logout</span>
   </button>
-  <div class="placeholder"></div>
+  </div>
+  
 
 
 <script>
@@ -149,9 +98,12 @@ const sex_select = document.querySelectorAll(".sex");
 const form = document.getElementById("profile-form");
 const editButton = document.getElementById("edit-button");
 const saveButton = document.getElementById("save-button");
+const back = document.getElementById("backbutton")
 
 editButton.style.display = "block";
 saveButton.style.display = "none";
+back.style.display = "block";
+
 
 for (var i = 0; i < goal_select.options.length; i++) {
   var option = goal_select.options[i];

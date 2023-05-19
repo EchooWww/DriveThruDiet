@@ -1,0 +1,42 @@
+<header>
+  <h1>My Tray</h1>
+</header>
+<main id="tray-list">
+  <% trayItems.forEach(function(item) { %>
+  <div class="trayCard" data-restaurant="<%= item.restaurant.name %>" data-item="<%= item.item %>">
+    <img src="<%= item.restaurant.image %>" alt="<%= item.restaurant.name %>" />
+    <div class="item-details">
+      <h2><%= item.item %></h2>
+      <p>
+        <small><strong>Calories:</strong> <%= item.calories %> Cal</small>
+      </p>
+      <p>
+        <small><strong>Carbs:</strong> <%= item.total_carb %> g</small>
+      </p>
+
+      <p>
+        <small><strong>Protein:</strong> <%= item.protein %> g</small>
+      </p>
+      <p>
+        <small><strong>Fat:</strong> <%= item.total_fat %> g</small>
+      </p>
+    </div>
+    <button class="remove-btn" id="<%= item._id %>">Remove</button>
+  </div>
+  <% }); %>
+</main>
+
+<script>
+const trayCards = document.querySelectorAll('.trayCard');
+
+trayCards.forEach(card => {
+  card.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('remove-btn')) {
+      const restaurant = e.currentTarget.dataset.restaurant;
+      const item = e.currentTarget.dataset.item;
+
+      window.location.href = `/item/${restaurant}/${item}`;
+    }
+  });
+});
+</script>

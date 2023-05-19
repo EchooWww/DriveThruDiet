@@ -1,0 +1,144 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#tray-banner-container {
+  display: none;
+}
+
+/* Styling for Front Card "M, I, K, E" */
+.box {
+  box-sizing: border-box;
+  width: calc(50% - 10px);
+  height: calc((100vh - 150px) / 2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+  transition: background-color 1s, color 1s;
+  border-radius: var(--btnradius);
+  margin: 5px;
+  padding: 0.5em;
+}
+
+.box .letter {
+  display: block;
+}
+
+/* Styling for Back Card "Minji, Iris, Kalvin, Echo" */
+
+.box:hover {
+  cursor: pointer;
+  transition: color 1s;
+}
+
+/* Grid layout settings */
+.grid {
+  margin: auto auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 0.2fr 0.8fr;
+  grid-template-areas:
+    "img name"
+    "img joke";
+  grid-gap: 10px;
+}
+
+.dev-name {
+  grid-area: name;
+  font-size: clamp(1em, 5vw, 2em);
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+}
+
+.grid img {
+  grid-area: img;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  margin: auto auto;
+}
+
+.joke {
+  grid-area: joke;
+  font-size: clamp(0.3em, 1.5vw, 1em);
+  text-align: left;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  color: var(--dark);
+}
+
+/* Back Card Background color setting */
+.box:nth-child(1) {
+  background-color: var(--calories);
+  color: #fff;
+}
+
+.box:nth-child(1):hover {
+  color: var(--calories-text);
+  background-color: white;
+}
+
+.box:nth-child(2) {
+  background-color: var(--carbs);
+  color: #fff;
+}
+
+.box:nth-child(2):hover {
+  color: var(--carbs-text);
+  background-color: white;
+}
+
+.box:nth-child(3) {
+  background-color: var(--protein);
+  color: #fff;
+}
+
+.box:nth-child(3):hover {
+  color: var(--protein-text);
+  background-color: white;
+}
+
+.box:nth-child(4) {
+  background-color: var(--fat);
+  color: #fff;
+}
+
+.box:nth-child(4):hover {
+  color: var(--fat-text);
+  background-color: white;
+}
+
+.box .egg-card {
+  display: none;
+  color: inherit;
+  text-decoration: none;
+  align-items: center;
+}
+
+/* Swich Front and back card on hover */
+.box:hover .letter {
+  display: none;
+}
+
+.box:hover .egg-card {
+  display: block;
+}
+
+/* Media Settings */
+
+@media (max-width: 768px) {
+  .box {
+    width: 100%;
+    height: calc((100vh - 170px) / 4);
+  }
+
+  .grid img {
+    grid-area: img;
+    max-width: 60%;
+    max-height: 60%;
+    object-fit: contain;
+    margin: auto auto;
+  }
+}

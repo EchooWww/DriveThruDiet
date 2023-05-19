@@ -1,4 +1,5 @@
 /* ---------- Top NavBar ---------- */
+
 #top-nav-container {
     position: fixed;
     top: 0;
@@ -10,6 +11,7 @@
     display: flex;
     justify-content: baseline;
     align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
 }
 
 .search-bar-icons {
@@ -33,6 +35,10 @@
     translate: -150% 25%;
 }
 
+#nav-search-bar:active {
+    border-color: var(--accent);
+}
+
 #nav-search-bar {
     padding: 0.5em 2.4em 0.5em 2.4em;
     border: none;
@@ -49,6 +55,11 @@
     height: 42px;
 }
 
+.tray-icon-container {
+    position: relative;
+    display: inline-block;
+}
+
 #tray-icon:hover {
     cursor: pointer;
 }
@@ -59,45 +70,114 @@
     height: 47px;
 }
 
+.tray-count {
+    position: absolute;
+    font-size: 1em;
+    top: 1.045em;
+    right: 2.34em;
+    color: var(--accent);
+    font-weight: bold;
+}
+
+.small-font {
+    font-size: 0.67em;
+    top: 1.85em;
+    right: 3.33em;
+}
+
 /* ---------- End of Top NavBar ---------- */
 
 
 
-/* ---------- SideBar ---------- */
-#sidebar-container {
-    background-color: #57B7E5;
+/* ---------- Right SideBar ---------- */
+
+#right-sidebar-container {
+    /* background-color: #e9ecef; */
+    background-color: white;
     position: fixed;
     right: -350px;
     top: 60px;
-    height: calc(100% - 140px);
-    width: 350px;
-    z-index: 100;
+    height: calc(100% - 130px);
+    width: 390px;
+    z-index: 97;
     transition: transform 0.3s ease;
-    box-shadow: -2px 0 10px rgba(0, 0, 0, .2);
+    box-shadow: -2px 0 5px rgba(0, 0, 0, .1);
     transform: translateX(250px);
+    overflow: auto;
 }
 
-/* ---------- End of SideBar ---------- */
+#compare-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 25px;
+    padding: 20px 20px 0 20px;
+    width: calc(100% - 40px);
+}
+
+.compare-list-items {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 0 10px 0;
+}
+
+.compare-side-restaurant {
+    width: 90px;
+    text-align: left;
+    font-size: 12pt;
+    color: var(--dark);
+}
+
+.compare-side-item {
+    width: 170px;
+    text-align: left;
+    font-size: 12pt;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+#compare-form {
+    width: 100%;
+}
+
+#compare-btn {
+    margin: 0.5em 0 0 0;
+    padding: 0.5em 1em 0.5em 1em;
+    border: none;
+    border-radius: 50px;
+    width: 70%;
+    height: 50px;
+    font-size: 11pt;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+    background-color: var(--accent);
+    color: white;
+}
+
+/* ---------- End of Right SideBar ---------- */
 
 
 
 /* ---------- Bottom NavBar ---------- */
+
 #bottom-nav-container {
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 80px;
-    background-color: #f7f7f7;
-    border-top: 1px solid #e9ecef;
+    height: 70px;
+    background-color: var(--accent);
     z-index: 100;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, .1);
 }
 
 .bottom-nav-icons {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
 }
 
 /* ---------- End of Bottom NavBar ---------- */
@@ -118,8 +198,8 @@
 .search-results-container {
     position: fixed;
     top: 60px;
-    left: 60px;
-    width: calc(100% - 120px);
+    left: 25px;
+    width: calc(100% - 50px);
     height: auto;
     max-height: 75%;
     padding: 5px 0 20px 0;
@@ -130,25 +210,34 @@
     display: flex;
     flex-direction: column;
     border-radius: 0 0 10px 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .3);
 }
 
 .search-results-container>ul {
     width: auto;
     height: 100%;
     text-align: left;
-    margin: 0 20px 0 0;
+    margin: 0.5em 20px 0 0;
 }
 
 .list-item {
+    list-style-type: none;
+}
+
+.list-item a {
     padding: 0.5em 1em 0.5em 1em;
     border-bottom: 1px solid #e9ecefb9;
     border-radius: 12px;
     display: flex;
+    text-decoration: none;
 }
 
-#search-results li:hover {
-    background-color: #00aeff41;
+.list-item a:visited, a:hover, a:active, a:link {
+    color: inherit;
+}
+
+#search-results a:hover {
+    background-color: #84c3ff28;
     cursor: pointer;
 }
 
@@ -157,13 +246,141 @@
 }
 
 #search-results-restaurant {
-    width: 100px;
-    max-width: 100px;
-    min-width: 100px;
-    color: #666564
+    font-size: 11pt;
+    font-weight: 300;
+    width: 105px;
+    max-width: 105px;
+    min-width: 105px;
+    color: #666564;
 }
 
 #search-results-calories {
     font-size: 9pt;
     color: #666564
 }
+
+/* ---------- End of Search Results ---------- */
+
+
+/* ---------- Filter ---------- */
+
+.filter-card-container {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #f7f7f7;
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    z-index: 90;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+    text-align: left;
+    width: 100%;
+}
+
+.show {
+    transform: translateY(0);
+}
+
+.filter-card-container form {
+    margin: 20px;
+    display: block;
+    text-align: center;
+}
+
+.filter-card-container form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.filter-card-container form input[type="checkbox"] {
+    margin-right: 15px;
+}
+
+#filter-submit-btn {
+    display: block;
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    background-color: var(--accent);
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 30px;
+    margin: auto;
+    margin-top: 10px;
+    width: 100px;
+}
+
+.filter-button {
+    background-color: #f2f2f2;
+    border: none;
+    color: var(--dark);
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: inline;
+    border-width: 2px;
+    border-style: none;
+}
+
+/* Style the selected button */
+.filter-button.selected {
+    background-color: #fff5f7;
+    border: solid 1px var(--accent);
+    color: var(--accent);
+}
+
+/* ---------- End of Filter ---------- */
+
+
+/* ---------- Food Tray ---------- */
+#tray-banner-container {
+    position: fixed;
+    top: calc(100% - 110px);
+    z-index: 98;
+    width: 100%;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    transition: transform 0.3s ease;
+}
+
+#tray-contents {
+    background-color: var(--light);
+    padding: 10px 20px 20px 20px;
+    width: calc(100% - 90px);
+    max-width: 500px;
+    height: 100%;
+    border-radius: 20px 20px 0 0;
+    margin: 0 auto 0 auto;
+}
+
+#food-tray-heading {
+    font-size: 14pt;
+    font-weight: bolder;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+#totalNutrition {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.nutrition-item {
+    text-align: center;
+    line-height: 21px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ---------- End of Food Tray ---------- */

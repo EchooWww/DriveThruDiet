@@ -1,5 +1,10 @@
+body {
+  margin-top: 60px;
+  /* overflow: auto; */
+}
 
 header {
+  padding-top: 5%;
   padding-left: 7%;
   text-align: left;
   font-size: 13px;
@@ -8,6 +13,7 @@ header {
 
 h1 {
   margin-block-end: 0.5rem;
+  margin-block-start: 0rem;
 }
 
 main {
@@ -15,22 +21,20 @@ main {
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
-  margin: 20px;
   margin-top: 0;
 }
 
-.card {
+.trayCard {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 430px;
   height: 110px;
   margin: 8px;
   padding: 10px;
   border: 1px solid var(--light);
 }
 
-.card img {
+.trayCard img {
   width: 80px;
   height: 70px;
   object-fit: cover;
@@ -61,18 +65,17 @@ main {
   line-height: 13px;
 }
 
-
-.add-btn {
+.remove-btn {
   background-color: var(--accent);
   color: #f7f7f7;
   border: none;
-  border-radius: 5px; 
-  padding: 7px 15px;
-  font-size: 15px;
+  border-radius: 5px;
+  padding: 5px 11px;
+  font-size: 12px;
   cursor: pointer;
   position: relative;
-  top: 39px;
-  right: 8px;
+  top: 41px;
+  right: 1px;
   margin-left: auto;
 }
 
@@ -80,40 +83,12 @@ main {
   height: 80px;
 }
 
-#tray-preview {
-  position: fixed;
-  bottom: 60px; 
-  left: 0;
-  right: 0;
-  background-color: white;
-  padding: 20px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  z-index: 1000; 
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-  justify-content: space-between; 
+#myTrayContents {
+  height: calc(100% - 200px) !important;
 }
 
-#close-btn {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  font-size: 22px;
-  background: none;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  color:var(--accent);
-}
-
-#more-btn {
-  background-color: var(--accent);
-  color: #f7f7f7;
-  border: none;
-  padding: 8px 15px; 
-  font-size: 15px;
-  cursor: pointer;
-  border-radius: 5px; 
-  transition: background-color 0.3s ease; 
+#tray-list {
+  height: calc(100% - 50px) !important;
+  overflow-y: auto;
+  display: block !important;
 }

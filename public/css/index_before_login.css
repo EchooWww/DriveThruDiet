@@ -1,4 +1,5 @@
 body {
+  background-color: var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,21 +22,21 @@ body {
   width: 100%;
 }
 
-.submit-btn {
+.access-btn {
   width: 50%;
-  border: none;
+  border: 2px solid white;
   background-color: white;
   padding: 1em;
-  border-radius: 10px;
+  border-radius: var(--btnradius);
   cursor: pointer;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
 
-.submit-btn:hover {
-  background-color: #d9d8d5;
+.access-btn:hover {
+  background-color: var(--medium);
 }
 
-.submit-btn:active {
-  background-color: #e68b57c5;
+.access-btn:active {
+  background-color: var(--dark);
 }

@@ -1,6 +1,234 @@
 <%- include("templates/header") %>
-<%- include("templates/navbar_top") %>
+  <script src="https://cdn.socket.io/4.6.0/socket.io.js"></script>
+  <link rel="stylesheet" href="css/chat.css">
+  </head>
+
+  <body>
+    <%- include("templates/navbar_top") %>
+      <div class="page-container">
+        <div id="chat-box-body">
+          <div class="conversation-window">
+            <form id="initial-form">
+              <div class="chat-message received">
+                <h3 id="intro-msg">Hello, my name is FastFoodie!</h3>
+                <p id="intro-direction">Please provide the following information:</p>
+              </div>
+              <div class="chat-message received">
+                <label for="restaurant"></label>
+                <select id="restaurant" name="restaurant">
+                  <option value="" selected disabled hidden>Restaurant</option>
+                  <option value="Arbys">Arby's</option>
+                  <option value="BurgerKing">Burger King</option>
+                  <option value="ChickFilA">Chick-fil-A</option>
+                  <option value="DairyQueen">Dairy Queen</option>
+                  <option value="MacDonalds">McDonalds</option>
+                  <option value="Sonic">Sonic</option>
+                  <option value="Subway">Subway</option>
+                  <option value="TacoBell">Taco Bell</option>
+                </select>
+              </div>
+              <div class="chat-message received">
+                <label for="mealtime"></label>
+                <select id="mealtime" name="mealtime">
+                  <option value="" selected disabled hidden>Meal Time</option>
+                  <option value="Breakfast">Breakfast</option>
+                  <option value="Lunch">Lunch</option>
+                  <option value="Dinner">Dinner</option>
+                </select>
+              </div>
+              <div class="chat-message received">
+                <label for="dietary-restrictions"></label>
+                <input type="text" id="dietary-restrictions" name="dietary-restrictions"
+                  placeholder="Enter any dietary restrictions?">
+              </div>
+              <div class="chat-message received">
+                <button class="submit-btn" type="submit">ASK FASTFOODIE</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="messages" style="list-style: none; display: none;">
+          </div>
+
+          <div class="input-container" style="display: none;">
+            <form id="message-form" action="">
+              <input id="m" autocomplete="off" placeholder="Type your question here..." autofocus />
+              <button class="submit-btn" id="send-message">SEND</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <script>
+        $(function () {
+          const socket = io();
+          const $messages = $('#messages');
+          let initialPrompt = '';
+
+          // Handle initial form submission
+          $("#initial-form").submit(function (e) {
+            e.preventDefault();
+
+            // Get the selected values from the form
+            const restaurant = $("#restaurant").val();
+            const mealtime = $("#mealtime").val();
+            const dietaryRestrictions = $("#dietary-restrictions").val();
+
+            // Generate the initial prompt message
+            initialPrompt = `Recommendation for ${mealtime} at ${restaurant}`;
+            if (dietaryRestrictions) {
+              initialPrompt += ` with dietary restrictions: ${dietaryRestrictions}`;
+            }
+
+            // Hide the initial form
+            $("#initial-form").hide();
+            // Show input field
+            $(".input-container").show();
+            // Show messages field
+            $("#messages").show();
+
+            // Display the initial prompt message
+            const $message = $('<div class="conversation-window"><div class="chat-message sent"><p></p></div></div>');
+            $message.find('p').text(initialPrompt);
+            $messages.append($message);
+
+            // Scrolls to bottom of the chat
+            const chatMessages = document.getElementById('messages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Send the initial prompt message to the server
+            socket.emit("chat message", initialPrompt);
+
+            // Clear the input fields
+            $("#restaurant").val("");
+            $("#mealtime").val("");
+            $("#dietary-restrictions").val("");
+            return false;
+          });
+
+          // Handle sending a message
+          $("#message-form").submit(function (e) {
+            e.preventDefault();
+
+            // Get the message text
+            const message = $("#m").val();
+
+            // Add the message to the messages list as a new chat message
+            const $message = $('<div class="conversation-window"><div class="chat-message sent"><p></p></div></div>');
+            $message.find('p').text(message);
+            $messages.append($message);
+
+            // Scrolls to bottom of the chat
+            const chatMessages = document.getElementById('messages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Check if the message is unrelated to food
+            if (!isFoodRelatedQuestion(message)) {
+              // Respond with the predefined message for unrelated questions
+              const unrelatedResponse = "I'm just a FastFoodie, please ask me something related to Fast Food!";
+              const $unrelatedMessage = $('<div class="conversation-window"><div class="chat-message received"><p></p></div></div>');
+              $unrelatedMessage.find('p').text(unrelatedResponse);
+              $messages.append($unrelatedMessage);
+
+              // Scrolls to bottom of the chat
+              chatMessages.scrollTop = chatMessages.scrollHeight;
+              // Clear the input field
+              $("#m").val("");
+              return;
+            }
+
+            // Construct the complete prompt by combining the initial prompt and the current message
+            const completePrompt = initialPrompt + ' ' + message;
+
+            // Send the complete prompt to the server
+            socket.emit("chat message", completePrompt);
+
+            // Clear the input field
+            $("#m").val("");
+            return false;
+          });
+
+          // Handle receiving a message
+          socket.on("chat message", function (msg) {
+            const response = msg.split("FastFoodie:")[1];
+            // Add the message to the messages list as a new chat message
+            const $message = $('<div class="conversation-window"><div class="chat-message received"><p></p></div></div>');
+            $message.find('p').text(msg);
+            $messages.append($message);
+            console.log(msg);
+
+            // Scrolls to bottom of the chat
+            const chatMessages = document.getElementById('messages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+          });
+
+          // Check if the message is related to food
+          function isFoodRelatedQuestion(message) {
+            // Convert the message to lowercase for case-insensitive matching
+            const lowercaseMessage = message.toLowerCase();
+
+            // List of food-related keywords or phrases
+            const foodKeywords = [
+              "food",
+              "meal",
+              "breakfast",
+              "lunch",
+              "dinner",
+              "restaurant",
+              "menu",
+              "cuisine",
+              "dish",
+              "recipe",
+              "nutrition",
+              "diet",
+              "fast food",
+              "burger",
+              "pizza",
+              "fries",
+              "sandwich",
+              "taco",
+              "wrap",
+              "salad",
+              "soda",
+              "soft drink",
+              "yogurt",
+              "parfait",
+              "beverage",
+              "calories",
+              "carbohydrates",
+              "protein",
+              "fat",
+              "sugar",
+              "fiber",
+              "cholesterol",
+              "sodium",
+              "vitamins",
+              "minerals",
+              "healthy",
+              "unhealthy",
+              "organic",
+              "gluten-free",
+              "vegetarian",
+              "vegan",
+              "allergies",
+              "intolerances",
+              "weight",
+              "portion size",
+              "mcdonalds",
+              "burger king",
+              "subway",
+              "taco bell",
+              "arbys",
+              "kfc",
+            ];
+
+            // Check if the message contains any food-related keywords
+            return foodKeywords.some(keyword => lowercaseMessage.includes(keyword));
+          }
+        });
 
 
-<%- include('templates/navbar_bottom') %>
-<%- include("templates/footer") %>
+
+      </script>
+
+      <%- include("templates/navbar_bottom") %>
+        <%- include("templates/footer") %>

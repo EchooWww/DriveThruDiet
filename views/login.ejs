@@ -1,21 +1,76 @@
 <%- include("templates/header") %>
   <link rel="stylesheet" href="/css/authentication.css">
+  <link rel="stylesheet" href="/css/login.css">
   </head>
+
   <body>
     <div class="auth-form-container">
-      <h2>Login</h2>
-      <form class="form" method="post" action="/loggingin">
-        <label for="username">Username</label>
-        <input type="text" placeholder="Username" id="username" name="username" />
-        <label for="password">Password</label>
-        <input type="password" placeholder="**********" id="password" name="password" />
-        <button class="submit-btn" type="submit">Log In</button>
+      <h2>LOGIN</h2>
+      <form class="form" method="post" action="/loggingin" id="loginForm">
+        <label class="input-box" for="username">
+          <input type="text" placeholder="Username" id="usernameInput" name="username" />
+          <a class="forgot-btn" onclick="location.href='/find_username';">
+            Forgot
+          </a>
+        </label>
+          <span id="usernameError" class="error-message" style="text-align: left; color: red;"></span>
+        <label class="input-box" for="password">
+          <input type="password" placeholder="Password" id="passwordInput" name="password" /><a class="forgot-btn"
+            onclick="location.href='/forgot';">
+            Reset
+          </a>
+        </label>
+          <span id="passwordError" class="error-message" style="text-align: left; color: red;"></span>
+        <button class="submit-btn" type="submit">LOGIN</button>
       </form>
       <button class="link-btn" onclick="location.href='/signup';">
         Don't have an account? Register here.
       </button>
-      <button class="link-btn" onclick="location.href='/forgot';">
-        Forgot your username or password?
-      </button>
     </div>
+
+    <script>
+      // Attach event listener to form submission
+      $("#loginForm").on("submit", function (event) {
+        event.preventDefault();
+
+        var formData = $(this).serialize();
+
+        $.ajax({
+          url: "/loggingIn",
+          type: "POST",
+          data: formData,
+          dataType: "json",
+          success: function (response) {
+            if (response.redirect) {
+              window.location.href = response.redirect;
+            }
+          },
+          error: function (xhr, status, error) {
+            var errorMessage = xhr.responseJSON.error;
+            var errorInput = "";
+
+            if (errorMessage === "Please enter a valid username" || errorMessage === "User not found") {
+              errorInput = "username";
+            } else if (errorMessage === "Incorrect password") {
+              errorInput = "password";
+            }
+
+            $("#" + errorInput + "Input").addClass("is-invalid");
+            $("#" + errorInput + "Error").text("❗️" + errorMessage);
+            $("#" + errorInput + "Error").show();
+          },
+        });
+      });
+
+      $("#usernameInput, #passwordInput").on("input", function () {
+        var inputId = $(this).attr("id");
+        var errorId = inputId.replace("Input", "Error");
+
+        if ($(this).hasClass("is-invalid") && $(this).get(0).checkValidity()) {
+          $(this).removeClass("is-invalid");
+          $("#" + errorId).hide();
+        }
+      });
+
+    </script>
     <%- include("templates/footer") %>

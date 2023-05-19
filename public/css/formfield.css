@@ -1,0 +1,14 @@
+label {
+  text-align: left;
+  margin-bottom: 0.5em;
+  border-radius: var(--btnradius);
+  border: 1px solid var(--accent);
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  padding: 1em;
+  border: none;
+  border-radius: var(--btnradius);
+}

@@ -1,15 +1,38 @@
+<!--include Google Icon library-->
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+/>
+
+<link rel="stylesheet" href="/css/mytray.css">
+
+<!-- SweetAlert library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<!-- Top NavBar -->
 <div id="top-nav-container">
   <!-- Profile icon -->
   <div>
     <a href="/profile"
       ><img src="/images/icon-profile.png" alt="Profile" id="profile-icon"
     /></a>
+
+    <!--back icon to render in profile page-->
+    <a href="/home" style="text-decoration: none">
+      <span
+        class="material-symbols-outlined"
+        id="backbutton"
+        style="display: none"
+      >
+        arrow_back_ios
+      </span>
+    </a>
   </div>
 
   <!-- Search Bar -->
   <div class="search-container">
     <form>
-      <span id="search-span">
+      <span id="search-span" onclick="submitSearch()">
         <img
           src="/images/icon-search.png"
           alt="Search"
@@ -24,25 +47,21 @@
         autofocus
       />
       <span id="filter-span">
-        <a href="/filter"
-          ><img
-            src="/images/icon-filter.png"
-            alt="Search"
-            class="search-bar-icons"
-        /></a>
+        <img
+          src="/images/icon-filter.png"
+          alt="Search"
+          class="search-bar-icons"
+          onClick="showFilter()"
+        />
       </span>
     </form>
   </div>
 
   <!-- Tray Icon -->
-  <div>
+  <div class="tray-icon-container">
     <img onClick="iconToggle()" id="tray-icon" />
+    <span class="tray-count" id="tray-count" onClick="iconToggle()"></span>
   </div>
-</div>
-
-<!-- Sidebar -->
-<div id="sidebar-container">
-  <div></div>
 </div>
 
 <!-- Live Search -->
@@ -50,30 +69,151 @@
   <ul id="search-results">
     <% for (var i=0; i < searchList.length; i++) { %>
     <li class="list-item">
-      <div
-        style="width: 115px; min-width: 115px; max-width: 115px; color: #4b4b4b"
-      >
-        <%= locals.searchList[i].restaurant %>
-      </div>
-      <div>
-        <%= locals.searchList[i].item %><br />
-        <span style="font-size: 9pt; color: #4b4b4b"
-          ><%= locals.searchList[i].calories %> Calories</span
-        >
-      </div>
+      <a href="/item/<%= locals.searchList[i].restaurant %>/<%= locals.searchList[i].item %>" >
+        <div id="search-results-restaurant">
+          <%= locals.searchList[i].restaurant %>
+        </div>
+        <div style="color: #1f1f1f">
+          <%= locals.searchList[i].item %><br />
+          <span style="font-size: 9pt; color: #4b4b4b">
+            <%= locals.searchList[i].calories %> Calories
+          </span>
+        </div>
+      </a>
     </li>
     <% } %>
   </ul>
 </div>
 
 <!-- Filter card -->
+<div class="filter-card-container">
+  <form action="/filter" method="get" id="filter-form">
+    <button
+      type="button"
+      name="filter"
+      value="calorie"
+      onclick="toggleButton(this)"
+      class="filter-button"
+    >
+      Calories < 400
+    </button>
+    <button
+      type="button"
+      name="filter"
+      value="protein"
+      onclick="toggleButton(this)"
+      class="filter-button"
+    >
+      High Protein
+    </button>
+    <button
+      type="button"
+      name="filter"
+      value="fat"
+      onclick="toggleButton(this)"
+      class="filter-button"
+    >
+      Low Fat
+    </button>
+    <button
+      type="button"
+      name="filter"
+      value="carb"
+      onclick="toggleButton(this)"
+      class="filter-button"
+    >
+      Low Carb
+    </button>
+    <input type="hidden" name="filter" id="selected-filter" value="" />
+    <button type="submit" value="Apply Filter" id="filter-submit-btn">
+      Apply Filter
+    </button>
+  </form>
+</div>
+
+<!-- Right Sidebar -->
+<div id="right-sidebar-container">
+  <div id="myTrayContents">
+    Food Tray Items
+  </div>
+  <div id="compare-list-container">
+    Compare Items
+    <% for (let i = 0; i < locals.compareList.length; i++) { %>
+      <div class="compare-list-items">
+        <div class="compare-side-restaurant"> <%= locals.compareList[i].restaurant %> </div>
+        <div class="compare-side-item"> <%= locals.compareList[i].item %></div>
+        <form>
+          <button <% if (locals.currentURL == "/compare") { %> class="hidden" <% } %> formaction="/removeCompare" method="get" name="compareID" value="<%= locals.compareList[i]._id %>"> X </button>
+        </form>
+      </div>
+    <% } %>
+    <form id="compare-form">
+      <button <% if (locals.compareList.length === 2) { %> formaction="/compare" type="submit" <% } else { %> onclick="addCompareAlert()" <% } %> id="compare-btn"> COMPARE </button>
+    </form>
+  </div>
+</div>
+
+<!-- Tray Banner -->
+<div id="tray-banner-container" style="<%= trayItems && trayItems.length > 0 ? '' : 'display: none;' %>" onClick="trayToggle()"> 
+  <div id="tray-contents">
+    <div id="food-tray-heading">
+      <div>Tray Nutrition Total</div>
+    </div>
+    <div id="totalNutrition">
+      <div id="totalCalories" class="nutrition-item">
+        <div id="totalCaloriesName"><strong>Calories</strong></div>
+        <div id="totalCaloriesValue"><%=totalCalories%> Cal</div>
+      </div>
+      <div id="totalCarbs" class="nutrition-item">
+        <div id="totalCarbsName"><strong>Carbs</strong></div>
+        <div id="totalCarbsValue"><%=totalCarbs%> g</div>
+      </div> 
+      <div id="totalProtein" class="nutrition-item">
+        <div id="totalProteinName"><strong>Protein</strong></div> 
+        <div id="totalProteinValue"><%=totalProtein%> g</div>
+      </div>
+      <div id="totalFat" class="nutrition-item">
+        <div id="totalFatName"><strong>Fat</strong></div> 
+        <div id="totalFatValue"><%=totalFat%> g</div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
-  const image = document.getElementById("tray-icon");
-  const sidebar = document.getElementById("sidebar-container");
+  //Function to show filter card
+  function showFilter() {
+    var filterCard = document.getElementsByClassName("filter-card-container");
+    filterCard[0].classList.toggle("show");
+  }
 
-  console.log("image loaded");
+  var checkedFilters = [];
+
+  function toggleButton(button) {
+    // Toggle the selected state of the button
+    button.classList.toggle("selected");
+
+    // Update the checkedFilters array with the selected buttons
+    checkedFilters = [];
+    var buttons = document.getElementsByName("filter");
+    for (var i = 0; i < buttons.length; i++) {
+      if (buttons[i].classList.contains("selected")) {
+        checkedFilters.push(buttons[i].value);
+      }
+    }
+
+    // Update the value of the hidden input field with the checkedFilters array
+    document.getElementById("selected-filter").value = checkedFilters.join(",");
+  }
+
+  const image = document.getElementById("tray-icon");
+  const rightSidebar = document.getElementById("right-sidebar-container");
+  const foodTray = document.getElementById("tray-banner-container");
+
+
   image.src = "/images/icon-tray.png";
+
+  var trayToggleState = false;
   var toggleState = false;
   var images = [
     "/images/icon-tray-opt.gif",
@@ -88,32 +228,154 @@
     }
   }
 
-  // Toggles the tray icon between open and closed.
-  function iconToggle() {
-    preLoadImages();
-    if (toggleState === false) {
-      setTimeout(function () {
-        image.src = "/images/icon-tray-opt.gif";
-      }, 25);
-      sidebarToggle(toggleState);
-    } else {
-      setTimeout(function () {
-        image.src = "/images/icon-tray-reverse-opt.gif";
-      }, 25);
-      sidebarToggle(toggleState);
-    }
-    toggleState = !toggleState;
+  function updateTrayBanner() {
+  fetch("/trayTotals")
+    .then((response) => response.json())
+    .then((data) => {
+      document.getElementById("totalCalories").innerHTML = `<div><strong>Calories</strong></div><div>${data.totalCalories} Cal</div>`;
+      document.getElementById("totalProtein").innerHTML = `<div><strong>Protein</strong></div><div>${data.totalProtein} g</div>`;
+      document.getElementById("totalFat").innerHTML = `<div><strong>Fat</strong></div><div>${data.totalFat} g</div>`;
+      document.getElementById("totalCarbs").innerHTML = `<div><strong>Carbs</strong></div><div>${data.totalCarbs} g</div>`;
+    })
+    .catch((error) => console.error(error));
   }
 
-  // Toggles the sidebar between open and closed.
-  function sidebarToggle(toggleState) {
+  function updateTrayCount() {
+  fetch('/trayCount')
+    .then(response => response.json())
+    .then(data => {
+      const trayItemCount = data.trayItemCount;
+      const trayCountElement = document.getElementById('tray-count');
+      trayCountElement.textContent = trayItemCount;
+
+      if (trayItemCount >= 10) {
+        trayCountElement.classList.add('small-font');
+      } else {
+        trayCountElement.classList.remove('small-font');
+      }     
+    });
+  }
+
+  // Fetch data from the server to update the right sidebar container
+  function updateMyTray() {
+  fetch("/mytray")
+    .then((response) => response.text())
+    .then((data) => {
+      const sidebarContainer = document.getElementById("myTrayContents");
+      sidebarContainer.innerHTML = data;
+
+      const removeButtons = sidebarContainer.querySelectorAll('.remove-btn');
+
+      removeButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          console.log('Remove Button clicked!');
+          const itemId = e.target.id;
+
+          fetch('/removeItem', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ itemId: itemId })
+          }).then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                updateMyTray();
+                updateTrayBanner();
+                updateTrayCount(); 
+
+                fetch('/trayCount')
+                  .then(response => response.json())
+                  .then(data => {
+                    if (data.trayItemCount === 0) {
+                      document.getElementById("tray-banner-container").style.display = 'none';
+                    }
+                  });
+              } else {
+                // Handle error
+              }
+            });
+        });
+      });
+      const trayCards = sidebarContainer.querySelectorAll('.trayCard');
+      trayCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+          if (!e.target.classList.contains('remove-btn')) {
+            const restaurant = e.currentTarget.dataset.restaurant;
+            const item = e.currentTarget.dataset.item;
+            window.location.href = `/item/${restaurant}/${item}`;
+          }
+        });
+      });
+    })
+    .catch((error) => console.error(error));
+}
+
+// Toggle the tray icon image and update the tray content
+function iconToggle() {
+  preLoadImages();
+
+  const trayCountElement = document.getElementById('tray-count');
+
+  if (toggleState === false) {
+    setTimeout(function () {
+      image.src = "/images/icon-tray-opt.gif";
+    }, 50);
+
+    updateMyTray();
+    rightSidebarToggle(toggleState);
+
+    trayCountElement.style.display = 'none';
+  } else {
+    setTimeout(function () {
+      image.src = "/images/icon-tray-reverse-opt.gif";
+    }, 50);
+    rightSidebarToggle(toggleState);
+
+    trayCountElement.style.display = 'block';
+  }
+  toggleState = !toggleState;
+}
+
+  // Toggles the right sidebar between open and closed.
+  function rightSidebarToggle(toggleState) {
     if (toggleState === false) {
-      sidebar.style.transform = "translateX(-350px)";
+      rightSidebar.style.transform = "translateX(-350px)";
     } else {
-      sidebar.style.transform = "translateX(0px)";
+      rightSidebar.style.transform = "translateX(50px)";
     }
   }
 
+  // Closes the right sidebar when the user clicks outside of it.
+  document.addEventListener("mousedown", function (e) {
+    if (
+      !rightSidebar.contains(e.target) &&
+      toggleState === true &&
+      !image.contains(e.target) &&
+      !foodTray.contains(e.target)
+    ) {
+      iconToggle();
+    }
+  });
+
+  // Toggles the food tray between open and closed.
+  function trayToggle() {
+    if (trayToggleState === false) {
+      foodTray.style.transform = "translateY(-60px)";
+    } else {
+      foodTray.style.transform = "translateY(0px)";
+    }
+    trayToggleState = !trayToggleState;
+  }
+
+  // Closes the food tray when the user clicks outside of it.
+  document.addEventListener("mousedown", function (e) {
+  if (!foodTray.contains(e.target) && trayToggleState === true && e.target.className !== "add-btn" && e.target.className !== "remove-btn") {
+    trayToggle();
+  }
+});
+
+  // Displays the search results when the user types in the search bar.
   function showResults(search) {
     console.log(search);
     var searchList = document.getElementsByClassName(
@@ -140,6 +402,7 @@
     }
   }
 
+  // Closes the search results when the user clicks outside of it.
   document.addEventListener("mousedown", function (e) {
     var searchList = document.getElementsByClassName(
       "search-results-container"
@@ -153,24 +416,26 @@
       }
     }
   });
-</script>
 
-<!-- function showResults(search) {
-    console.log(search);
-    var searchList = document.getElementsByClassName("search-results-container");
-    var listItem = document.getElementsByTagName("li");
-    for (var i = 0; i < searchList.length; i++) {
-      if (search.length < 2) {
-        searchList[i].classList.add("hidden");
-      } else {
-        searchList[i].classList.remove("hidden");
-      }
-      for (var j = 0; j < listItem.length; j++) {
-        if (listItem[j].innerHTML.toLowerCase().includes(search.toLowerCase().trim())) {
-          listItem[j].classList.remove("hidden");
-        } else {
-          listItem[j].classList.add("hidden");
-        };
-      };
-    };
-  }; -->
+  function submitSearch() {
+    var value = document.getElementById("nav-search-bar").value;
+    if (value.toLowerCase() === "mike") {
+      window.location.href = "/easteregg";
+    } else {
+      console.log("Incorrect Key");
+    }
+  }
+
+  updateTrayCount();
+
+  function addCompareAlert() {
+    Swal.fire({
+      title: 'Please add at least 2 items.',
+      icon: 'warning',
+      showCancelButton: false,
+      confirmButtonText: 'Ok'
+    });
+    event.preventDefault();
+  }
+
+</script>

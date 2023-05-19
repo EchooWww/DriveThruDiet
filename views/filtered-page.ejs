@@ -1,0 +1,98 @@
+<%- include("templates/header") %> 
+<link rel="stylesheet" href="/css/filter.css" />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+/>
+</head>
+
+<body>
+  <%- include("templates/navbar_top") %>
+  
+  <div class="page-container">
+    <div id="placeholder0"></div>
+    <main>
+      <% filteredList.forEach(function(item) { %>
+      <div class="card" data-restaurant="<%= item.restaurant %>" data-item="<%= item.item %>">
+        <% if (item.restaurant === "Taco Bell") { %>
+        <img src="/images/Taco Bell1.png" alt="Taco Bell" />
+        <% } else if (item.restaurant === "Arbys") { %>
+        <img src="/images/Arbys1.png" alt="Arby's" />
+        <% } else if (item.restaurant === "Burger King") { %>
+        <img src="/images/Burger King1.png" alt="Burger King" />
+        <% } else if (item.restaurant === "Mcdonalds") { %>
+        <img src="/images/Mcdonalds1.png" alt="McDonald's" />
+        <% } else if (item.restaurant === "Subway") { %>
+        <img src="/images/Subway1.png" alt="Subway" />
+        <% } else if (item.restaurant === "Dairy Queen") { %>
+        <img src="/images/Dairy Queen1.png" alt="DairyQueen" />
+        <% } else if (item.restaurant === "Sonic") { %>
+        <img src="/images/Sonic1.png" alt="Sonic" />
+        <% } else if (item.restaurant === "Chick Fil-A") { %>
+        <img src="/images/Chick Fil-A1.png" alt="Chick Fil-A" />
+        <% }%>
+    
+        <div class="item-details">
+          <h4><%= item.item %></h4>
+          <p>
+            <small><strong>Calories:</strong> <%= item.calories %> cal</small>
+          </p>
+          <p>
+            <small><strong>Carbs:</strong> <%= item.total_carb %> g</small>
+          </p>
+          <p>
+            <small><strong>Protein:</strong> <%= item.protein %> g</small>
+          </p>
+          <p>
+            <small><strong>Fat:</strong> <%= item.total_fat %> g</small>
+          </p>
+        </div>
+          <button class="add-btn" id="<%= item._id %>">Add</button>
+        </button>
+      </div>
+      <% }); %>
+    </main>
+    <div id="placeholder1"></div>
+  </div>
+
+  <script>
+  const addButtons = document.querySelectorAll('.add-btn');
+
+  addButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      console.log('Button clicked!');
+      const itemId = e.target.id;
+
+      fetch('/addItem', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ itemId: itemId })
+      }).then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            updateTrayBanner();
+            updateTrayCount(); 
+            document.getElementById("tray-banner-container").style.display = 'block';
+          } else {
+            // Handle error
+          }
+        });
+    });
+  });
+
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (!e.target.classList.contains('add-btn')) {
+          const restaurant = e.currentTarget.dataset.restaurant;
+          const item = e.currentTarget.dataset.item;
+          window.location.href = `/item/${restaurant}/${item}`;
+        }
+      });
+    });
+  </script>
+
+<%- include('templates/navbar_bottom') %> <%- include("templates/footer") %>

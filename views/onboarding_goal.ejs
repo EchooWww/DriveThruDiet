@@ -1,14 +1,41 @@
 <%- include("templates/header") %>
-<link rel="stylesheet" href="/css/authentication.css">
+  <link rel="stylesheet" href="/css/profile.css">
+  <link rel="stylesheet" href="/css/authentication.css">
 
-</head>
-<body>
-  <div class="auth-form-container">
-  <h2>My Nutritional Goals</h2>
-  <p>Daily Calorie: <%= calorieNeeds %> KCal</p>
-  <p>Daily Protein: <%= protein %> g</p>
-  <p>Daily Fat: <%= fat %> g</p>
-  <p>Daily Carbs: <%= carbs %> g</p>
-  <button class="submit-btn" onclick="window.location.href='/home';">Start Your Journey</button>
-  </div>
-  <%- include("templates/footer") %>
+
+  </head>
+
+  <body>
+    <div class="auth-form-container">
+      <h2>My Nutritional Goals</h2>
+      <div class="profile-card">
+        <div class="item item--1">
+          Calorie
+          <span class="quantity">
+            <%= calorieNeeds %>
+          </span>
+          <span class="text text--1"> Calories </span>
+        </div>
+        <div class="item item--2">
+          Carbohydrate <span class="quantity">
+            <%= carbs %>
+          </span>
+          <span class="text text--2"> Grams </span>
+        </div>
+        <div class="item item--3">
+          Protein <span class="quantity">
+            <%= protein %>
+          </span>
+          <span class="text text--3"> Grams </span>
+        </div>
+        <div class="item item--4"> Fat
+          <span class="quantity">
+            <%= fat %>
+          </span>
+          <span class="text text--4"> Grams </span>
+        </div>
+      </div>
+      <button class="submit-btn" onclick="window.location.href='/home';">Start My Journey</button>
+    </div>
+
+<%- include("templates/footer") %>

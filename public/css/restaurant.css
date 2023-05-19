@@ -1,18 +1,12 @@
-body {
-  overflow: auto;
-}
-
 header {
-  padding-top: 7%;
-  padding-left: 10%;
+  padding-left: 7%;
   margin-bottom: 0;
   text-align: left;
-  font-size: 17px;
-  color: #616161;
+  font-size: 15px;
 }
 
 .restaurant-title {
-  margin-top: 13%;
+  /* margin-top: 7%; */
   font-weight: bold;
 }
 
@@ -22,15 +16,16 @@ header {
   justify-content: center;
   align-items: flex-start;
   overflow-y: scroll;
-  height: 800px;
+  height: 660px;
   padding-top: 10px;
 }
 
 .restaurant-images img {
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   margin-bottom: 0;
   margin-top: 0;
-  margin-right: 2.5rem;
-  margin-left: 2.5rem;
+  margin-right: 2rem;
+  margin-left: 2rem;
+  
 }

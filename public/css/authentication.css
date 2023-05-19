@@ -12,50 +12,21 @@ body {
 
 .auth-form-container {
   padding: 3em;
-  border: 1px solid white;
-  border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.229);
   min-width: 250px;
   width: 20vw;
   max-width: 400px;
-}
-
-label {
-  text-align: left;
-  padding: 0.25em;
-}
-
-input {
-  padding: 1em;
-  margin-bottom: 0.25em;
-  border: none;
-  border-radius: 10px;
-}
-
-button {
-  border: none;
-  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .submit-btn {
-  border: none;
-  background-color: white;
   padding: 1em;
-  border-radius: 10px;
-  cursor: pointer;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-}
-
-.submit-btn:hover {
-  background-color: #d9d8d5;
-}
-
-.submit-btn:active {
-  background-color: #e68b57c5;
+  margin: 0.5em auto 0.5em auto;
+  width: 65%
 }
 
 .link-btn {
+  color: var(--dark);
   background: none;
   text-decoration: underline;
 }
@@ -65,12 +36,22 @@ button {
 }
 
 .link-btn:active {
-  color: rgb(255, 255, 255)
+  color: var(--highlight)
 }
 
-#questionIndex {
+.questionIndex {
   padding: 1em;
-  margin-bottom: 0.25em;
   border: none;
-  border-radius: 10px;
+  border-radius: var(--btnradius);
+  width: 100%;
+}
+
+.is-invalid.hide {
+  display: none;
+  visibility: hidden;
+}
+
+.error-message {
+  font-size: 0.8em;
+  margin-bottom: 0.5em;
 }

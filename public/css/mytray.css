@@ -89,4 +89,5 @@ main {
 #tray-list {
   height: calc(100% - 50px) !important;
   overflow-y: auto;
+  display: block !important;
 }

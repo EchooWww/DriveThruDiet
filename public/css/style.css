@@ -60,14 +60,36 @@ body {
 }
 
 .swal2-styled.swal2-confirm {
+  border: 2px solid var(--accent) !important;
   background-color: var(--accent) !important;
   border-radius: var(--btnradius) !important;
 }
 
 .swal2-styled.swal2-confirm:hover {
+  border: 2px solid var(--medium) !important;
   background-color: var(--medium) !important;
 }
 
 .swal2-styled.swal2-confirm:active {
+  border: 2px solid var(--dark) !important;
   background-color: var(--dark) !important;
+}
+
+.swal2-styled.swal2-cancel {
+  border-radius: var(--btnradius) !important;
+  border: 2px solid var(--accent) !important;
+  background-color: white !important;
+  color: var(--accent) !important;
+}
+
+.swal2-styled.swal2-cancel:hover {
+  border: 2px solid var(--medium) !important;
+  background-color: var(--medium) !important;
+  color: white !important;
+}
+
+.swal2-styled.swal2-cancel:active {
+  border: 2px solid var(--dark) !important;
+  background-color: var(--dark) !important;
+  color: white !important;
 }

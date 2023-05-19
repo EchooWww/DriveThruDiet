@@ -3,14 +3,14 @@
 label {
   display: inline;
   margin-bottom: 0.5em;
-  font-size: 18px;
+  font-size: 16px;
   color: black;
 }
 
 input,
 select {
   border: none;
-  font-size: 18px;
+  font-size: 16px;
   margin-bottom: 0.5em;
   color: var(--dark-grey);
 }
@@ -30,7 +30,7 @@ h2 {
 }
 
 .container {
-  width: 300px;
+  width: 280px;
   margin: auto;
   text-align: left;
 }

@@ -1,14 +1,7 @@
-<%- include("templates/header") %> 
-
-<link rel="stylesheet" href="/css/mytray.css">
-
-</head>
-
-<body>
 <header>
   <h1>My Tray</h1>
 </header>
-<main>
+<main id="tray-list">
   <% trayItems.forEach(function(item) { %>
   <div class="card">
     <img src="<%= item.restaurant.image %>" alt="<%= item.restaurant.name %>" />
@@ -28,10 +21,3 @@
   </div>
   <% }); %>
 </main>
-<div class="placeholder"></div>
-
-<script>
-  
-</script>
-
-<%- include("templates/footer") %>

@@ -35,7 +35,7 @@
         </div>
         <div>
           <form>
-            <button id="add-btn"> ADD </button>
+            <button class="add-btn" id="<%= id %>"> ADD </button>
             <button id="add-compare-btn" name="compareID" value="<%= id %>"
               <% for (let i = 0; i < locals.compareList.length; i++) { %>
                 <% console.log(locals.compareList[i]._id, id); %>
@@ -162,6 +162,30 @@
     });
     event.preventDefault();
     }
+
+    const addButton = document.querySelector('.add-btn');
+
+    addButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      const itemId = e.target.id;
+      fetch('/addItem', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ itemId: itemId })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            updateTrayBanner();
+            updateTrayCount();
+            document.getElementById('tray-banner-container').style.display = 'block';
+          } else {
+            // Handle error
+          }
+        });
+    });
 
   </script>
 <%- include("templates/navbar_bottom") %>

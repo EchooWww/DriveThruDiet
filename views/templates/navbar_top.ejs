@@ -157,20 +157,24 @@
 <div id="tray-banner-container" style="<%= trayItems && trayItems.length > 0 ? '' : 'display: none;' %>" onClick="trayToggle()"> 
   <div id="tray-contents">
     <div id="food-tray-heading">
-      <div id="foodTrayHeading">Tray Nutrition Total</div>
+      <div>Tray Nutrition Total</div>
     </div>
     <div id="totalNutrition">
-      <div id="totalCalories">
-        <strong>Calories</strong> <%=totalCalories%>Cal
+      <div class="nutrition-item">
+        <div id="totalCaloriesName"><strong>Calories</strong></div>
+        <div id="totalCaloriesValue"><%=totalCalories%>Cal</div>
       </div>
-      <div id="totalCarbs">
-        <strong>Carbs</strong> <%=totalCarbs%>g
+      <div class="nutrition-item">
+        <div id="totalCarbsName"><strong>Carbs</strong></div>
+        <div id="totalCarbsValue"><%=totalCarbs%>g</div>
       </div> 
-      <div id="totalProtein">
-        <strong>Protein</strong> <%=totalProtein%>g
+      <div class="nutrition-item">
+        <div id="totalProteinName"><strong>Protein</strong></div> 
+        <div id="totalProteinValue"><%=totalProtein%>g</div>
       </div>
-      <div id="totalFat">
-        <strong>Fat</strong> <%=totalFat%>g
+      <div class="nutrition-item">
+        <div id="totalFatName"><strong>Fat</strong></div> 
+        <div id="totalFatValue"><%=totalFat%>g</div>
       </div>
     </div>
   </div>

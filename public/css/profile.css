@@ -2,33 +2,20 @@
 
 label {
   display: inline;
-  margin-bottom: 10px;
-  font-size: 14px;
+  margin-bottom: 0.5em;
+  font-size: 18px;
 }
 
-input, select {
-  margin-bottom: 20px;
-  padding: 0.6em;
+input,
+select {
   border: none;
-  border-radius: 10px;
-  font-size: 12px;
-}
-
-#female, #male {
-  margin-bottom: 25px;
-}
-
-#birthday {
-  margin-bottom: 18px
+  font-size: 18px;
+  margin-bottom: 0.5em;
 }
 
 .page-container {
   overflow-y: scroll;
   color: var(--dark);
-}
-
-.sex-label {
-  font-size: small;
 }
 
 h2 {
@@ -41,7 +28,7 @@ h2 {
 }
 
 .container {
-  width: 250px;
+  width: 300px;
   margin: auto;
   text-align: left;
 }
@@ -51,23 +38,11 @@ h2 {
   justify-content: center;
 }
 
+.save-btn,
 .submit-btn {
-  border: none;
-  background-color: var(--accent);
-  color: white;
-  padding: 0.5em 1.5em;
-  border-radius: 50px;
-  cursor: pointer;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-}
-
-.submit-btn:hover {
-  background-color: #FF9CAE;
-}
-
-.submit-btn:active {
-  background-color: #e68b57c5;
+  padding: 0.5em;
+  margin: 0.5em auto 0.5em auto;
+  width: 30%
 }
 
 .logout-btn {
@@ -75,8 +50,6 @@ h2 {
   background-color: transparent;
   padding: 1em;
   border-radius: 10px;
-  cursor: pointer;
-  margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
 
@@ -159,7 +132,9 @@ h2 {
   color: rgba(220, 91, 183, 1);
 }
 
-.search-container, #tray-icon, #profile-icon {
+.search-container,
+#tray-icon,
+#profile-icon {
   display: none;
 }
 

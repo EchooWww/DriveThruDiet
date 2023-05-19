@@ -24,7 +24,7 @@ main {
   margin-top: 0;
 }
 
-.card {
+.trayCard {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -34,7 +34,7 @@ main {
   border: 1px solid var(--light);
 }
 
-.card img {
+.trayCard img {
   width: 80px;
   height: 70px;
   object-fit: cover;
@@ -68,11 +68,11 @@ main {
   border: none;
   border-radius: 5px;
   padding: 7px 13px;
-  font-size: 15px;
+  font-size: 12px;
   cursor: pointer;
   position: relative;
-  top: 39px;
-  right: 3px;
+  top: 40px;
+  right: 2px;
   margin-left: auto;
 }
 

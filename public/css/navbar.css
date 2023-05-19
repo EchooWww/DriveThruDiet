@@ -72,13 +72,10 @@
 
 .tray-count {
     position: absolute;
+    font-size: 1em;
     top: 1.045em;
     right: 2.34em;
-    /* padding: 3.7px 3.7px;
-    border-radius: 50%;
-    background-color: var(--accent); */
     color: var(--accent);
-    font-size: 1em;
     font-weight: bold;
 }
 

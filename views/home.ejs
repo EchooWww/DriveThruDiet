@@ -85,10 +85,32 @@
 
     const radius = circle1.r.baseVal.value;
     const circumference = 2 * Math.PI * radius;
-    const offset1 = circumference - (percent1 / 100) * circumference;
-    const offset2 = circumference - (percent2 / 100) * circumference;
-    const offset3 = circumference - (percent3 / 100) * circumference;
-    const offset4 = circumference - (percent4 / 100) * circumference;
+    let offset1, offset2, offset3, offset4;
+
+    // Check if the percentage is greater than 100
+    if (percent1 > 100) {
+      offset1 = 0; // Display the whole ring
+    } else {
+      offset1 = circumference - (percent1 / 100) * circumference;
+    }
+
+    if (percent2 > 100) {
+      offset2 = 0; // Display the whole ring
+    } else {
+      offset2 = circumference - (percent2 / 100) * circumference;
+    }
+
+    if (percent3 > 100) {
+      offset3 = 0; // Display the whole ring
+    } else {
+      offset3 = circumference - (percent3 / 100) * circumference;
+    }
+
+    if (percent4 > 100) {
+      offset4 = 0; // Display the whole ring
+    } else {
+      offset4 = circumference - (percent4 / 100) * circumference;
+    }
 
     circle1.style.strokeDasharray = `${circumference} ${circumference}`;
     circle1.style.strokeDashoffset = offset1;

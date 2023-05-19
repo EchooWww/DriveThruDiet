@@ -17,13 +17,16 @@
     <div class="item-details">
       <h2><%= item.item %></h2>
       <p>
-        <small><strong>Calories:</strong> <%= item.calories %>Cals</small>
+        <small><strong>Calories:</strong> <%= item.calories %> cal</small>
       </p>
       <p>
-        <small><strong>Protein:</strong> <%= item.protein %>g</small>
+        <small><strong>Carbs:</strong> <%= item.total_carb %> g</small>
       </p>
       <p>
-        <small><strong>Fat:</strong> <%= item.total_fat %>g</small>
+        <small><strong>Protein:</strong> <%= item.protein %> g</small>
+      </p>
+      <p>
+        <small><strong>Fat:</strong> <%= item.total_fat %> g</small>
       </p>
     </div>
     <button class="add-btn" id="<%= item._id %>">Add</button>

@@ -12,7 +12,7 @@
 </header>
 <main>
   <% menu.forEach(function(item) { %>
-  <div class="card">
+  <div class="card" data-restaurant="<%= restaurant.name %>" data-item="<%= item.item %>">
     <img src="<%= restaurant.image %>" alt="<%= restaurant.name %>" />
     <div class="item-details">
       <h2><%= item.item %></h2>
@@ -85,6 +85,20 @@ function updateTrayCount() {
         });
     });
   });
+
+const cards = document.querySelectorAll('.card');
+
+cards.forEach(card => {
+  card.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('add-btn')) {
+      const restaurant = e.currentTarget.dataset.restaurant;
+      const item = e.currentTarget.dataset.item;
+
+      window.location.href = `/item/${restaurant}/${item}`;
+    }
+  });
+});
+
 </script>
 
 

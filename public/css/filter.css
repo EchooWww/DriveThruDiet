@@ -63,3 +63,7 @@ main {
   right: 8px;
   margin-left: auto;
 }
+
+#placeholder1, #placeholder0 {
+  height: 30px;
+}

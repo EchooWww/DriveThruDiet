@@ -8,7 +8,9 @@
 
 <body>
   <%- include("templates/navbar_top") %>
+  
   <div class="page-container">
+    <div id="placeholder0"></div>
     <main>
       <% filteredList.forEach(function(item) { %>
       <div class="card" data-restaurant="<%= item.restaurant %>" data-item="<%= item.item %>">
@@ -50,6 +52,7 @@
       </div>
       <% }); %>
     </main>
+    <div id="placeholder1"></div>
   </div>
 
   <script>

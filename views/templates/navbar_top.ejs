@@ -69,13 +69,10 @@
   <ul id="search-results">
     <% for (var i=0; i < searchList.length; i++) { %>
     <li class="list-item">
-      <a
-        href="/item/<%= locals.searchList[i].restaurant %>/<%= locals.searchList[i].item %>"
-      >
+      <a href="/item/<%= locals.searchList[i].restaurant %>/<%= locals.searchList[i].item %>" >
         <div id="search-results-restaurant">
           <%= locals.searchList[i].restaurant %>
         </div>
-        <div style="color: #1f1f1f">
         <div style="color: #1f1f1f">
           <%= locals.searchList[i].item %><br />
           <span style="font-size: 9pt; color: #4b4b4b">

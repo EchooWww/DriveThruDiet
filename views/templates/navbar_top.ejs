@@ -160,21 +160,21 @@
       <div>Tray Nutrition Total</div>
     </div>
     <div id="totalNutrition">
-      <div class="nutrition-item">
+      <div id="totalCalories" class="nutrition-item">
         <div id="totalCaloriesName"><strong>Calories</strong></div>
-        <div id="totalCaloriesValue"><%=totalCalories%>Cal</div>
+        <div id="totalCaloriesValue"><%=totalCalories%> Cal</div>
       </div>
-      <div class="nutrition-item">
+      <div id="totalCarbs" class="nutrition-item">
         <div id="totalCarbsName"><strong>Carbs</strong></div>
-        <div id="totalCarbsValue"><%=totalCarbs%>g</div>
+        <div id="totalCarbsValue"><%=totalCarbs%> g</div>
       </div> 
-      <div class="nutrition-item">
+      <div id="totalProtein" class="nutrition-item">
         <div id="totalProteinName"><strong>Protein</strong></div> 
-        <div id="totalProteinValue"><%=totalProtein%>g</div>
+        <div id="totalProteinValue"><%=totalProtein%> g</div>
       </div>
-      <div class="nutrition-item">
+      <div id="totalFat" class="nutrition-item">
         <div id="totalFatName"><strong>Fat</strong></div> 
-        <div id="totalFatValue"><%=totalFat%>g</div>
+        <div id="totalFatValue"><%=totalFat%> g</div>
       </div>
     </div>
   </div>
@@ -232,10 +232,10 @@
   fetch("/trayTotals")
     .then((response) => response.json())
     .then((data) => {
-      document.getElementById("totalCalories").innerHTML = `Total Calories: ${data.totalCalories}Cal`;
-      document.getElementById("totalProtein").innerHTML = `Total Protein: ${data.totalProtein}g`;
-      document.getElementById("totalFat").innerHTML = `Total Fat: ${data.totalFat}g`;
-      document.getElementById("totalCarbs").innerHTML = `Total Carbs: ${data.totalCarbs}g`;
+      document.getElementById("totalCalories").innerHTML = `Total Calories: ${data.totalCalories} Cal`;
+      document.getElementById("totalProtein").innerHTML = `Total Protein: ${data.totalProtein} g`;
+      document.getElementById("totalFat").innerHTML = `Total Fat: ${data.totalFat} g`;
+      document.getElementById("totalCarbs").innerHTML = `Total Carbs: ${data.totalCarbs} g`;
     })
     .catch((error) => console.error(error));
   }

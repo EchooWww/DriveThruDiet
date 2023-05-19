@@ -17,16 +17,16 @@
     <div class="item-details">
       <h2><%= item.item %></h2>
       <p>
-        <small><strong>Calories:</strong> <%= item.calories %>cal</small>
+        <small><strong>Calories:</strong> <%= item.calories %> cal</small>
       </p>
       <p>
-        <small><strong>Carbs:</strong> <%= item.total_carb %>g</small>
+        <small><strong>Carbs:</strong> <%= item.total_carb %> g</small>
       </p>
       <p>
-        <small><strong>Protein:</strong> <%= item.protein %>g</small>
+        <small><strong>Protein:</strong> <%= item.protein %> g</small>
       </p>
       <p>
-        <small><strong>Fat:</strong> <%= item.total_fat %>g</small>
+        <small><strong>Fat:</strong> <%= item.total_fat %> g</small>
       </p>
     </div>
     <button class="add-btn" id="<%= item._id %>">Add</button>
@@ -42,10 +42,10 @@ function updateTrayBanner() {
   fetch("/trayTotals")
     .then((response) => response.json())
     .then((data) => {
-      document.getElementById("totalCalories").innerHTML = `<strong>Calories</strong> ${data.totalCalories}Cal`;
-      document.getElementById("totalProtein").innerHTML = `<strong>Protein</strong> ${data.totalProtein}g`;
-      document.getElementById("totalFat").innerHTML = `<strong>Fat</strong> ${data.totalFat}g`;
-      document.getElementById("totalCarbs").innerHTML = `<strong>Carbs</strong> ${data.totalCarbs}g`;
+      document.getElementById("totalCalories").innerHTML = `<strong>Calories</strong> ${data.totalCalories} Cal`;
+      document.getElementById("totalProtein").innerHTML = `<strong>Protein</strong> ${data.totalProtein} g`;
+      document.getElementById("totalFat").innerHTML = `<strong>Fat</strong> ${data.totalFat} g`;
+      document.getElementById("totalCarbs").innerHTML = `<strong>Carbs</strong> ${data.totalCarbs} g`;
     })
     .catch((error) => console.error(error));
 }

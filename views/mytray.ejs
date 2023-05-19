@@ -8,13 +8,15 @@
     <div class="item-details">
       <h2><%= item.item %></h2>
       <p>
-        <small><strong>Calories:</strong> <%= item.calories %>Cal</small>
+        <small><strong>Calories:</strong> <%= item.calories %> Cal</small>
       </p>
       <p>
-        <small><strong>Protein:</strong> <%= item.protein %>g</small>
+        <small><strong>Carbs:</strong> <%= item.total_carb %> g</small>
+      <p>
+        <small><strong>Protein:</strong> <%= item.protein %> g</small>
       </p>
       <p>
-        <small><strong>Fat:</strong> <%= item.total_fat %>g</small>
+        <small><strong>Fat:</strong> <%= item.total_fat %> g</small>
       </p>
     </div>
     <button class="remove-btn" id="<%= item._id %>">Remove</button>

@@ -401,14 +401,6 @@
     margin: 0 auto 0 auto;
 }
 
-#food-tray-heading {
-    font-size: 14pt;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
 #foodTray {
     font-weight: bolder;
 }
@@ -430,6 +422,26 @@
     /* border-top: 1px solid var(--med-grey); */
     margin-bottom: 10px;
     padding-bottom: 10px;
+}
+
+#food-tray-heading {
+    font-size: 14pt;
+    font-weight: bolder;
+    text-align: center;
+    /* display: flex;
+    justify-content: space-between;
+    align-items: center; */
+    margin-bottom: 15px;
+}
+
+#totalNutrition {
+    display: flex;
+    justify-content: space-between;
+}
+
+#totalCalories, #totalCarbs, #totalProtein, #totalFat {
+    text-align: center;
+    line-height: 21px;
 }
 
 /* ---------- End of Food Tray ---------- */

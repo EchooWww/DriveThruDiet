@@ -45,18 +45,22 @@ main {
 }
 
 .item-details h2 {
-  margin-bottom: 5px;
+  margin-bottom: 4px;
   text-align: left;
   font-size: 1rem;
   text-align: left;
   align-self: flex-start;
+  line-height: 15px;
+  margin-top: 1px;
 }
 
 .item-details p {
   margin: 0 0;
   text-align: left;
   font-size: 0.8rem;
+  line-height: 13px;
 }
+
 
 .add-btn {
   background-color: var(--accent);

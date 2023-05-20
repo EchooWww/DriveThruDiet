@@ -270,13 +270,14 @@
         button.addEventListener('click', (e) => {
           console.log('Remove Button clicked!');
           const itemId = e.target.id;
+          const itemIndex = e.target.getAttribute("data-index"); 
 
           fetch('/removeItem', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ itemId: itemId })
+            body: JSON.stringify({ itemId: itemId, itemIndex: itemIndex  })
           }).then(response => response.json())
             .then(data => {
               if (data.success) {
@@ -303,6 +304,7 @@
           if (!e.target.classList.contains('remove-btn')) {
             const restaurant = e.currentTarget.dataset.restaurant;
             const item = e.currentTarget.dataset.item;
+            const index = e.target.parentElement.dataset.index;
             window.location.href = `/item/${restaurant}/${item}`;
           }
         });

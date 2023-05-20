@@ -841,6 +841,7 @@ app.get("/trayTotals", async (req, res) => {
 
 app.post("/removeItem", async (req, res) => {
   const itemId = req.body.itemId;
+  const itemIndex = req.body.itemIndex;
   const username = req.session.username;
 
   const userCollection = database.db(mongodb_database).collection("users");
@@ -857,9 +858,12 @@ app.post("/removeItem", async (req, res) => {
       return res.json({ success: false });
     }
 
+    const updatedTrayItems = [...user.trayItems];
+    updatedTrayItems.splice(itemIndex, 1);
+
     const updateResult = await userCollection.updateOne(
       { _id: new mongodb.ObjectId(userId) },
-      { $pull: { trayItems: { _id: new mongodb.ObjectId(itemId) } } }
+      { $set: { trayItems: updatedTrayItems } }
     );
 
     if (updateResult.matchedCount > 0) {

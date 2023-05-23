@@ -10,7 +10,7 @@ h1 {
   margin-block-end: 0.5rem;
 }
 
-main {
+.menu-cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -27,6 +27,7 @@ main {
   height: 110px;
   margin: 8px;
   padding: 10px;
+  cursor: pointer;
   background-color: var(--card);
   border-radius: var(--radius);
 }

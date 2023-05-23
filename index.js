@@ -152,6 +152,7 @@ async function calculateTotals(username) {
   };
 }
 
+/* GPT_Promt */
 // Middleware function to calculate total nutritional value of tray
 app.use(async (req, res, next) => {
   try {
@@ -817,12 +818,8 @@ removing items from the tray */
 
 // Route to handle adding an item to the user's tray
 app.post("/addItem", async (req, res) => {
-  console.log("req.body:", req.body);
-
   const itemId = req.body.itemId;
   const username = req.session.username;
-  console.log("itemId:", itemId);
-  console.log("username:", username);
 
   const userCollection = database.db(mongodb_database).collection("users");
   const menuCollection = database
@@ -839,7 +836,6 @@ app.post("/addItem", async (req, res) => {
       !mongodb.ObjectId.isValid(itemId) ||
       !mongodb.ObjectId.isValid(userId)
     ) {
-      console.error("Invalid itemId or userId");
       return res.json({ success: false });
     }
 
@@ -847,14 +843,12 @@ app.post("/addItem", async (req, res) => {
     const item = await menuCollection.findOne({
       _id: new mongodb.ObjectId(itemId),
     });
-    console.log("item:", item);
 
     // Add the item to the user's trayItems array using $push
     const updateResult = await userCollection.updateOne(
       { _id: new mongodb.ObjectId(userId) },
       { $push: { trayItems: item } }
     );
-    console.log("updateResult:", updateResult);
 
     if (updateResult.matchedCount > 0) {
       // If the update was successful, retrieve the updated user and send the updated trayItemCount
@@ -867,7 +861,6 @@ app.post("/addItem", async (req, res) => {
       res.json({ success: false });
     }
   } catch (error) {
-    console.error(error);
     res.json({ success: false });
   }
 });
@@ -884,11 +877,11 @@ app.get("/trayCount", async (req, res) => {
     const trayItemCount = user.trayItems.length;
     res.json({ trayItemCount: trayItemCount });
   } catch (error) {
-    console.error(error);
     res.json({ trayItemCount: 0 });
   }
 });
 
+/* GPT_Promt */
 // Route to render the user's tray with associated restaurant information
 app.get("/mytray", async (req, res) => {
   const username = req.session.username;
@@ -918,7 +911,6 @@ app.get("/mytray", async (req, res) => {
     // Render the "mytray" view with the trayItems and username as data
     res.render("mytray", { trayItems: trayItemsWithRestaurant, username });
   } catch (error) {
-    console.error(error);
     res.status(500).send("Internal Server Error");
   }
 });
@@ -932,7 +924,6 @@ app.get("/trayTotals", async (req, res) => {
     // Send the calculated totals as a JSON response
     res.json(totals);
   } catch (error) {
-    console.error(error);
     res.status(500).send("Internal Server Error");
   }
 });
@@ -955,7 +946,6 @@ app.post("/removeItem", async (req, res) => {
       !mongodb.ObjectId.isValid(itemId) ||
       !mongodb.ObjectId.isValid(userId)
     ) {
-      console.error("Invalid itemId or userId");
       return res.json({ success: false });
     }
 
@@ -975,7 +965,6 @@ app.post("/removeItem", async (req, res) => {
       res.json({ success: false });
     }
   } catch (error) {
-    console.error(error);
     res.json({ success: false });
   }
 });

@@ -31,6 +31,7 @@ main {
   height: 110px;
   margin: 8px;
   padding: 10px;
+  cursor: pointer;
   background-color: var(--card);
 }
 

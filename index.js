@@ -11,6 +11,7 @@ const app = express(); // Creating an instance of the Express application
 const Joi = require("joi"); // Importing Joi for input validation
 const { ObjectId } = require("mongodb"); // Importing ObjectId from MongoDB for working with document IDs
 const goalCalculation = require("./public/js/goalCalculation.js"); // Importing the goalCalculation module from "./public/js/goalCalculation.js"
+const saltRounds = 12;
 
 // Changed to 24 hours for testing purposes so that we don't have to keep logging in
 // Session Expiry time set to 1 hour
@@ -31,9 +32,6 @@ const mongodb_database = process.env.MONGODB_DATABASE; // MongoDB database name
 // Session secret keys
 const mongodb_session_secret = process.env.MONGODB_SESSION_SECRET; // MongoDB session secret
 const node_session_secret = process.env.NODE_SESSION_SECRET; // Node session secret
-
-// Salt rounds for bcrypt password hashing
-const saltRounds = process.env.SALTROUNDS; // Number of salt rounds for bcrypt
 
 // API key for Google Maps
 const map_api = process.env.GOOGLE_MAPS_API_KEY; // Google Maps API key

@@ -181,6 +181,7 @@
 </div>
 
 <script>
+
 //-------------------- Filter related functions --------------------
   //Function to show filter card
   function showFilter() {
@@ -248,27 +249,7 @@
   });
 
 //-------------------- Tray-banner related functions --------------------
-  // Function to toggle the tray banner
-  const image = document.getElementById("tray-icon");
-  const rightSidebar = document.getElementById("right-sidebar-container");
-  const foodTray = document.getElementById("tray-banner-container");
 
-  image.src = "/images/icon-tray.png";
-
-  var trayToggleState = false;
-  var toggleState = false;
-  var images = [
-    "/images/icon-tray-opt.gif",
-    "/images/icon-tray-reverse-opt.gif",
-  ];
-
-  // Function to preload images to improve gif-load performance.
-  function preLoadImages() {
-    for (i = 0; i < images.length; i++) {
-      var imageObject = new Image();
-      imageObject.src = images[i];
-    }
-  }
 
   // Function to update the tray banner 
   function updateTrayBanner() {
@@ -282,6 +263,23 @@
     })
     .catch((error) => console.error(error));
   }
+
+
+//-------------------- MyTray(sidebar) related functions --------------------
+
+  // Function to toggle the tray sidebar
+  const image = document.getElementById("tray-icon");
+  const rightSidebar = document.getElementById("right-sidebar-container");
+  const foodTray = document.getElementById("tray-banner-container");
+
+  image.src = "/images/icon-tray.png";
+
+  var trayToggleState = false;
+  var toggleState = false;
+  var images = [
+    "/images/icon-tray-opt.gif",
+    "/images/icon-tray-reverse-opt.gif",
+  ];
 
   // Function to adjust the font size of tray count when it reaches 10
   function updateTrayCount() {
@@ -301,7 +299,6 @@
   }
   updateTrayCount();
 
-//-------------------- MyTray(sidebar) related functions --------------------
   // Fetch data from the server to update the right sidebar container
   function updateMyTray() {
   fetch("/mytray")
@@ -357,6 +354,14 @@
       });
     })
     .catch((error) => console.error(error));
+}
+
+  // Function to preload images to improve gif-load performance.
+  function preLoadImages() {
+  for (i = 0; i < images.length; i++) {
+    var imageObject = new Image();
+    imageObject.src = images[i];
+  }
 }
 
 // Toggle the tray icon image and update the tray content

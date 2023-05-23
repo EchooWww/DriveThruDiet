@@ -1,6 +1,5 @@
 body {
   margin-top: 60px;
-  /* overflow: auto; */
 }
 
 header {
@@ -16,12 +15,12 @@ h1 {
   margin-block-start: 0rem;
 }
 
-main {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+#tray-list {
   align-items: center;
   margin-top: 0;
+  height: calc(100% - 30px) !important;
+  overflow-y: auto;
+  display: block !important;
 }
 
 .trayCard {
@@ -31,6 +30,7 @@ main {
   height: 110px;
   margin: 8px;
   padding: 10px;
+  cursor: pointer;
   background-color: var(--card);
 }
 
@@ -84,10 +84,4 @@ main {
 
 #myTrayContents {
   height: calc(100% - 200px) !important;
-}
-
-#tray-list {
-  height: calc(100% - 50px) !important;
-  overflow-y: auto;
-  display: block !important;
 }

@@ -38,7 +38,6 @@
   // Attach click event listener to each add button
   addButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
-      console.log("Button clicked!");
       const itemId = e.target.id; // Get the ID of the clicked button
 
       fetch("/addItem", {
@@ -50,15 +49,10 @@
       })
         .then((response) => response.json()) // Parse the response as JSON
         .then((data) => {
-          if (data.success) {
-            // If the response indicates success
-            updateTrayBanner(); // Update the tray banner
-            updateTrayCount(); // Update the tray count
-            document.getElementById("tray-banner-container").style.display =
-              "block"; // Display the tray banner container
-          } else {
-            // Handle error
-          }
+          updateTrayBanner(); // Update the tray banner
+          updateTrayCount(); // Update the tray count
+          document.getElementById("tray-banner-container").style.display =
+            "block"; // Display the tray banner container
         });
     });
   });

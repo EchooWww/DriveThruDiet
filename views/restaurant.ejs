@@ -10,12 +10,12 @@
 <header>
   <h1 class="restaurant-title">Restaurants</h1>
 </header>
-<main class="restaurant-images">
+<div class="restaurant-images">
   <% for (let i = 0; i < restaurants.length; i++) { %>
   <a href="/menu/<%= restaurants[i].name %>">
   <img src="<%= restaurants[i].image %>" alt="<%= restaurants[i].name %>" /></a>
   <% } %>
-</main>
+</div>
 </div>
 
 <%- include('templates/navbar_bottom') %> 

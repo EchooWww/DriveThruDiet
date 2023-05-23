@@ -1,9 +1,14 @@
 <header>
   <h1>My Tray</h1>
 </header>
-<main id="tray-list">
+<div id="tray-list">
   <% trayItems.forEach(function(item, index) { %>
-  <div class="trayCard" data-index="<%= index %>" data-restaurant="<%= item.restaurant.name %>" data-item="<%= item.item %>">
+  <div
+    class="trayCard"
+    data-index="<%= index %>"
+    data-restaurant="<%= item.restaurant.name %>"
+    data-item="<%= item.item %>"
+  >
     <img src="<%= item.restaurant.image %>" alt="<%= item.restaurant.name %>" />
     <div class="item-details">
       <h2><%= item.item %></h2>
@@ -21,7 +26,9 @@
         <small><strong>Fat:</strong> <%= item.total_fat %> g</small>
       </p>
     </div>
-    <button class="remove-btn" data-index="<%= index %>" id="<%= item._id %>">Remove</button>
+    <button class="remove-btn" data-index="<%= index %>" id="<%= item._id %>">
+      Remove
+    </button>
   </div>
   <% }); %>
-</main>
+</div>

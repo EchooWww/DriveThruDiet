@@ -764,13 +764,19 @@ app.post("/update_profile", async (req, res) => {
 
 // Route to retrieve and render a list of restaurants
 app.get("/restaurant", async (req, res) => {
-  const restaurantCollection = database
-    .db(mongodb_database)
-    .collection("restaurants");
-  const restaurants = await restaurantCollection.find().toArray();
+  // Check if the user is not authenticated (not logged in)
+  if (!req.session.authenticated) {
+    res.render("index_before_login"); // Render the "index_before_login" view
+    return; // Return to exit the function and prevent further execution
+  } else {
+    const restaurantCollection = database
+      .db(mongodb_database)
+      .collection("restaurants");
+    const restaurants = await restaurantCollection.find().toArray();
 
-  // Render the "restaurant" view and pass the retrieved restaurants as data
-  res.render("restaurant", { restaurants });
+    // Render the "restaurant" view and pass the retrieved restaurants as data
+    res.render("restaurant", { restaurants });
+  }
 });
 
 // Route to retrieve and render a specific restaurant's menu
@@ -1188,7 +1194,6 @@ app.get("/compare", async (req, res) => {
     fat_goal: userGoals[0].fat,
   });
 });
-
 
 //-------------------------------------------------------------------------
 

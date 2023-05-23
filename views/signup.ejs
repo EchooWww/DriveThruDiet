@@ -36,53 +36,5 @@
       <button class="link-btn" onclick="location.href='/login';">Already have an account? Log in.</button>
     </div>
 
-    <script>
-      $("#signupForm").on("submit", function (event) {
-        event.preventDefault();
-        var formData = $(this).serialize();
-        $.ajax({
-          url: "/submitUser",
-          type: "POST",
-          data: formData,
-          dataType: "json",
-          success: function (response) {
-            if (response.redirect) {
-              window.location.href = response.redirect;
-            }
-          },
-          error: function (xhr, status, error) {
-            var errorMessage = xhr.responseJSON.error;
-            var errorInput = "";
-            if (errorMessage === "Username is required" || errorMessage === "Username is already taken") {
-              errorInput = "username";
-            } else if (errorMessage === "First Name is required") {
-              errorInput = "firstName";
-            } else if (errorMessage === "Last Name is required") {
-              errorInput = "lastName";
-            } else if (errorMessage === "Email is required" || errorMessage === "Email already exists") {
-              errorInput = "email";
-            } else if (errorMessage === "Birthday is required") {
-              errorInput = "birthday";
-            } else if (errorMessage === "Password is required") {
-              errorInput = "password";
-            }
-            $("#" + errorInput + "Input").addClass("is-invalid");
-            $("#" + errorInput + "Error").text("❗️" + errorMessage);
-            $("#" + errorInput + "Error").show();
-          },
-        });
-      });
-
-      $("#usernameInput, #firstNameInput, #lastNameInput, #emailInput, #birthdayInput, #passwordInput").on("input", function () {
-      var inputId = $(this).attr("id");
-      var errorId = inputId.replace("Input", "Error");
-
-      if ($(this).hasClass("is-invalid") && $(this).get(0).checkValidity()) {
-        $(this).removeClass("is-invalid");
-        $("#" + errorId).hide();
-      }
-    });
-    </script>
-
-    <!-- JS Scripts go here -->
+    <%- include("js/signup_js") %>
     <%- include("templates/footer") %>

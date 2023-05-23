@@ -1,0 +1,46 @@
+
+<script>
+  // Attach event listener to form submission
+  $("#loginForm").on("submit", function (event) {
+    event.preventDefault();
+
+    var formData = $(this).serialize();
+
+    $.ajax({
+      url: "/loggingIn",
+      type: "POST",
+      data: formData,
+      dataType: "json",
+      success: function (response) {
+        if (response.redirect) {
+          window.location.href = response.redirect;
+        }
+      },
+      error: function (xhr, status, error) {
+        var errorMessage = xhr.responseJSON.error;
+        var errorInput = "";
+
+        if (errorMessage === "Please enter a valid username" || errorMessage === "User not found") {
+          errorInput = "username";
+        } else if (errorMessage === "Incorrect password") {
+          errorInput = "password";
+        }
+
+        $("#" + errorInput + "Input").addClass("is-invalid");
+        $("#" + errorInput + "Error").text("❗️" + errorMessage);
+        $("#" + errorInput + "Error").show();
+      },
+    });
+  });
+
+  $("#usernameInput, #passwordInput").on("input", function () {
+    var inputId = $(this).attr("id");
+    var errorId = inputId.replace("Input", "Error");
+
+    if ($(this).hasClass("is-invalid") && $(this).get(0).checkValidity()) {
+      $(this).removeClass("is-invalid");
+      $("#" + errorId).hide();
+    }
+  });
+
+</script>

@@ -1086,7 +1086,7 @@ app.get("/filter", async (req, res) => {
   });
 
   // Render the "filtered-page" view with the filteredList
-  res.render("filtered-page", {
+  res.render("filtered_page", {
     filteredList,
   });
 });

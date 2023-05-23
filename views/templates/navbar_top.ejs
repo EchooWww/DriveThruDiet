@@ -181,18 +181,16 @@
 </div>
 
 <script>
+//-------------------- Filter related functions --------------------
   //Function to show filter card
   function showFilter() {
     var filterCard = document.getElementsByClassName("filter-card-container");
     filterCard[0].classList.toggle("show");
   }
-
   var checkedFilters = [];
-
   function toggleButton(button) {
     // Toggle the selected state of the button
     button.classList.toggle("selected");
-
     // Update the checkedFilters array with the selected buttons
     checkedFilters = [];
     var buttons = document.getElementsByName("filter");
@@ -201,15 +199,59 @@
         checkedFilters.push(buttons[i].value);
       }
     }
-
     // Update the value of the hidden input field with the checkedFilters array
     document.getElementById("selected-filter").value = checkedFilters.join(",");
   }
 
+
+//-------------------- Search related functions --------------------
+  // Displays the search results when the user types in the search bar.
+  function showResults(search) {
+    console.log(search);
+    var searchList = document.getElementsByClassName(
+      "search-results-container"
+    );
+    var listItem = document.getElementsByClassName("list-item");
+    for (var i = 0; i < searchList.length; i++) {
+      if (search.length < 2) {
+        searchList[i].classList.add("hidden");
+      } else {
+        searchList[i].classList.remove("hidden");
+      }
+      for (var j = 0; j < listItem.length; j++) {
+        if (
+          listItem[j].innerHTML
+            .toLowerCase()
+            .includes(search.toLowerCase().trim())
+        ) {
+          listItem[j].classList.remove("hidden");
+        } else {
+          listItem[j].classList.add("hidden");
+        }
+      }
+    }
+  }
+
+  // Closes the search results when the user clicks outside of it.
+  document.addEventListener("mousedown", function (e) {
+    var searchList = document.getElementsByClassName(
+      "search-results-container"
+    );
+    for (var i = 0; i < searchList.length; i++) {
+      if (
+        !searchList[i].contains(e.target) &&
+        searchList[i].style.display !== "none"
+      ) {
+        searchList[i].classList.add("hidden");
+      }
+    }
+  });
+
+//-------------------- Tray-banner related functions --------------------
+  // Function to toggle the tray banner
   const image = document.getElementById("tray-icon");
   const rightSidebar = document.getElementById("right-sidebar-container");
   const foodTray = document.getElementById("tray-banner-container");
-
 
   image.src = "/images/icon-tray.png";
 
@@ -228,6 +270,7 @@
     }
   }
 
+  // Function to update the tray banner 
   function updateTrayBanner() {
   fetch("/trayTotals")
     .then((response) => response.json())
@@ -240,6 +283,7 @@
     .catch((error) => console.error(error));
   }
 
+  // Function to adjust the font size of tray count when it reaches 10
   function updateTrayCount() {
   fetch('/trayCount')
     .then(response => response.json())
@@ -255,7 +299,9 @@
       }     
     });
   }
+  updateTrayCount();
 
+//-------------------- MyTray(sidebar) related functions --------------------
   // Fetch data from the server to update the right sidebar container
   function updateMyTray() {
   fetch("/mytray")
@@ -263,9 +309,8 @@
     .then((data) => {
       const sidebarContainer = document.getElementById("myTrayContents");
       sidebarContainer.innerHTML = data;
-
       const removeButtons = sidebarContainer.querySelectorAll('.remove-btn');
-
+      // Add event listeners to the remove buttons
       removeButtons.forEach(button => {
         button.addEventListener('click', (e) => {
           console.log('Remove Button clicked!');
@@ -299,6 +344,7 @@
         });
       });
       const trayCards = sidebarContainer.querySelectorAll('.trayCard');
+      // Add event listeners to the tray cards to redirect to the NutriFacts page
       trayCards.forEach(card => {
         card.addEventListener('click', (e) => {
           if (!e.target.classList.contains('remove-btn')) {
@@ -316,17 +362,14 @@
 // Toggle the tray icon image and update the tray content
 function iconToggle() {
   preLoadImages();
-
   const trayCountElement = document.getElementById('tray-count');
 
   if (toggleState === false) {
     setTimeout(function () {
       image.src = "/images/icon-tray-opt.gif";
     }, 50);
-
     updateMyTray();
     rightSidebarToggle(toggleState);
-
     trayCountElement.style.display = 'none';
   } else {
     setTimeout(function () {
@@ -377,59 +420,9 @@ function iconToggle() {
   }
 });
 
-  // Displays the search results when the user types in the search bar.
-  function showResults(search) {
-    console.log(search);
-    var searchList = document.getElementsByClassName(
-      "search-results-container"
-    );
-    var listItem = document.getElementsByClassName("list-item");
-    for (var i = 0; i < searchList.length; i++) {
-      if (search.length < 2) {
-        searchList[i].classList.add("hidden");
-      } else {
-        searchList[i].classList.remove("hidden");
-      }
-      for (var j = 0; j < listItem.length; j++) {
-        if (
-          listItem[j].innerHTML
-            .toLowerCase()
-            .includes(search.toLowerCase().trim())
-        ) {
-          listItem[j].classList.remove("hidden");
-        } else {
-          listItem[j].classList.add("hidden");
-        }
-      }
-    }
-  }
 
-  // Closes the search results when the user clicks outside of it.
-  document.addEventListener("mousedown", function (e) {
-    var searchList = document.getElementsByClassName(
-      "search-results-container"
-    );
-    for (var i = 0; i < searchList.length; i++) {
-      if (
-        !searchList[i].contains(e.target) &&
-        searchList[i].style.display !== "none"
-      ) {
-        searchList[i].classList.add("hidden");
-      }
-    }
-  });
-
-  function submitSearch() {
-    var value = document.getElementById("nav-search-bar").value;
-    if (value.toLowerCase() === "mike") {
-      window.location.href = "/easteregg";
-    } else {
-      console.log("Incorrect Key");
-    }
-  }
-
-  updateTrayCount();
-
+//-------------------- Compare related functions --------------------
+  // Function to alert the user when they try to compare less than 2 items
   function addCompareAlert() {
     Swal.fire({
       title: 'Please add at least 2 items.',
@@ -440,4 +433,14 @@ function iconToggle() {
     event.preventDefault();
   }
 
+//-------------------- Easter Egg related functions --------------------
+  // Displays the easter egg when the user types 'mike' in the search bar.
+  function submitSearch() {
+    var value = document.getElementById("nav-search-bar").value;
+    if (value.toLowerCase() === "mike") {
+      window.location.href = "/easteregg";
+    } else {
+      console.log("Incorrect Key");
+    }
+  }
 </script>

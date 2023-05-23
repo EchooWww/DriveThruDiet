@@ -1,4 +1,5 @@
 <script>
+  //function to limit the number of items that can be compared
   function compareLimit() {
     Swal.fire({
       title: "You can compare up to 2 items.",
@@ -9,6 +10,7 @@
     event.preventDefault();
   }
 
+  //function to check if the item already exists in the tray
   function compareExists() {
     Swal.fire({
       title: "This item already exists.",
@@ -21,6 +23,7 @@
 
   const addButton = document.querySelector(".add-btn");
 
+  //function to add item to tray when add button is clicked
   addButton.addEventListener("click", (e) => {
     e.preventDefault();
     const itemId = e.target.id;

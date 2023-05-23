@@ -6,17 +6,17 @@
 </head>
 
 <body>
-<div class="page-container">
-<header>
-  <h1 class="restaurant-title">Restaurants</h1>
-</header>
-<div class="restaurant-images">
-  <% for (let i = 0; i < restaurants.length; i++) { %>
-  <a href="/menu/<%= restaurants[i].name %>">
-  <img src="<%= restaurants[i].image %>" alt="<%= restaurants[i].name %>" /></a>
-  <% } %>
-</div>
-</div>
+  <div class="page-container">
+    <header>
+      <h1 class="restaurant-title">Restaurants</h1>
+    </header>
+    <div class="restaurant-images">
+      <% for (let i = 0; i < restaurants.length; i++) { %>
+      <a href="/menu/<%= restaurants[i].name %>">
+      <img src="<%= restaurants[i].image %>" alt="<%= restaurants[i].name %>" /></a>
+      <% } %>
+    </div>
+  </div>
 
 <%- include('templates/navbar_bottom') %> 
 <%- include("templates/footer") %>

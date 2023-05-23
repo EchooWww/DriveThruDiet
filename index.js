@@ -802,7 +802,6 @@ app.get("/menu/:restaurantName", async (req, res) => {
     // Render the "menu" view and pass the retrieved restaurant, menu items, and the username as data
     res.render("menu", { restaurant, menu, username });
   } catch (error) {
-    console.error(error);
     // If an error occurs, send an error response with a status code of 500
     res.status(500).send("Internal Server Error");
   }

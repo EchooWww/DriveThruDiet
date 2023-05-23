@@ -10,7 +10,7 @@
 <header>
   <h1><%= restaurant.name %></h1>
 </header>
-<main>
+<div class="menu-cards">
   <% menu.forEach(function(item) { %>
   <div class="card" data-restaurant="<%= restaurant.name %>" data-item="<%= item.item %>">
     <img src="<%= restaurant.image %>" alt="<%= restaurant.name %>" />
@@ -32,7 +32,7 @@
     <button class="add-btn" id="<%= item._id %>">Add</button>
   </div>
   <% }); %>
-</main>
+</div>
 <div class="placeholder"></div>
 </div>
 

@@ -66,11 +66,6 @@
     </div>
   </div>
   
-  
-  <% const calorie_progress = Math.round((totalCalories / calorie_goal) * 100); %>
-  <% const carbs_progress = Math.round((totalCarbs / carbs_goal) * 100); %>
-  <% const protein_progress = Math.round((totalProtein / protein_goal) * 100); %>
-  <% const fat_progress = Math.round((totalFat / fat_goal) * 100); %>    
   <div id="nearby">  
     <h2>Nearby</h2>
     <div id="map" style="display: none;"></div>    
@@ -80,68 +75,6 @@
     </table>
   </div>  
 
-
-
-
-  <!-- JS Scripts go here -->
-  <script>
-  // mainly based on ChatGPT's hint and answer
-  function updateChart(percent1, percent2, percent3, percent4) {
-    const circle1 = document.querySelector(".percent1 circle:nth-of-type(2)");
-    const circle2 = document.querySelector(".percent2 circle:nth-of-type(2)");
-    const circle3 = document.querySelector(".percent3 circle:nth-of-type(2)");
-    const circle4 = document.querySelector(".percent4 circle:nth-of-type(2)");
-    const number1 = document.querySelector(".percent1 h2");
-    const number2 = document.querySelector(".percent2 h2");
-    const number3 = document.querySelector(".percent3 h2");
-    const number4 = document.querySelector(".percent4 h2");
-
-    const radius = circle1.r.baseVal.value;
-    const circumference = 2 * Math.PI * radius;
-    let offset1, offset2, offset3, offset4;
-
-    // Check if the percentage is greater than 100
-    if (percent1 > 100) {
-      offset1 = 0; // Display the whole ring
-    } else {
-      offset1 = circumference - (percent1 / 100) * circumference;
-    }
-
-    if (percent2 > 100) {
-      offset2 = 0; // Display the whole ring
-    } else {
-      offset2 = circumference - (percent2 / 100) * circumference;
-    }
-
-    if (percent3 > 100) {
-      offset3 = 0; // Display the whole ring
-    } else {
-      offset3 = circumference - (percent3 / 100) * circumference;
-    }
-
-    if (percent4 > 100) {
-      offset4 = 0; // Display the whole ring
-    } else {
-      offset4 = circumference - (percent4 / 100) * circumference;
-    }
-
-    circle1.style.strokeDasharray = `${circumference} ${circumference}`;
-    circle1.style.strokeDashoffset = offset1;
-    circle2.style.strokeDasharray = `${circumference} ${circumference}`;
-    circle2.style.strokeDashoffset = offset2;
-    circle3.style.strokeDasharray = `${circumference} ${circumference}`;
-    circle3.style.strokeDashoffset = offset3;
-    circle4.style.strokeDasharray = `${circumference} ${circumference}`;
-    circle4.style.strokeDashoffset = offset4;
-    number1.textContent = `${percent1}%`;
-    number2.textContent = `${percent2}%`;
-    number3.textContent = `${percent3}%`;
-    number4.textContent = `${percent4}%`;
-  }
-  updateChart("<%=calorie_progress%>", "<%=carbs_progress%>", "<%=protein_progress%>", "<%=fat_progress%>")
-  </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=<%= map_api %>&libraries=places,geometry"></script>
-    <script src="/js/map.js"></script>
-  
+<%- include("js/home_js") %>
 <%- include("templates/navbar_bottom") %>
 <%- include("templates/footer") %>

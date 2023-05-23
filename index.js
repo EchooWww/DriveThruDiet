@@ -10,7 +10,6 @@ const port = process.env.PORT || 3030; // Setting the port number from environme
 const app = express(); // Creating an instance of the Express application
 const Joi = require("joi"); // Importing Joi for input validation
 const { ObjectId } = require("mongodb"); // Importing ObjectId from MongoDB for working with document IDs
-const goalCalculation = require("./public/js/goalCalculation.js"); // Importing the goalCalculation module from "./public/js/goalCalculation.js"
 const saltRounds = 12;
 
 // Changed to 24 hours for testing purposes so that we don't have to keep logging in
@@ -76,7 +75,6 @@ app.use(express.static("app")); // Middleware for serving static files from the 
 
 app.use("/img", express.static("./public/images")); // Middleware for serving static files from the "./public/images" directory under the "/img" URL path
 app.use("/css", express.static("./public/css")); // Middleware for serving static files from the "./public/css" directory under the "/css" URL path
-app.use("/js", express.static("./public/js")); // Middleware for serving static files from the "./public/js" directory under the "/js" URL path
 
 //-------------------------------------------------------------------------
 
@@ -358,6 +356,88 @@ app.get("/signup_profile", (req, res) => {
   res.render("signup_profile");
 });
 
+// Function to calculate the BMR based on user input in the signup_profile form
+function calculateBMR(sex, weight, height, birthday) {
+  let BMR;
+  let age = calculateAge(birthday);
+  if (sex === "female") {
+    BMR = 447.593 + 9.247 * weight + 3.098 * height - 4.33 * age;
+  } else {
+    BMR = 88.362 + 13.397 * weight + 4.799 * height - 5.677 * age;
+  }
+  return BMR;
+}
+
+// Function to calculate the age based on user's birthday in the signup_profile form
+function calculateAge(birthday) {
+  const today = new Date();
+  const birthDate = new Date(birthday);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+  if (
+    monthDiff < 0 ||
+    (monthDiff === 0 && today.getDate() < birthDate.getDate())
+  ) {
+    age--;
+  }
+  return age;
+}
+
+// function to calculate the calorie needs based on user input in the signup_profile form
+function calculateCalorieNeeds(sex, birthday, height, weight, activity, goal) {
+  let BMR = calculateBMR(sex, weight, height, birthday);
+  let calorieNeeds;
+  switch (activity) {
+    case "sedentary":
+      calorieNeeds = Math.round(BMR * 1.2);
+      break;
+    case "lightly-active":
+      calorieNeeds = Math.round(BMR * 1.375);
+      break;
+    case "moderately-active":
+      calorieNeeds = Math.round(BMR * 1.55);
+      break;
+    case "very-active":
+      calorieNeeds = Math.round(BMR * 1.725);
+      break;
+    case "super-active":
+      calorieNeeds = Math.round(BMR * 1.9);
+      break;
+    default:
+      calorieNeeds = 0;
+  }
+  if (goal === "lose-weight") {
+    calorieNeeds -= 300;
+  } else if (goal === "gain-muscle") {
+    calorieNeeds += 200;
+  }
+  return calorieNeeds;
+}
+
+// function to calculate the macronutrients based on user input in the signup_profile form
+function calculateMacronutrients(calorieNeeds, goal) {
+  let carbPercentage, proteinPercentage, fatPercentage;
+  if (goal === "weight loss") {
+    carbPercentage = 0.5;
+    proteinPercentage = 0.3;
+    fatPercentage = 0.2;
+  } else if (goal === "muscle gain") {
+    carbPercentage = 0.4;
+    proteinPercentage = 0.35;
+    fatPercentage = 0.25;
+  } else {
+    carbPercentage = 0.5;
+    proteinPercentage = 0.2;
+    fatPercentage = 0.3;
+  }
+
+  const protein = Math.round((calorieNeeds * proteinPercentage) / 4);
+  const fat = Math.round((calorieNeeds * fatPercentage) / 9);
+  const carbs = Math.round((calorieNeeds * carbPercentage) / 4);
+
+  return { protein, fat, carbs };
+}
+
 // Route for processing the form submission from signup_profile page
 app.post("/onboarding_goal", async (req, res) => {
   // Extracting the form data from the request body
@@ -367,7 +447,7 @@ app.post("/onboarding_goal", async (req, res) => {
   // Extracting the birthday from the user object
   const birthday = user.birthday;
   // Calculating the calorie needs based on the form data and user's birthday
-  const calorieNeeds = goalCalculation.calculateCalorieNeeds(
+  const calorieNeeds = calculateCalorieNeeds(
     sex,
     birthday,
     height,
@@ -376,11 +456,7 @@ app.post("/onboarding_goal", async (req, res) => {
     goal
   );
   // Calculating the macronutrient values (protein, fat, carbs) based on weight, calorie needs, and goal
-  const { protein, fat, carbs } = goalCalculation.calculateMacronutrients(
-    weight,
-    calorieNeeds,
-    goal
-  );
+  const { protein, fat, carbs } = calculateMacronutrients(calorieNeeds, goal);
   // Updating the user document in the user collection with the new profile preferences
   await userCollection.updateOne(
     { username: req.session.username },
@@ -716,7 +792,7 @@ app.post("/update_profile", async (req, res) => {
     req.body;
 
   // Calculating the new calorie needs and macronutrients based on the updated data
-  const calorieNeeds = goalCalculation.calculateCalorieNeeds(
+  const calorieNeeds = calculateCalorieNeeds(
     sex,
     birthday,
     height,
@@ -724,11 +800,7 @@ app.post("/update_profile", async (req, res) => {
     activity,
     goal
   );
-  const { protein, fat, carbs } = goalCalculation.calculateMacronutrients(
-    weight,
-    calorieNeeds,
-    goal
-  );
+  const { protein, fat, carbs } = calculateMacronutrients(calorieNeeds, goal);
 
   // Updating the user's profile in the user collection
   await userCollection.updateOne(
@@ -1188,7 +1260,6 @@ app.get("/compare", async (req, res) => {
     fat_goal: userGoals[0].fat,
   });
 });
-
 
 //-------------------------------------------------------------------------
 

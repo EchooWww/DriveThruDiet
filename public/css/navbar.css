@@ -92,7 +92,6 @@
 /* ---------- Right SideBar ---------- */
 
 #right-sidebar-container {
-    /* background-color: #e9ecef; */
     background-color: white;
     position: fixed;
     right: -350px;

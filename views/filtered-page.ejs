@@ -55,44 +55,6 @@
     <div id="placeholder1"></div>
   </div>
 
-  <script>
-  const addButtons = document.querySelectorAll('.add-btn');
-
-  addButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-      console.log('Button clicked!');
-      const itemId = e.target.id;
-
-      fetch('/addItem', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ itemId: itemId })
-      }).then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            updateTrayBanner();
-            updateTrayCount(); 
-            document.getElementById("tray-banner-container").style.display = 'block';
-          } else {
-            // Handle error
-          }
-        });
-    });
-  });
-
-    const cards = document.querySelectorAll('.card');
-
-    cards.forEach(card => {
-      card.addEventListener('click', (e) => {
-        if (!e.target.classList.contains('add-btn')) {
-          const restaurant = e.currentTarget.dataset.restaurant;
-          const item = e.currentTarget.dataset.item;
-          window.location.href = `/item/${restaurant}/${item}`;
-        }
-      });
-    });
-  </script>
-
-<%- include('templates/navbar_bottom') %> <%- include("templates/footer") %>
+<%- include("js/filtered-page_js") %>
+<%- include('templates/navbar_bottom') %> 
+<%- include("templates/footer") %>

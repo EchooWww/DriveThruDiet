@@ -18,12 +18,11 @@ main {
   flex-direction: row;
   align-items: center;
   width: 420px;
-  height: 150px;
+  height: 110px;
   margin: 8px;
   padding: 10px;
-  background-color: #f7f7f7;
-  border-radius: 20px;
-
+  background-color: var(--card);
+  border-radius: var(--radius);
 }
 
 .card img {
@@ -52,11 +51,10 @@ main {
 
 .add-btn {
   background-color: var(--accent);
-  color: #f7f7f7;
-  border: none;
-  border-radius: 5px;
-  padding: 7px 15px;
-  font-size: 15px;
+  color: white;
+  border: 2px solid var(--accent);
+  border-radius: var(--btnradius);
+  padding: 0.5em 1em;
   cursor: pointer;
   position: relative;
   top: 39px;

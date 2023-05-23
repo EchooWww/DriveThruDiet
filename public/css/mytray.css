@@ -31,7 +31,7 @@ main {
   height: 110px;
   margin: 8px;
   padding: 10px;
-  border: 1px solid var(--light);
+  background-color: var(--card);
 }
 
 .trayCard img {
@@ -67,15 +67,14 @@ main {
 
 .remove-btn {
   background-color: var(--accent);
-  color: #f7f7f7;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 11px;
-  font-size: 12px;
+  color: white;
+  border: 2px solid var(--accent);
+  border-radius: var(--btnradius);
+  padding: 0.5em 1em;
   cursor: pointer;
   position: relative;
-  top: 41px;
-  right: 1px;
+  top: 39px;
+  right: 8px;
   margin-left: auto;
 }
 

@@ -18,6 +18,7 @@
   --fat-text: rgba(220, 91, 183, 1);
   --btnradius: 50px;
   --radius: 10px;
+  --card: #f7f7f7;
 }
 
 body {
@@ -72,12 +73,16 @@ button {
   border-radius: var(--btnradius) !important;
 }
 
+.add-btn:hover,
+.remove-btn:hover,
 .submit-btn:hover,
 .swal2-styled.swal2-confirm:hover {
   border: 2px solid var(--medium) !important;
   background-color: var(--medium) !important;
 }
 
+.add-btn:active,
+.remove-btn:active,
 .submit-btn:active,
 .swal2-styled.swal2-confirm:active {
   border: 2px solid var(--dark) !important;
@@ -92,6 +97,7 @@ button {
   color: var(--accent) !important;
 }
 
+#add-compare-btn:hover,
 .access-btn:hover,
 .save-btn:hover,
 .swal2-styled.swal2-cancel:hover {
@@ -100,6 +106,7 @@ button {
   color: white !important;
 }
 
+#add-compare-btn:active,
 .access-btn:active,
 .save-btn:active,
 .swal2-styled.swal2-cancel:active {

@@ -432,7 +432,6 @@
         image.src = "/images/icon-tray-reverse-opt.gif";
       }, 50);
       rightSidebarToggle(toggleState);
-
       trayCountElement.style.display = "block";
     }
     toggleState = !toggleState;
@@ -476,7 +475,8 @@
       !foodTray.contains(e.target) &&
       trayToggleState === true &&
       e.target.className !== "add-btn" &&
-      e.target.className !== "remove-btn"
+      e.target.className !== "remove-btn" &&
+      !document.querySelector(".swal2-container")
     ) {
       trayToggle();
     }

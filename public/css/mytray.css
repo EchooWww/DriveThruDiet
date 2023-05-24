@@ -85,3 +85,14 @@ h1 {
 #myTrayContents {
   height: calc(100% - 105px) !important;
 }
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+#remove-all-btn {
+  color: var(--med-gray);
+  cursor: pointer;
+  margin-right: 2.05rem;
+}

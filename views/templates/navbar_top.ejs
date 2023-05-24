@@ -223,7 +223,6 @@
   //-------------------- Search related functions --------------------
   // Displays the search results when the user types in the search bar.
   function showResults(search) {
-    console.log(search);
     var searchList = document.getElementsByClassName(
       "search-results-container"
     );
@@ -530,8 +529,6 @@
     var value = document.getElementById("nav-search-bar").value;
     if (value.toLowerCase() === "mike") {
       window.location.href = "/easteregg";
-    } else {
-      console.log("Incorrect Key");
     }
   }
 </script>

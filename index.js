@@ -194,36 +194,11 @@ app.post("/submitUser", async (req, res) => {
   var password = req.body.password;
   compareList = [];
 
-  // Validation checks for required fields
-  if (!username) {
-    return res.status(400).json({ error: "Username is required" });
-  }
   if (username.length < 5 || username.length > 20) {
     return res
       .status(400)
       .json({ error: "Username must be between 5 and 20 characters" });
   }
-  if (!firstName) {
-    return res.status(400).json({ error: "First Name is required" });
-  }
-  if (!lastName) {
-    return res.status(400).json({ error: "Last Name is required" });
-  }
-  if (!email) {
-    return res.status(400).json({ error: "Email is required" });
-  }
-  if (!birthday) {
-    return res.status(400).json({ error: "Birthday is required" });
-  }
-  if (!password) {
-    return res.status(400).json({ error: "Password is required" });
-  }
-  if (password.length < 6 || password.length > 20) {
-    return res
-      .status(400)
-      .json({ error: "Password must be between 6 and 20 characters" });
-  }
-
   /* GPT_Promt_2 */
   // Check if username or email already exists in the database
   const existingUser = await userCollection.findOne({
@@ -264,7 +239,6 @@ app.post("/submitUser", async (req, res) => {
   });
   // If there are validation errors, log the errors and redirect back to the signup page
   if (validationResult.error != null) {
-    console.log(validationResult.error);
     res.json({ redirect: "/signup" });
     return;
   }
@@ -281,7 +255,6 @@ app.post("/submitUser", async (req, res) => {
     compareItems: [],
     trayItems: [],
   });
-  console.log("User Created");
   req.session.authenticated = true; // Set the session authenticated flag to true
   req.session.username = username; // Store the username in the session
   req.session.cookie.maxAge = expireTime; // Set the session cookie maxAge
@@ -498,7 +471,6 @@ app.post("/loggingIn", async (req, res) => {
 
   // Checking if there is an error in the validation result
   if (validationResult.error != null) {
-    console.log(validationResult.error);
     res.status(400).json({ error: "Please enter a valid username" });
     return;
   }
@@ -509,8 +481,6 @@ app.post("/loggingIn", async (req, res) => {
     .project({ username: 1, password: 1, user_type: 1, _id: 1, firstName: 1 })
     .toArray();
 
-  console.log(result);
-
   // Checking if a user with the given username exists
   if (result.length != 1) {
     res.status(400).json({ error: "User not found" });
@@ -519,7 +489,6 @@ app.post("/loggingIn", async (req, res) => {
 
   // Comparing the provided password with the hashed password stored in the user document
   if (await bcrypt.compare(password, result[0].password)) {
-    console.log("correct password");
     // Setting session variables to store user information
     req.session.authenticated = true;
     req.session.username = result[0].username;
@@ -529,7 +498,6 @@ app.post("/loggingIn", async (req, res) => {
     res.json({ redirect: "/home" });
     return;
   } else {
-    console.log("incorrect password");
     res.status(400).json({ error: "Incorrect password" });
     return;
   }
@@ -584,7 +552,6 @@ app.post("/reset_password", async (req, res) => {
   });
   if (validationResult.error != null) {
     // Password validation failed, redirecting to the forgot password page
-    console.log(validationResult.error);
     res.redirect("/forgot");
     return;
   }
@@ -643,7 +610,6 @@ app.post("/username_search", async (req, res) => {
 
   // Checking if there is an error in the validation result
   if (validationResult.error != null) {
-    console.log(validationResult.error);
     res.redirect("/find_username");
     return;
   }
@@ -1290,8 +1256,6 @@ const openai = new OpenAIApi(config);
 
 // Socket.IO connection event
 io.on("connection", (socket) => {
-  console.log("a user connected"); // Logging when a user connects to the server
-
   // Socket.IO event for chat message
   socket.on("chat message", async (msg) => {
     // Handling chat message event
@@ -1304,11 +1268,6 @@ io.on("connection", (socket) => {
 
     // Emitting chat message event with generated response
     io.emit("chat message", response.data.choices[0].text);
-  });
-
-  // Socket.IO event for user disconnect
-  socket.on("disconnect", () => {
-    console.log("user disconnected"); // Logging when a user disconnects from the server
   });
 });
 

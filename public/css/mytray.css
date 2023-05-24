@@ -32,6 +32,7 @@ h1 {
   padding: 10px;
   cursor: pointer;
   background-color: var(--card);
+  border-radius: var(--radius);
 }
 
 .trayCard img {

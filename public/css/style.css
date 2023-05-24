@@ -65,6 +65,7 @@ button {
   cursor: pointer;
 }
 
+#compare-btn,
 .submit-btn,
 .swal2-styled.swal2-confirm {
   color: white;
@@ -73,6 +74,7 @@ button {
   border-radius: var(--btnradius) !important;
 }
 
+#compare-btn:hover,
 .add-btn:hover,
 .remove-btn:hover,
 .submit-btn:hover,
@@ -81,6 +83,7 @@ button {
   background-color: var(--medium) !important;
 }
 
+#compare-btn:active,
 .add-btn:active,
 .remove-btn:active,
 .submit-btn:active,

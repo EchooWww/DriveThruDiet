@@ -572,7 +572,7 @@ app.post("/reset_password", async (req, res) => {
   const user = await userCollection.findOne({ username: username });
   if (!user) {
     // User not found, redirecting to the forgot password page with an alert message
-    res.status(400).json({ error: "User not found" });
+    res.status(400).json({ error: "User not found!" });
     return;
   }
 
@@ -581,9 +581,8 @@ app.post("/reset_password", async (req, res) => {
   const isAnswerMatch = await bcrypt.compare(answer, question.answer);
   if (!isAnswerMatch) {
     // Incorrect answer, redirecting to the forgot password page with an alert message
-    res.send(
-      '<script>alert("Incorrect answer"); window.location.href = "/forgot";</script>'
-    );
+    res.status(400).json({ error: "Answer incorrect!" });
+
     return;
   }
 
@@ -612,7 +611,7 @@ app.post("/reset_password", async (req, res) => {
   );
 
   // Redirecting to the update page
-  res.redirect("/update");
+  res.status(200).json({ success: "Password updated!" });
 });
 
 // Route for rendering the update page

@@ -39,15 +39,15 @@
             <button id="add-compare-btn" name="compareID" value="<%= id %>"
               <% for (let i = 0; i < locals.compareList.length; i++) { %>
                 <% console.log(locals.compareList[i]._id, id); %>
-                <% if (id.toString() == locals.compareList[i]._id.toString() && locals.compareList.length < 2) { %> 
+                <% if (id.toString() == locals.compareList[i]._id.toString() && locals.compareList.length < 3) { %> 
                   <% compareExists = true; %>
                   onclick = "compareExists(event)"
                   compareExists = false;
                 <% } %>
               <% } %> 
-              <% if (compareExists == false && locals.compareList.length < 2) { %> 
+              <% if (compareExists == false && locals.compareList.length < 3) { %> 
                 formaction="/addCompare" method="get" type="submit"
-              <% } else if (locals.compareList.length >= 2) { %>
+              <% } else if (locals.compareList.length >= 3) { %>
                 onclick = "compareLimit(event)"
               <% } %>
             > COMPARE </button>
@@ -145,7 +145,7 @@
 
   function compareLimit() {
     Swal.fire({
-      title: 'You can compare up to 2 items.',
+      title: 'You can compare up to 3 items.',
       icon: 'warning',
       showCancelButton: false,
       confirmButtonText: 'Ok'

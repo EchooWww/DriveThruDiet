@@ -160,6 +160,27 @@
 
 
 
+/* ---------- Compare SideBar ---------- */
+
+#compare-sidebar-container {
+    /* background-color: #e9ecef; */
+    background-color: rgb(216, 216, 216);
+    position: fixed;
+    left: -370px;
+    top: 60px;
+    height: calc(100% - 130px);
+    width: 390px;
+    z-index: 97;
+    transition: transform 0.3s ease;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, .1);
+    /* transform: translateX(250px); */
+    overflow: auto;
+}
+
+/* ---------- End of Compare SideBar ---------- */
+
+
+
 /* ---------- Bottom NavBar ---------- */
 
 #bottom-nav-container {

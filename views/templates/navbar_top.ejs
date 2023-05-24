@@ -136,21 +136,6 @@
   <div id="myTrayContents">
     Food Tray Items
   </div>
-  <div id="compare-list-container">
-    Compare Items
-    <% for (let i = 0; i < locals.compareList.length; i++) { %>
-      <div class="compare-list-items">
-        <div class="compare-side-restaurant"> <%= locals.compareList[i].restaurant %> </div>
-        <div class="compare-side-item"> <%= locals.compareList[i].item %></div>
-        <form>
-          <button <% if (locals.currentURL == "/compare") { %> class="hidden" <% } %> formaction="/removeCompare" method="get" name="compareID" value="<%= locals.compareList[i]._id %>"> X </button>
-        </form>
-      </div>
-    <% } %>
-    <form id="compare-form">
-      <button <% if (locals.compareList.length === 2) { %> formaction="/compare" type="submit" <% } else { %> onclick="addCompareAlert()" <% } %> id="compare-btn"> COMPARE </button>
-    </form>
-  </div>
 </div>
 
 <!-- Tray Banner -->
@@ -177,6 +162,31 @@
         <div id="totalFatValue"><%=totalFat%> g</div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Compare Sidebar -->
+<div id="compare-sidebar-container" onclick="compareSidebarToggle()">
+  <div id="compare-list-container">
+    Compare Items
+    <% for (let i=0; i < locals.compareList.length; i++) { %>
+    <div class="compare-list-items">
+      <div class="compare-side-restaurant">
+        <%= locals.compareList[i].restaurant %>
+      </div>
+      <div class="compare-side-item">
+        <%= locals.compareList[i].item %>
+      </div>
+      <form>
+        <button <% if (locals.currentURL=="/compare" ) { %> class="hidden" <% } %> formaction="/removeCompare"
+            method="get" name="compareID" value="<%= locals.compareList[i]._id %>"> X </button>
+      </form>
+    </div>
+    <% } %>
+    <form id="compare-form">
+      <button <% if (locals.compareList.length===2) { %> formaction="/compare" type="submit" <% } else { %>
+          onclick="addCompareAlert()" <% } %> id="compare-btn"> COMPARE </button>
+    </form>
   </div>
 </div>
 
@@ -209,6 +219,8 @@
   const image = document.getElementById("tray-icon");
   const rightSidebar = document.getElementById("right-sidebar-container");
   const foodTray = document.getElementById("tray-banner-container");
+  const compareSidebar = document.getElementById("compare-sidebar-container");
+  var compareToggleState = false;
 
 
   image.src = "/images/icon-tray.png";
@@ -437,5 +449,25 @@ function iconToggle() {
     });
     event.preventDefault();
   }
+
+  // Toggles the compare sidebar between open and closed.
+  function compareSidebarToggle(toggleState) {
+    if (compareToggleState === false) {
+      compareSidebar.style.transform = "translateX(370px)";
+    } else {
+      compareSidebar.style.transform = "translateX(0px)";
+    }
+    compareToggleState = !compareToggleState;
+  }
+
+  // Closes the compare sidebar when the user clicks outside of it.
+  document.addEventListener("mousedown", function (e) {
+    if (
+      !compareSidebar.contains(e.target) &&
+      compareToggleState === true
+    ) {
+      compareSidebarToggle();
+    }
+  });
 
 </script>

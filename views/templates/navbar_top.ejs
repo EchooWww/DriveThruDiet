@@ -476,7 +476,8 @@
       trayToggleState === true &&
       e.target.className !== "add-btn" &&
       e.target.className !== "remove-btn" &&
-      !document.querySelector(".swal2-container")
+      e.target.id !== "remove-all-btn" &&
+      !e.target.closest(".swal2-container")
     ) {
       trayToggle();
     }

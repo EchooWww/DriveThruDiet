@@ -110,13 +110,6 @@ async function calculateTotals(username) {
   let totalCarbs = 0;
   let totalProtein = 0;
   let totalFat = 0;
-  let totalFiber = 0;
-  let totalCholesterol = 0;
-  let totalSodium = 0;
-  let totalSugar = 0;
-  let totalVitA = 0;
-  let totalVitC = 0;
-  let totalCalcium = 0;
 
   trayItems.forEach((item) => {
     // Calculate totals by iterating over each item in the "trayItems" array
@@ -124,13 +117,6 @@ async function calculateTotals(username) {
     totalCarbs += item.total_carb;
     totalProtein += item.protein;
     totalFat += item.total_fat;
-    totalFiber += item.fiber;
-    totalCholesterol += item.cholesterol;
-    totalSodium += item.sodium;
-    totalSugar += item.sugar;
-    totalVitA += item.vit_a !== "NA" ? item.vit_a : 0; // Handle "NA" values by checking and adding the value if it's not "NA"
-    totalVitC += item.vit_c !== "NA" ? item.vit_c : 0; // Handle "NA" values by checking and adding the value if it's not "NA"
-    totalCalcium += item.calcium !== "NA" ? item.calcium : 0; // Handle "NA" values by checking and adding the value if it's not "NA"
   });
 
   // Return the calculated totals and tray items as an object
@@ -139,13 +125,6 @@ async function calculateTotals(username) {
     totalCarbs,
     totalProtein,
     totalFat,
-    totalFiber,
-    totalCholesterol,
-    totalSodium,
-    totalSugar,
-    totalVitA,
-    totalVitC,
-    totalCalcium,
     trayItems,
   };
 }
@@ -160,7 +139,6 @@ app.use(async (req, res, next) => {
     Object.assign(res.locals, totals); // Assign the calculated totals to `res.locals` for access in the views
     next(); // Proceed to the next middleware
   } catch (error) {
-    console.error(error); // Log any errors that occur during the process
     res.status(500).send("Internal Server Error"); // Return a 500 error response if an error occurs
   }
 });

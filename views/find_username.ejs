@@ -1,30 +1,70 @@
 <%- include("templates/header") %>
-  <link rel="stylesheet" href="/css/authentication.css">
-  <link rel="stylesheet" href="/css/formfield.css">
-  </head>
 
-  <body>
-    <div class="auth-form-container">
-      <h2>Find Username</h2>
-      <form class="form" action="/username_search" method="post">
-        <label for="email">
-          <input type="email" placeholder="Email" id="email" name="email" />
-        </label>
-        <label for="firstName">
-          <input type="text" placeholder="First Name" id="firstName" name="firstName" />
-        </label>
-        <label for="lastName">
-          <input type="text" placeholder="Last Name" id="lastName" name="lastName" />
-        </label>
-        <label for="birthday">
-          <input type="date" placeholder="" id="birthday" name="birthday" />
-        </label>
-        <button class="submit-btn" type="submit">FIND USERNAME</button>
-      </form>
-      <button class="link-btn" onclick="location.href='/login';">
-        Back to Login
-      </button>
-    </div>
+<!-- SweetAlert library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<link rel="stylesheet" href="/css/authentication.css">
+<link rel="stylesheet" href="/css/formfield.css">
+</head>
 
+<body>
+  <div class="auth-form-container">
+    <h2>Find Username</h2>
+    <form class="form" id="findUsernameForm" action="/username_search" method="post">
+      <label for="email">
+        <input type="email" placeholder="Email" id="email" name="email" />
+      </label>
+      <label for="firstName">
+        <input type="text" placeholder="First Name" id="firstName" name="firstName" />
+      </label>
+      <label for="lastName">
+        <input type="text" placeholder="Last Name" id="lastName" name="lastName" />
+      </label>
+      <label for="birthday">
+        <input type="date" placeholder="" id="birthday" name="birthday" />
+      </label>
+      <button class="submit-btn" type="submit">FIND USERNAME</button>
+    </form>
+    <button class="link-btn" onclick="location.href='/login';">
+      Back to Login
+    </button>
+  </div>
 
-    <%- include("templates/footer") %>
+  <script>
+    // Attach event listener to form submission
+    $("#findUsernameForm").submit(function(event) {
+      event.preventDefault(); // Prevent form from submitting normally
+
+      // Get form data
+      var formData = $(this).serialize();
+
+      // Make AJAX request
+      $.ajax({
+        url: "/username_search",
+        type: "POST",
+        data: formData,
+        dataType: "json",
+        statusCode: {
+          400: function(xhr, status, error) {
+            // Display SweetAlert with error message
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: xhr.responseJSON.error,
+              onAfterClose: () => {
+                document.getElementById("email").value = "";
+                document.getElementById("firstName").value = "";
+                document.getElementById("lastName").value = "";
+                document.getElementById("birthday").value = "";
+                // Reload the current page
+                location.reload();              }
+            });
+          }
+        },
+        error: function(error) {
+          // Handle any error that occurred during the AJAX request
+          console.log(error);
+        }
+      });
+    });
+  </script>
+</body>

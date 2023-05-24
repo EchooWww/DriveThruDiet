@@ -572,9 +572,7 @@ app.post("/reset_password", async (req, res) => {
   const user = await userCollection.findOne({ username: username });
   if (!user) {
     // User not found, redirecting to the forgot password page with an alert message
-    res.send(
-      '<script>alert("User not found"); window.location.href = "/forgot";</script>'
-    );
+    res.status(400).json({ error: "User not found" });
     return;
   }
 
@@ -683,7 +681,7 @@ app.post("/username_search", async (req, res) => {
   // Checking the number of matching users
   if (result.length != 1) {
     // User not found, rendering the find_ID_error page with an error message
-    res.render("find_ID_error", { error: "User not found." });
+    res.status(400).json({ error: "User not found" });
     return;
   } else {
     // Rendering the username_search page with the found user's data

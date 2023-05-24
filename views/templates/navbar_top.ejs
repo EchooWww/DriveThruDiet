@@ -326,7 +326,7 @@
                 updateMyTray();
                 updateTrayBanner();
                 updateTrayCount(); 
-
+                updateRings();
                 fetch('/trayCount')
                   .then(response => response.json())
                   .then(data => {

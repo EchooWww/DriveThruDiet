@@ -272,7 +272,7 @@
     "/images/icon-tray-reverse-opt.gif",
   ];
 
-  // Function to adjust the font size of tray count when it reaches 10
+  // Function to update the tray count
   function updateTrayCount() {
     fetch("/trayCount")
       .then((response) => response.json())
@@ -299,38 +299,53 @@
         const sidebarContainer = document.getElementById("myTrayContents");
         sidebarContainer.innerHTML = data;
         const removeButtons = sidebarContainer.querySelectorAll(".remove-btn");
+
         // Add event listeners to the remove buttons
         removeButtons.forEach((button) => {
           button.addEventListener("click", (e) => {
-            console.log("Remove Button clicked!");
+            e.preventDefault();
             const itemId = e.target.id;
             const itemIndex = e.target.getAttribute("data-index");
 
-            // Remove the item from the tray
-            fetch("/removeItem", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ itemId: itemId, itemIndex: itemIndex }),
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                updateMyTray();
-                updateTrayBanner();
-                updateTrayCount();
-                updateRings();
-                // Hide the tray banner if there are no items in the tray
-                fetch("/trayCount")
+            // Show a confirmation dialog before removing the item
+            Swal.fire({
+              title: "Are you sure you want to remove this item?",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Yes, remove it",
+              cancelButtonText: "No, keep it",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // Remove the item from the tray
+                fetch("/removeItem", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    itemId: itemId,
+                    itemIndex: itemIndex,
+                  }),
+                })
                   .then((response) => response.json())
                   .then((data) => {
-                    if (data.trayItemCount === 0) {
-                      document.getElementById(
-                        "tray-banner-container"
-                      ).style.display = "none";
-                    }
+                    updateMyTray();
+                    updateTrayBanner();
+                    updateTrayCount();
+                    updateRings();
+                    // Hide the tray banner if there are no items in the tray
+                    fetch("/trayCount")
+                      .then((response) => response.json())
+                      .then((data) => {
+                        if (data.trayItemCount === 0) {
+                          document.getElementById(
+                            "tray-banner-container"
+                          ).style.display = "none";
+                        }
+                      });
                   });
-              });
+              }
+            });
           });
         });
 

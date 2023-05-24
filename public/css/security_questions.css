@@ -11,3 +11,12 @@ input {
   display: flex;
   flex-direction: column;
 }
+
+h2 {
+  margin: 0.5em;
+}
+
+h5 {
+  margin-top: 0.5em;
+  color: var(--med-grey);
+}

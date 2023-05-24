@@ -8,6 +8,15 @@ input {
   flex-direction: column;
 }
 
+h2 {
+  margin: 0.5em;
+}
+
+h5 {
+  margin-top: 0.5em;
+  color: var(--med-grey);
+}
+
 .select_label{
   margin-bottom: 0.5em;
   border: 1px solid var(--accent);

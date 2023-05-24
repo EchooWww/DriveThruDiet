@@ -2,21 +2,15 @@
 
 ## 1. Introduction
 
----
-
 DriveThruDiet is a web app that uses AI and data intelligence to help users make healthier fast food choices through access to nutritional content, nutrition knowledge, and personalized recommendations based on their nutrition goals.
 
 ## 2. Techniques and Libraries:
-
----
 
 - Frontend: html5, css3, ejs, jquery, ajax, Google Places API, OpenAI API, sweetalert2
 - Backend: node.js, express.js
 - Database:MongoDB
 
 ## 3. Folder Structure
-
----
 
 Contents of the project folder
 
@@ -177,12 +171,85 @@ By following these steps, you should be able to install and run the project loca
 
 ## 5. Features and Usage
 
----
+### 5.1 Create an account
+
+To create an account, follow these steps:
+
+1. Open the web app in your preferred browser.
+2. Click on the "ACCESS" button.
+3. Click the link "don't have an account? register here".
+4. Fill out the required information, including your username, first name, last name, email, birthday, password.
+5. Click on the "SIGN UP" button to proceed to the security questions.
+6. Answer all the 3 security questions for future password reset, click on the "SUBMIT" button to proceed to set your nutritional goal.
+7. Answer all the questions by typing/select your answer, click on the "CALCULATE" button to see your personalized nutritional goal.
+8. Click on the "Start My Journey" button, now you're logged in as a new user, and directed to the homepage.
+
+### 5.2 Browse, search and filter food items
+
+You can browse, search, and filter fast food items in DriveThruDiet.
+
+#### Browse
+
+1. Log in to your account and navigate to the restaurant page by clicking second icon in the bottom navbar.
+2. Click on the logo of restaurant you're interested in, and browse the menu of it.
+
+#### Search
+
+1. Log in to your account and navigate to any page, click on the universal search bar, and type your keyword in it.
+2. Check search results in the dropdown.
+
+#### Filter
+
+1. Log in to your account and navigate to any page, click on the filter icon in the search bar, and select one or more condition, click on "Apply Filter".
+2. Browse the result page.
+
+### 5.3 NutriFacts
+
+The NutriFacts feature provides nutritional information about food items. To access NutriFacts:
+
+1. Click on the cards in menu or filter result page, or click on the item in the search result dropdown.
+2. Read the NutriFacts about the selected food item.
+
+### 5.4 The food tray
+
+The food tray feature allows you to save your interested food items, and browse their nutrition sums conviniently. Follow these steps:
+
+1. In the menu page/ filter result page/ NutriFacts page, click on the "Add" button.
+2. Access your food tray by clicking on the tray icon in upper right corner to toggle the sidebar.
+3. Check the nutritional values and remove items from the tray.
+4. You can also check the sums of macro nutrients from the bottom banner.
+
+### 5.5 Compare items
+
+To compare nutrients food items, follow these steps:
+
+1. Select 2 food items to compare by clicking the "COMPARE" in the NutriFacts page.
+2. View the comparison results.
+
+### 5.6 The AI assistant -- FastFoodie
+
+FastFoodie is an AI assistant that provides personalized recommendations and assistance. To interact with FastFoodie:
+
+1. Navigate to FastFoodie page by clicking on the robot icon in the bottom navbar.
+2. Follow the prompts and provide necessary information, there will be personalized recommendations generated for you.
+3. You can also ask FastFoodie other questions regarding fast food by sending your question in the chat.
+
+### 5.7 Personal profile and goals
+
+DriveThruDiet allows you to set personal goals and manage your profile information. Here's how:
+
+1. Go to profile page by clicking on the profile icon in the upper left corner.
+2. Click on the "EDIT" button, and change any information you wanna change.
+   Update your profile information, including name, email, or profile picture.
+
+### 5.8 Username recovery & password reset
+
+If you forget your username or need to reset your password, follow these steps:
+
+Access the "Username Recovery" or "Password Reset" section on the web app.
+Provide the requested information, such as email, first name, last name, and birthday.
+Submit the form to initiate the username recovery or password reset process.
 
 ## 6. References
 
----
-
 ## 7. About AI
-
----

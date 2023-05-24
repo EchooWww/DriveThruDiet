@@ -126,9 +126,13 @@
     >
       Low Carb
     </button>
+    <br />
     <input type="hidden" name="filter" id="selected-filter" value="" />
     <button type="submit" value="Apply Filter" id="filter-submit-btn">
-      Apply Filter
+      Apply
+    </button>
+    <button type="reset" value="Reset Filter" id="filter-reset-btn">
+      Reset
     </button>
   </form>
 </div>
@@ -191,6 +195,30 @@
     // Update the value of the hidden input field with the checkedFilters array
     document.getElementById("selected-filter").value = checkedFilters.join(",");
   }
+
+  //-------------------- Search related functions --------------------
+  // Get the reset button element
+  var resetButton = document.getElementById("filter-reset-btn");
+
+  // Add onclick event listener to the reset button
+  resetButton.onclick = function () {
+    // Get the form element
+    var filterForm = document.getElementById("filter-form");
+    // Call the reset() method on the form element
+    var filterButtons = document.getElementsByClassName("filter-button");
+    // Iterate over the collection of buttons using forEach method
+    Array.from(filterButtons).forEach(function (button) {
+      // Check if the button has the "selected" class
+      if (button.classList.contains("selected")) {
+        // Remove the "selected" class from the button
+        button.classList.remove("selected");
+      }
+    });
+    // Clear the checked filters array
+    checkedFilters = [];
+    // Update the value of the hidden input field with the empty array
+    document.getElementById("selected-filter").value = checkedFilters.join(",");
+  };
 
   //-------------------- Search related functions --------------------
   // Displays the search results when the user types in the search bar.

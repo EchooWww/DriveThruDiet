@@ -291,19 +291,27 @@
     margin-right: 15px;
 }
 
-#filter-submit-btn {
-    display: block;
+#filter-submit-btn, #filter-reset-btn {
     margin-top: 10px;
     padding: 10px;
     border: none;
-    background-color: var(--accent);
-    color: white;
     font-size: 15px;
     cursor: pointer;
     border-radius: 30px;
     margin: auto;
     margin-top: 10px;
     width: 100px;
+}
+
+#filter-submit-btn {
+    background-color: var(--accent);
+    color: white;
+}
+
+#filter-reset-btn {
+    background-color: #f2f2f2;
+    color: var(--dark);
+    border: solid 1px var(--dark);
 }
 
 .filter-button {

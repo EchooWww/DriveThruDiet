@@ -1,0 +1,47 @@
+<script>
+  // Attach event listener to form submission
+  $(".form").submit(function (event) {
+    event.preventDefault(); // Prevent form from submitting normally
+
+    // Get form data
+    var formData = $(this).serialize();
+
+    // Make AJAX request
+    $.ajax({
+      url: "/reset_password",
+      type: "POST",
+      data: formData,
+      dataType: "json",
+      statusCode: {
+        400: function (xhr, status, error) {
+          // Display SweetAlert with error message
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: xhr.responseJSON.error,
+            onAfterClose: () => {
+              // Reload the current page
+              location.reload();
+            },
+          });
+        },
+
+        200: function (xhr, status, error) {
+          Swal.fire({
+            icon: "success",
+            title: "Success!",
+            text: "Password reset successfully!",
+            onAfterClose: () => {
+              // Redirect to the login page
+              window.location.href = "/login";
+            },
+          });
+        },
+      },
+      error: function (error) {
+        // Handle any error that occurred during the AJAX request
+        console.log(error);
+      },
+    });
+  });
+</script>

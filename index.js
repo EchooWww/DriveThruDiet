@@ -680,7 +680,7 @@ app.post("/username_search", async (req, res) => {
   // Checking the number of matching users
   if (result.length != 1) {
     // User not found, rendering the find_ID_error page with an error message
-    res.status(400).json({ error: "User not found" });
+    res.status(400).json({ error: "Invalid user information" });
     return;
   } else {
     // Rendering the username_search page with the found user's data

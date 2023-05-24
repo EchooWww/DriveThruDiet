@@ -253,15 +253,15 @@
 
   // Function to update the tray banner 
   function updateTrayBanner() {
-  fetch("/trayTotals")
-    .then((response) => response.json())
-    .then((data) => {
-      document.getElementById("totalCalories").innerHTML = `<div><strong>Calories</strong></div><div>${data.totalCalories} Cal</div>`;
-      document.getElementById("totalProtein").innerHTML = `<div><strong>Protein</strong></div><div>${data.totalProtein} g</div>`;
-      document.getElementById("totalFat").innerHTML = `<div><strong>Fat</strong></div><div>${data.totalFat} g</div>`;
-      document.getElementById("totalCarbs").innerHTML = `<div><strong>Carbs</strong></div><div>${data.totalCarbs} g</div>`;
-    })
-    .catch((error) => console.error(error));
+    fetch("/trayTotals")
+      .then((response) => response.json())
+      .then((data) => {
+        document.getElementById("totalCalories").innerHTML = `<div><strong>Calories</strong></div><div>${data.totalCalories} Cal</div>`;
+        document.getElementById("totalProtein").innerHTML = `<div><strong>Protein</strong></div><div>${data.totalProtein} g</div>`;
+        document.getElementById("totalFat").innerHTML = `<div><strong>Fat</strong></div><div>${data.totalFat} g</div>`;
+        document.getElementById("totalCarbs").innerHTML = `<div><strong>Carbs</strong></div><div>${data.totalCarbs} g</div>`;
+      })
+      .catch((error) => console.error(error));
   }
 
 
@@ -283,19 +283,20 @@
 
   // Function to adjust the font size of tray count when it reaches 10
   function updateTrayCount() {
-  fetch('/trayCount')
-    .then(response => response.json())
-    .then(data => {
-      const trayItemCount = data.trayItemCount;
-      const trayCountElement = document.getElementById('tray-count');
-      trayCountElement.textContent = trayItemCount;
+    fetch('/trayCount')
+      .then(response => response.json())
+      .then(data => {
+        const trayItemCount = data.trayItemCount;
+        const trayCountElement = document.getElementById('tray-count');
+        trayCountElement.textContent = trayItemCount;
 
-      if (trayItemCount >= 10) {
-        trayCountElement.classList.add('small-font');
-      } else {
-        trayCountElement.classList.remove('small-font');
-      }     
-    });
+        // Adjust the font size based on the tray item count
+        if (trayItemCount >= 10) {
+          trayCountElement.classList.add('small-font');
+        } else {
+          trayCountElement.classList.remove('small-font');
+        }     
+      });
   }
   updateTrayCount();
 
@@ -314,19 +315,20 @@
           const itemId = e.target.id;
           const itemIndex = e.target.getAttribute("data-index"); 
 
-          fetch('/removeItem', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ itemId: itemId, itemIndex: itemIndex  })
-          }).then(response => response.json())
-            .then(data => {
-              if (data.success) {
+            // Remove the item from the tray
+            fetch('/removeItem', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ itemId: itemId, itemIndex: itemIndex  })
+            }).then(response => response.json())
+              .then(data => {
                 updateMyTray();
                 updateTrayBanner();
                 updateTrayCount(); 
                 updateRings();
+                // Hide the tray banner if there are no items in the tray
                 fetch('/trayCount')
                   .then(response => response.json())
                   .then(data => {
@@ -334,12 +336,11 @@
                       document.getElementById("tray-banner-container").style.display = 'none';
                     }
                   });
-              } else {
-                // Handle error
-              }
             });
         });
       });
+
+      // Add event listeners to the tray cards
       const trayCards = sidebarContainer.querySelectorAll('.trayCard');
       // Add event listeners to the tray cards to redirect to the NutriFacts page
       trayCards.forEach(card => {
@@ -347,14 +348,13 @@
           if (!e.target.classList.contains('remove-btn')) {
             const restaurant = e.currentTarget.dataset.restaurant;
             const item = e.currentTarget.dataset.item;
-            const index = e.target.parentElement.dataset.index;
             window.location.href = `/item/${restaurant}/${item}`;
           }
         });
       });
     })
     .catch((error) => console.error(error));
-}
+  }
 
   // Function to preload images to improve gif-load performance.
   function preLoadImages() {
@@ -382,10 +382,10 @@ function iconToggle() {
     }, 50);
     rightSidebarToggle(toggleState);
 
-    trayCountElement.style.display = 'block';
+      trayCountElement.style.display = 'block';
+    }
+    toggleState = !toggleState;
   }
-  toggleState = !toggleState;
-}
 
   // Toggles the right sidebar between open and closed.
   function rightSidebarToggle(toggleState) {
@@ -423,7 +423,7 @@ function iconToggle() {
   if (!foodTray.contains(e.target) && trayToggleState === true && e.target.className !== "add-btn" && e.target.className !== "remove-btn") {
     trayToggle();
   }
-});
+  });
 
 
 //-------------------- Compare related functions --------------------

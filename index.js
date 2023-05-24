@@ -939,7 +939,6 @@ app.post("/addItem", async (req, res) => {
 // Route to retrieve the number of items in the user's tray
 app.get("/trayCount", async (req, res) => {
   const username = req.session.username;
-
   const userCollection = database.db(mongodb_database).collection("users");
 
   try {

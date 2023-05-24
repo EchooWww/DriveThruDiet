@@ -6,35 +6,35 @@
 </head>
 
 <body>
-<div class="page-container">
-<header>
-  <h1><%= restaurant.name %></h1>
-</header>
-<div class="menu-cards">
-  <% menu.forEach(function(item) { %>
-  <div class="card" data-restaurant="<%= restaurant.name %>" data-item="<%= item.item %>">
-    <img src="<%= restaurant.image %>" alt="<%= restaurant.name %>" />
-    <div class="item-details">
-      <h2><%= item.item %></h2>
-      <p>
-        <small><strong>Calories:</strong> <%= item.calories %> cal</small>
-      </p>
-      <p>
-        <small><strong>Carbs:</strong> <%= item.total_carb %> g</small>
-      </p>
-      <p>
-        <small><strong>Protein:</strong> <%= item.protein %> g</small>
-      </p>
-      <p>
-        <small><strong>Fat:</strong> <%= item.total_fat %> g</small>
-      </p>
+  <div class="page-container">
+    <header>
+      <h1><%= restaurant.name %></h1>
+    </header>
+    <div class="menu-cards">
+      <% menu.forEach(function(item) { %>
+      <div class="card" data-restaurant="<%= restaurant.name %>" data-item="<%= item.item %>">
+        <img src="<%= restaurant.image %>" alt="<%= restaurant.name %>" />
+        <div class="item-details">
+          <h2><%= item.item %></h2>
+          <p>
+            <small><strong>Calories:</strong> <%= item.calories %> cal</small>
+          </p>
+          <p>
+            <small><strong>Carbs:</strong> <%= item.total_carb %> g</small>
+          </p>
+          <p>
+            <small><strong>Protein:</strong> <%= item.protein %> g</small>
+          </p>
+          <p>
+            <small><strong>Fat:</strong> <%= item.total_fat %> g</small>
+          </p>
+        </div>
+        <button class="add-btn" id="<%= item._id %>">Add</button>
+      </div>
+      <% }); %>
     </div>
-    <button class="add-btn" id="<%= item._id %>">Add</button>
+    <div class="placeholder"></div>
   </div>
-  <% }); %>
-</div>
-<div class="placeholder"></div>
-</div>
 
 <%- include("js/menu_js") %>
 <%- include('templates/navbar_bottom') %> 

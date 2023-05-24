@@ -1,28 +1,29 @@
 <script>
-  const addButtons = document.querySelectorAll('.add-btn');
+  const addButtons = document.querySelectorAll(".add-btn");
 
   // Add click event listeners to all elements with class "add-btn"
-  addButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-      console.log('Button clicked!');
+  addButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
       const itemId = e.target.id;
 
       // Send a POST request to "/addItem" endpoint
-      fetch('/addItem', {
-        method: 'POST',
+      fetch("/addItem", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         // Send the itemId as JSON payload in the request body
-        body: JSON.stringify({ itemId: itemId })
-      }).then(response => response.json())
-        .then(data => {
+        body: JSON.stringify({ itemId: itemId }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
           if (data.success) {
             // If the response is successful, update tray banner and count
             updateTrayBanner();
             updateTrayCount();
             // Show the tray banner container
-            document.getElementById("tray-banner-container").style.display = 'block';
+            document.getElementById("tray-banner-container").style.display =
+              "block";
           } else {
             // Handle error
           }
@@ -30,13 +31,13 @@
     });
   });
 
-  const cards = document.querySelectorAll('.card');
+  const cards = document.querySelectorAll(".card");
 
   // Add click event listeners to all elements with class "card"
-  cards.forEach(card => {
-    card.addEventListener('click', (e) => {
+  cards.forEach((card) => {
+    card.addEventListener("click", (e) => {
       // Check if the clicked element does not have class "add-btn"
-      if (!e.target.classList.contains('add-btn')) {
+      if (!e.target.classList.contains("add-btn")) {
         const restaurant = e.currentTarget.dataset.restaurant;
         const item = e.currentTarget.dataset.item;
         // Redirect the user to a specific item page

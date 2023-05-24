@@ -233,7 +233,6 @@
 //-------------------- Search related functions --------------------
   // Displays the search results when the user types in the search bar.
   function showResults(search) {
-    console.log(search);
     var searchList = document.getElementsByClassName(
       "search-results-container"
     );
@@ -336,7 +335,6 @@
       // Add event listeners to the remove buttons
       removeButtons.forEach(button => {
         button.addEventListener('click', (e) => {
-          console.log('Remove Button clicked!');
           const itemId = e.target.id;
           const itemIndex = e.target.getAttribute("data-index"); 
 
@@ -469,8 +467,6 @@ function iconToggle() {
     var value = document.getElementById("nav-search-bar").value;
     if (value.toLowerCase() === "mike") {
       window.location.href = "/easteregg";
-    } else {
-      console.log("Incorrect Key");
     }
   }
 </script>

@@ -210,13 +210,10 @@
     Promise.all(promises)
       .then(function (messages) {
         // If all promises are resolved, sort and display the sortByDistance array
-        console.log(messages); // Log the success messages
-        // Sort the sortByDistance array by distance in ascending order
         sortByDistance.sort(function (a, b) {
           // Convert the distance strings to numbers using parseFloat
           return parseFloat(a.distance) - parseFloat(b.distance);
         });
-        console.log(sortByDistance); // Log the sorted array
         // Display the sorted results in the list after all promises are resolved
         for (var k = 0; k < Math.min(sortByDistance.length, 6); k++) {
           var tr = document.createElement("tr");
@@ -233,9 +230,6 @@
             sortByDistance[k].name +
             "+" +
             sortByDistance[k].vicinity; // Use the query parameter with the place name and address
-          // Use the query parameter with the latitude and longitude of the result
-          // Alternatively, you can use the place_id parameter with the place_id of the result
-          // link.href = "https://www.google.com/maps/search/?api=1&query_place_id=" + sortByDistance[k].place_id;
           link.target = "_blank"; // Open the link in a new tab
           link.innerHTML =
             '<span class="material-symbols-outlined">near_me</span>';

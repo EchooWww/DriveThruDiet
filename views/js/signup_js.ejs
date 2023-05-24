@@ -24,20 +24,11 @@
         var errorInput = "";
 
         // Determine the input field associated with the error message
-        if (errorMessage === "Username is required" || errorMessage === "Username is already taken") {
+        if (errorMessage === "Username is already taken") {
           errorInput = "username";
-        } else if (errorMessage === "First Name is required") {
-          errorInput = "firstName";
-        } else if (errorMessage === "Last Name is required") {
-          errorInput = "lastName";
-        } else if (errorMessage === "Email is required" || errorMessage === "Email already exists") {
+        } else if (errorMessage === "Email already exists") {
           errorInput = "email";
-        } else if (errorMessage === "Birthday is required") {
-          errorInput = "birthday";
-        } else if (errorMessage === "Password is required") {
-          errorInput = "password";
         }
-
         // Add error classes to the input field and display the error message
         $("#" + errorInput + "Input").addClass("is-invalid");
         $("#" + errorInput + "Error").text("❗️" + errorMessage);
@@ -47,7 +38,9 @@
   });
 
   // Event listener for input changes in various fields
-  $("#usernameInput, #firstNameInput, #lastNameInput, #emailInput, #birthdayInput, #passwordInput").on("input", function () {
+  $(
+    "#usernameInput, #firstNameInput, #lastNameInput, #emailInput, #birthdayInput, #passwordInput"
+  ).on("input", function () {
     var inputId = $(this).attr("id");
     var errorId = inputId.replace("Input", "Error");
 

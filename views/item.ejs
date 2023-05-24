@@ -38,7 +38,6 @@
             <button class="add-btn" id="<%= id %>"> ADD </button>
             <button id="add-compare-btn" name="compareID" value="<%= id %>"
               <% for (let i = 0; i < locals.compareList.length; i++) { %>
-                <% console.log(locals.compareList[i]._id, id); %>
                 <% if (id.toString() == locals.compareList[i]._id.toString() && locals.compareList.length < 2) { %> 
                   <% compareExists = true; %>
                   onclick = "compareExists(event)"

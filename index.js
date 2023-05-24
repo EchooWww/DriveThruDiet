@@ -292,6 +292,7 @@ app.post("/submitUser", async (req, res) => {
     password: hashedPassword,
     user_type: "user",
     compareItems: [],
+    trayItems: [],
   });
   console.log("User Created");
   req.session.authenticated = true; // Set the session authenticated flag to true

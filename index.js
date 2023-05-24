@@ -221,6 +221,9 @@ app.post("/submitUser", async (req, res) => {
   if (!username) {
     return res.status(400).json({ error: "Username is required" });
   }
+  if (username.length < 5 || username.length > 20) {
+    return res.status(400).json({ error: "Username must be between 5 and 20 characters" });
+  }
   if (!firstName) {
     return res.status(400).json({ error: "First Name is required" });
   }
@@ -235,6 +238,9 @@ app.post("/submitUser", async (req, res) => {
   }
   if (!password) {
     return res.status(400).json({ error: "Password is required" });
+  }
+  if (password.length < 6 || password.length > 20) {
+    return res.status(400).json({ error: "Password must be between 6 and 20 characters" });
   }
 
   /* GPT_Promt_2 */

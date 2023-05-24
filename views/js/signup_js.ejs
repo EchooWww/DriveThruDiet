@@ -1,4 +1,20 @@
 <script>
+  // Function to show tooltip when hovering over form field
+  function showTooltip(message, inputFieldName) {
+    var errorElement = document.getElementById(inputFieldName + "Error");
+    errorElement.textContent = message;
+    errorElement.style.textAlign = "center";
+    errorElement.style.color = "var(--dark)";
+  }
+
+  // Function to hide tooltip when not over form field
+  function hideTooltip(inputFieldName) {
+    var errorElement = document.getElementById(inputFieldName + "Error");
+    errorElement.textContent = "";
+    errorElement.style.textAlign = "left";
+    errorElement.style.color = "red";
+  }
+
   // Attach event listener to form submission
   $("#signupForm").on("submit", function (event) {
     event.preventDefault();
@@ -24,17 +40,27 @@
         var errorInput = "";
 
         // Determine the input field associated with the error message
-        if (errorMessage === "Username is required" || errorMessage === "Username is already taken") {
+        if (
+          errorMessage === "Username is required" ||
+          errorMessage === "Username is already taken" ||
+          errorMessage === "Username must be between 5 and 20 characters"
+        ) {
           errorInput = "username";
         } else if (errorMessage === "First Name is required") {
           errorInput = "firstName";
         } else if (errorMessage === "Last Name is required") {
           errorInput = "lastName";
-        } else if (errorMessage === "Email is required" || errorMessage === "Email already exists") {
+        } else if (
+          errorMessage === "Email is required" ||
+          errorMessage === "Email already exists"
+        ) {
           errorInput = "email";
         } else if (errorMessage === "Birthday is required") {
           errorInput = "birthday";
-        } else if (errorMessage === "Password is required") {
+        } else if (
+          errorMessage === "Password is required" ||
+          errorMessage === "Password must be between 6 and 20 characters"
+        ) {
           errorInput = "password";
         }
 
@@ -47,7 +73,9 @@
   });
 
   // Event listener for input changes in various fields
-  $("#usernameInput, #firstNameInput, #lastNameInput, #emailInput, #birthdayInput, #passwordInput").on("input", function () {
+  $(
+    "#usernameInput, #firstNameInput, #lastNameInput, #emailInput, #birthdayInput, #passwordInput"
+  ).on("input", function () {
     var inputId = $(this).attr("id");
     var errorId = inputId.replace("Input", "Error");
 

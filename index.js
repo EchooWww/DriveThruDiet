@@ -222,7 +222,9 @@ app.post("/submitUser", async (req, res) => {
     return res.status(400).json({ error: "Username is required" });
   }
   if (username.length < 5 || username.length > 20) {
-    return res.status(400).json({ error: "Username must be between 5 and 20 characters" });
+    return res
+      .status(400)
+      .json({ error: "Username must be between 5 and 20 characters" });
   }
   if (!firstName) {
     return res.status(400).json({ error: "First Name is required" });
@@ -240,7 +242,9 @@ app.post("/submitUser", async (req, res) => {
     return res.status(400).json({ error: "Password is required" });
   }
   if (password.length < 6 || password.length > 20) {
-    return res.status(400).json({ error: "Password must be between 6 and 20 characters" });
+    return res
+      .status(400)
+      .json({ error: "Password must be between 6 and 20 characters" });
   }
 
   /* GPT_Promt_2 */
@@ -999,6 +1003,37 @@ app.get("/trayTotals", async (req, res) => {
     res.json(totals);
   } catch (error) {
     res.status(500).send("Internal Server Error");
+  }
+});
+
+// Route to handle removing all items from the user's tray
+app.post("/removeAllItems", async (req, res) => {
+  const username = req.session.username;
+  const userCollection = database.db(mongodb_database).collection("users");
+
+  try {
+    // Find the user based on the provided username
+    const user = await userCollection.findOne({ username: username });
+    const userId = user._id;
+
+    // Check if the provided userId is a valid MongoDB ObjectID
+    if (!mongodb.ObjectId.isValid(userId)) {
+      return res.json({ success: false });
+    }
+
+    // Remove all items from the user's trayItems array using $set
+    const updateResult = await userCollection.updateOne(
+      { _id: new mongodb.ObjectId(userId) },
+      { $set: { trayItems: [] } }
+    );
+
+    if (updateResult.matchedCount > 0) {
+      res.json({ success: true });
+    } else {
+      res.json({ success: false });
+    }
+  } catch (error) {
+    res.json({ success: false });
   }
 });
 

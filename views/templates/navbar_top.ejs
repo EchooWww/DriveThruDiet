@@ -299,6 +299,48 @@
         const sidebarContainer = document.getElementById("myTrayContents");
         sidebarContainer.innerHTML = data;
         const removeButtons = sidebarContainer.querySelectorAll(".remove-btn");
+        const removeAllButton = document.getElementById("remove-all-btn");
+
+        // Add event listener to the "Remove All" button
+        removeAllButton.addEventListener("click", (e) => {
+          e.preventDefault();
+
+          // Show a confirmation dialog before removing all items
+          Swal.fire({
+            title: "Are you sure you want to remove all items?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, remove all",
+            cancelButtonText: "No, keep all",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Remove all items from the tray
+              fetch("/removeAllItems", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  updateMyTray();
+                  updateTrayBanner();
+                  updateTrayCount();
+                  updateRings();
+                  // Hide the tray banner if there are no items in the tray
+                  fetch("/trayCount")
+                    .then((response) => response.json())
+                    .then((data) => {
+                      if (data.trayItemCount === 0) {
+                        document.getElementById(
+                          "tray-banner-container"
+                        ).style.display = "none";
+                      }
+                    });
+                });
+            }
+          });
+        });
 
         // Add event listeners to the remove buttons
         removeButtons.forEach((button) => {

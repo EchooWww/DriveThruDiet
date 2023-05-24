@@ -135,7 +135,6 @@ app.use(async (req, res, next) => {
   try {
     const username = req.session.username; // Retrieve the username from the session
     const totals = await calculateTotals(username); // Calculate the totals using the `calculateTotals` function
-
     Object.assign(res.locals, totals); // Assign the calculated totals to `res.locals` for access in the views
     next(); // Proceed to the next middleware
   } catch (error) {

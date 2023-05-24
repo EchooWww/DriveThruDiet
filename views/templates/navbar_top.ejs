@@ -411,7 +411,8 @@
       !rightSidebar.contains(e.target) &&
       toggleState === true &&
       !image.contains(e.target) &&
-      !foodTray.contains(e.target)
+      !foodTray.contains(e.target) &&
+      !document.querySelector(".swal2-container")
     ) {
       iconToggle();
     }

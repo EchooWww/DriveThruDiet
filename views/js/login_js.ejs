@@ -24,9 +24,16 @@
         var errorInput = "";
 
         // Determine the input field associated with the error message
-        if (errorMessage === "Please enter a valid username" || errorMessage === "User not found") {
+        if (
+          errorMessage === "Please enter a username" ||
+          errorMessage === "Please enter a valid username" ||
+          errorMessage === "User not found"
+        ) {
           errorInput = "username";
-        } else if (errorMessage === "Incorrect password") {
+        } else if (
+          errorMessage === "Incorrect password" ||
+          errorMessage === "Please enter a password"
+        ) {
           errorInput = "password";
         }
 
@@ -49,5 +56,4 @@
       $("#" + errorId).hide();
     }
   });
-
 </script>

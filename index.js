@@ -194,11 +194,43 @@ app.post("/submitUser", async (req, res) => {
   var password = req.body.password;
   compareList = [];
 
+  // Validate user input for the registration form
   if (username.length < 5 || username.length > 20) {
     return res
       .status(400)
       .json({ error: "Username must be between 5 and 20 characters" });
   }
+
+  if (password.length < 8) {
+    return res
+      .status(400)
+      .json({ error: "Password must be at least 8 characters" });
+  }
+
+  if (!username) {
+    return res.status(400).json({ error: "Username is required" });
+  }
+
+  if (!firstName) {
+    return res.status(400).json({ error: "First name is required" });
+  }
+
+  if (!lastName) {
+    return res.status(400).json({ error: "Last name is required" });
+  }
+
+  if (!email) {
+    return res.status(400).json({ error: "Email is required" });
+  }
+
+  if (!birthday) {
+    return res.status(400).json({ error: "Birthday is required" });
+  }
+
+  if (!password) {
+    return res.status(400).json({ error: "Password is required" });
+  }
+
   /* GPT_Promt_2 */
   // Check if username or email already exists in the database
   const existingUser = await userCollection.findOne({
@@ -273,8 +305,7 @@ app.get("/security_questions", (req, res) => {
 
 // Route for submitting the security answers form
 app.post("/security_answers", async (req, res) => {
-  const { question1, question2, question3 } = req.body;
-
+  const { question1, question2, question3 } = req.body; // Retrieve the answers from the request body
   const questions = [
     {
       question: "What is your mother's maiden name?",
@@ -464,6 +495,15 @@ app.post("/loggingIn", async (req, res) => {
   // Extracting the username and password from the request body
   var username = req.body.username;
   var password = req.body.password;
+
+  if (!username) {
+    res.status(400).json({ error: "Please enter a username" });
+    return;
+  }
+  if (!password) {
+    res.status(400).json({ error: "Please enter a password" });
+    return;
+  }
 
   // Validation schema using Joi to ensure the username is alphanumeric and has a maximum length of 20 characters
   const schema = Joi.string().alphanum().max(20).required();

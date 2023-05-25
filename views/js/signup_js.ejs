@@ -41,12 +41,27 @@
 
         // Determine the input field associated with the error message
         if (
+          errorMessage === "Username is required" ||
           errorMessage === "Username must be between 5 and 20 characters" ||
           errorMessage === "Username is already taken"
         ) {
           errorInput = "username";
-        } else if (errorMessage === "Email already exists") {
+        } else if (errorMessage === "First name is required") {
+          errorInput = "firstName";
+        } else if (errorMessage === "Last name is required") {
+          errorInput = "lastName";
+        } else if (
+          errorMessage === "Email is required" ||
+          errorMessage === "Email already exists"
+        ) {
           errorInput = "email";
+        } else if (errorMessage === "Birthday is required") {
+          errorInput = "birthday";
+        } else if (
+          errorMessage === "Password is required" ||
+          errorMessage === "Password must be at least 8 characters"
+        ) {
+          errorInput = "password";
         }
         // Add error classes to the input field and display the error message
         $("#" + errorInput + "Input").addClass("is-invalid");

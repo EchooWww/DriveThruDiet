@@ -44,9 +44,9 @@
                   compareExists = false;
                 <% } %>
               <% } %> 
-              <% if (compareExists == false && locals.compareList.length < 3) { %> 
+              <% if (compareExists == false && locals.compareList.length < 2) { %> 
                 formaction="/addCompare" method="get" type="submit"
-              <% } else if (locals.compareList.length >= 3) { %>
+              <% } else if (locals.compareList.length >= 2) { %>
                 onclick = "compareLimit(event)"
               <% } %>
             > COMPARE </button>

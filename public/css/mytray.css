@@ -18,7 +18,7 @@ h1 {
 #tray-list {
   align-items: center;
   margin-top: 0;
-  height: calc(100% - 100px) !important;
+  height: calc(100% - 285px) !important;
   overflow-y: auto;
   display: block !important;
 }

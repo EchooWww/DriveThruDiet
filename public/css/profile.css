@@ -165,3 +165,7 @@ h2 {
 #tray-count {
   display: none;
 }
+
+.auth-form-container {
+  align-items: center;
+}

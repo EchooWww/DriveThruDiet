@@ -1304,7 +1304,7 @@ io.on("connection", (socket) => {
       model: "text-davinci-003", // Model used for completion
       prompt: msg, // User's message as the prompt
       temperature: 1, // Controls the randomness of the generated text
-      max_tokens: 100, // Maximum number of tokens in the generated response
+      max_tokens: 200, // Maximum number of tokens in the generated response
     });
 
     // Emitting chat message event with generated response

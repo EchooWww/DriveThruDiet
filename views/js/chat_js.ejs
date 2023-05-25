@@ -73,13 +73,16 @@
         const $unrelatedMessage = $(
           '<div class="conversation-window"><div class="chat-message received"><p></p></div></div>'
         );
-        $unrelatedMessage.find("p").text(unrelatedResponse);
+
+        setTimeout(() => {
+          $unrelatedMessage.find("p").text(unrelatedResponse);
         $messages.append($unrelatedMessage);
 
         // Scrolls to bottom of the chat
         chatMessages.scrollTop = chatMessages.scrollHeight;
         // Clear the input field
         $("#m").val("");
+        }, 1000); // 1 - second delay
         return;
       }
 
@@ -167,6 +170,7 @@
         "taco bell",
         "arbys",
         "kfc",
+        "thank",
       ];
 
       // Check if the message contains any food-related keywords

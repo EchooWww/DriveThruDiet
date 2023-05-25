@@ -76,12 +76,12 @@
 
         setTimeout(() => {
           $unrelatedMessage.find("p").text(unrelatedResponse);
-        $messages.append($unrelatedMessage);
+          $messages.append($unrelatedMessage);
 
-        // Scrolls to bottom of the chat
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-        // Clear the input field
-        $("#m").val("");
+          // Scrolls to bottom of the chat
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+          // Clear the input field
+          $("#m").val("");
         }, 1000); // 1 - second delay
         return;
       }

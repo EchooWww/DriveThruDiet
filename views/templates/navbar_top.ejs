@@ -178,7 +178,7 @@
         <%= locals.compareList[i].item %>
       </div>
       <form>
-        <button <% if (locals.currentURL=="/compare" ) { %> class="hidden" <% } %> formaction="/removeCompare"
+        <button onclick="confirmRemoveCompare(event)" <% if (locals.currentURL=="/compare" ) { %> class="hidden" <% } %> formaction="/removeCompare"
             method="get" name="compareID" value="<%= locals.compareList[i]._id %>"> X </button>
       </form>
     </div>
@@ -469,5 +469,20 @@ function iconToggle() {
       compareSidebarToggle();
     }
   });
+
+  function confirmRemoveCompare(event) {
+    event.preventDefault();
+    Swal.fire({
+      title: 'Are you sure you want to remove this item?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Remove',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById("remove-compare-form").submit();
+      }
+    });
+  }
 
 </script>

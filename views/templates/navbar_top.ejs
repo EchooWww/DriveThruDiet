@@ -151,7 +151,7 @@
         <%= locals.compareList[i].item %>
       </div>
       <form>
-        <button class="remove-compare-btn" <% if (locals.currentURL=="/compare" ) { %> class="hidden" <% } %> formaction="/removeCompare"
+        <button id="remove-compare-btn" <% if (locals.currentURL=="/compare" ) { %> class="hidden" <% } %> formaction="/removeCompare"
             method="get" name="compareID" value="<%= locals.compareList[i]._id %>"> REMOVE </button>
       </form>
     </div>

@@ -195,17 +195,6 @@ app.post("/submitUser", async (req, res) => {
   compareList = [];
 
   // Validate user input for the registration form
-  if (username.length < 5 || username.length > 20) {
-    return res
-      .status(400)
-      .json({ error: "Username must be between 5 and 20 characters" });
-  }
-
-  if (password.length < 8) {
-    return res
-      .status(400)
-      .json({ error: "Password must be at least 8 characters" });
-  }
 
   if (!username) {
     return res.status(400).json({ error: "Username is required" });
@@ -229,6 +218,18 @@ app.post("/submitUser", async (req, res) => {
 
   if (!password) {
     return res.status(400).json({ error: "Password is required" });
+  }
+
+  if (username.length < 5 || username.length > 20) {
+    return res
+      .status(400)
+      .json({ error: "Username must be between 5 and 20 characters" });
+  }
+
+  if (password.length < 8) {
+    return res
+      .status(400)
+      .json({ error: "Password must be at least 8 characters" });
   }
 
   /* GPT_Promt_2 */

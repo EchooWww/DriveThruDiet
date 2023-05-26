@@ -12,3 +12,12 @@ input {
   border: none;
   border-radius: var(--btnradius);
 }
+
+h2 {
+  margin: 0.5em;
+}
+
+h5 {
+  margin-top: 0.5em;
+  color: var(--med-grey);
+}

@@ -1,6 +1,5 @@
 body {
   margin-top: 60px;
-  /* overflow: auto; */
 }
 
 header {
@@ -16,12 +15,12 @@ h1 {
   margin-block-start: 0rem;
 }
 
-main {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+#tray-list {
   align-items: center;
   margin-top: 0;
+  height: calc(100% - 285px) !important;
+  overflow-y: auto;
+  display: block !important;
 }
 
 .trayCard {
@@ -31,12 +30,13 @@ main {
   height: 110px;
   margin: 8px;
   padding: 10px;
-  border: 1px solid var(--light);
+  cursor: pointer;
+  background-color: var(--card);
+  border-radius: var(--radius);
 }
 
 .trayCard img {
   width: 80px;
-  height: 70px;
   object-fit: cover;
   margin-right: 15px;
   margin-left: 5px;
@@ -67,15 +67,14 @@ main {
 
 .remove-btn {
   background-color: var(--accent);
-  color: #f7f7f7;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 11px;
-  font-size: 12px;
+  color: white;
+  border: 2px solid var(--accent);
+  border-radius: var(--btnradius);
+  padding: 0.5em 1em;
   cursor: pointer;
   position: relative;
-  top: 41px;
-  right: 1px;
+  top: 39px;
+  right: 8px;
   margin-left: auto;
 }
 
@@ -84,11 +83,28 @@ main {
 }
 
 #myTrayContents {
-  height: calc(100% - 200px) !important;
+  height: calc(100% - 105px) !important;
 }
 
-#tray-list {
-  height: calc(100% - 50px) !important;
-  overflow-y: auto;
-  display: block !important;
+.header-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+#remove-all-btn {
+  color: var(--med-gray);
+  cursor: pointer;
+  margin-right: 2.05rem;
+  border-radius: var(--btnradius);
+}
+
+#remove-all-btn:hover {
+  background-color: var(--medium);
+  color: white;
+  padding: 0.5em
+}
+
+#remove-all-btn:active {
+  background-color: var(--dark);
+  padding: 0.5em
 }

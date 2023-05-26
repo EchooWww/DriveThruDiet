@@ -6,13 +6,16 @@
   <body>
     <div class="auth-form-container">
       <h2>Let's get started!</h2>
+      <h5>All fields are required</h5>
       <form class="form" id="signupForm" method="post" action="/submitUser">
         <label for="username">
-          <input type="text" placeholder="Username" id="usernameInput" name="username" />
+          <input type="text" placeholder="Username" id="usernameInput" name="username"
+            onmouseover="showTooltip('Username must be between 5 and 20 characters.', 'username')"
+            onmouseout="hideTooltip('username')" />
         </label>
         <span id="usernameError" class="error-message" style="text-align: left; color: red;"></span>
         <label for="firstName">
-          <input type="text" placeholder="First Name" id="firstNameInput" name="firstName" />
+          <input type="text" placeholder="First Name" id="firstNameInput" name="firstName"/>
         </label>
         <span id="firstNameError" class="error-message" style="text-align: left; color: red;"></span>
         <label for="lastName">
@@ -28,7 +31,9 @@
         </label>
         <span id="birthdayError" class="error-message" style="text-align: left; color: red;"></span>
         <label for="password">
-          <input type="password" placeholder="Password" id="passwordInput" name="password" />
+          <input type="password" placeholder="Password" id="passwordInput" name="password"
+            onmouseover="showTooltip('Password must be at least 8 characters long.', 'password')"
+            onmouseout="hideTooltip('password')" />
         </label>
         <span id="passwordError" class="error-message" style="text-align: left; color: red;"></span>
         <button class="submit-btn" type="submit">SIGN UP</button>
@@ -36,53 +41,5 @@
       <button class="link-btn" onclick="location.href='/login';">Already have an account? Log in.</button>
     </div>
 
-    <script>
-      $("#signupForm").on("submit", function (event) {
-        event.preventDefault();
-        var formData = $(this).serialize();
-        $.ajax({
-          url: "/submitUser",
-          type: "POST",
-          data: formData,
-          dataType: "json",
-          success: function (response) {
-            if (response.redirect) {
-              window.location.href = response.redirect;
-            }
-          },
-          error: function (xhr, status, error) {
-            var errorMessage = xhr.responseJSON.error;
-            var errorInput = "";
-            if (errorMessage === "Username is required" || errorMessage === "Username is already taken") {
-              errorInput = "username";
-            } else if (errorMessage === "First Name is required") {
-              errorInput = "firstName";
-            } else if (errorMessage === "Last Name is required") {
-              errorInput = "lastName";
-            } else if (errorMessage === "Email is required" || errorMessage === "Email already exists") {
-              errorInput = "email";
-            } else if (errorMessage === "Birthday is required") {
-              errorInput = "birthday";
-            } else if (errorMessage === "Password is required") {
-              errorInput = "password";
-            }
-            $("#" + errorInput + "Input").addClass("is-invalid");
-            $("#" + errorInput + "Error").text("❗️" + errorMessage);
-            $("#" + errorInput + "Error").show();
-          },
-        });
-      });
-
-      $("#usernameInput, #firstNameInput, #lastNameInput, #emailInput, #birthdayInput, #passwordInput").on("input", function () {
-      var inputId = $(this).attr("id");
-      var errorId = inputId.replace("Input", "Error");
-
-      if ($(this).hasClass("is-invalid") && $(this).get(0).checkValidity()) {
-        $(this).removeClass("is-invalid");
-        $("#" + errorId).hide();
-      }
-    });
-    </script>
-
-    <!-- JS Scripts go here -->
-    <%- include("templates/footer") %>
+    <%- include("js/signup_js") %>
+      <%- include("templates/footer") %>

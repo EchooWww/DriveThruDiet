@@ -1,9 +1,17 @@
 <header>
-  <h1>My Tray</h1>
+  <div class="header-container">
+    <h1>My Tray</h1>
+    <p id="remove-all-btn">REMOVE ALL</p>
+  </div>
 </header>
-<main id="tray-list">
-  <% trayItems.forEach(function(item) { %>
-  <div class="trayCard" data-restaurant="<%= item.restaurant.name %>" data-item="<%= item.item %>">
+<div id="tray-list">
+  <% trayItems.forEach(function(item, index) { %>
+  <div
+    class="trayCard"
+    data-index="<%= index %>"
+    data-restaurant="<%= item.restaurant.name %>"
+    data-item="<%= item.item %>"
+  >
     <img src="<%= item.restaurant.image %>" alt="<%= item.restaurant.name %>" />
     <div class="item-details">
       <h2><%= item.item %></h2>
@@ -21,22 +29,9 @@
         <small><strong>Fat:</strong> <%= item.total_fat %> g</small>
       </p>
     </div>
-    <button class="remove-btn" id="<%= item._id %>">Remove</button>
+    <button class="remove-btn" data-index="<%= index %>" id="<%= item._id %>">
+      REMOVE
+    </button>
   </div>
   <% }); %>
-</main>
-
-<script>
-const trayCards = document.querySelectorAll('.trayCard');
-
-trayCards.forEach(card => {
-  card.addEventListener('click', (e) => {
-    if (!e.target.classList.contains('remove-btn')) {
-      const restaurant = e.currentTarget.dataset.restaurant;
-      const item = e.currentTarget.dataset.item;
-
-      window.location.href = `/item/${restaurant}/${item}`;
-    }
-  });
-});
-</script>
+</div>

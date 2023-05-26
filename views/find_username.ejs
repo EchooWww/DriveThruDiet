@@ -1,30 +1,34 @@
 <%- include("templates/header") %>
-  <link rel="stylesheet" href="/css/authentication.css">
-  <link rel="stylesheet" href="/css/formfield.css">
-  </head>
 
-  <body>
-    <div class="auth-form-container">
-      <h2>Find Username</h2>
-      <form class="form" action="/username_search" method="post">
-        <label for="email">
-          <input type="email" placeholder="Email" id="email" name="email" />
-        </label>
-        <label for="firstName">
-          <input type="text" placeholder="First Name" id="firstName" name="firstName" />
-        </label>
-        <label for="lastName">
-          <input type="text" placeholder="Last Name" id="lastName" name="lastName" />
-        </label>
-        <label for="birthday">
-          <input type="date" placeholder="" id="birthday" name="birthday" />
-        </label>
-        <button class="submit-btn" type="submit">FIND USERNAME</button>
-      </form>
-      <button class="link-btn" onclick="location.href='/login';">
-        Back to Login
-      </button>
-    </div>
+<!-- SweetAlert library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+<link rel="stylesheet" href="/css/authentication.css">
+<link rel="stylesheet" href="/css/formfield.css">
+</head>
 
-    <%- include("templates/footer") %>
+<body>
+  <div class="auth-form-container">
+    <h2>Find Username</h2>
+    <form class="form" id="findUsernameForm" action="/username_search" method="post">
+      <label for="email">
+        <input type="email" placeholder="Email" id="email" name="email" />
+      </label>
+      <label for="firstName">
+        <input type="text" placeholder="First Name" id="firstName" name="firstName" />
+      </label>
+      <label for="lastName">
+        <input type="text" placeholder="Last Name" id="lastName" name="lastName" />
+      </label>
+      <label for="birthday">
+        <input type="date" placeholder="" id="birthday" name="birthday" />
+      </label>
+      <button class="submit-btn" type="submit">FIND USERNAME</button>
+    </form>
+    <button class="link-btn" onclick="location.href='/login';">
+      Back to Login
+    </button>
+  </div>
+    
+<%- include("js/find_username_js") %>
+<%- include("templates/footer") %>

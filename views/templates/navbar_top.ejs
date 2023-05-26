@@ -4,7 +4,7 @@
   href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
 />
 
-<link rel="stylesheet" href="/css/mytray.css">
+<link rel="stylesheet" href="/css/mytray.css" />
 
 <!-- SweetAlert library -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -69,7 +69,9 @@
   <ul id="search-results">
     <% for (var i=0; i < searchList.length; i++) { %>
     <li class="list-item">
-      <a href="/item/<%= locals.searchList[i].restaurant %>/<%= locals.searchList[i].item %>" >
+      <a
+        href="/item/<%= locals.searchList[i].restaurant %>/<%= locals.searchList[i].item %>"
+      >
         <div id="search-results-restaurant">
           <%= locals.searchList[i].restaurant %>
         </div>
@@ -122,39 +124,51 @@
       onclick="toggleButton(this)"
       class="filter-button"
     >
-      Low Carb
+      Low Carbs
     </button>
+    <br />
     <input type="hidden" name="filter" id="selected-filter" value="" />
     <button type="submit" value="Apply Filter" id="filter-submit-btn">
-      Apply Filter
+      APPLY
+    </button>
+    <button type="reset" value="Reset Filter" id="filter-reset-btn">
+      RESET
     </button>
   </form>
 </div>
 
 <!-- Right Sidebar -->
 <div id="right-sidebar-container">
-  <div id="myTrayContents">
-    Food Tray Items
-  </div>
+  <div id="myTrayContents"></div>
   <div id="compare-list-container">
-    Compare Items
-    <% for (let i = 0; i < locals.compareList.length; i++) { %>
-      <div class="compare-list-items">
-        <div class="compare-side-restaurant"> <%= locals.compareList[i].restaurant %> </div>
-        <div class="compare-side-item"> <%= locals.compareList[i].item %></div>
-        <form>
-          <button <% if (locals.currentURL == "/compare") { %> class="hidden" <% } %> formaction="/removeCompare" method="get" name="compareID" value="<%= locals.compareList[i]._id %>"> X </button>
-        </form>
+    <h1>Compare Items</h1>
+    <% for (let i=0; i < locals.compareList.length; i++) { %>
+    <div class="compare-list-items">
+      <div class="compare-side-restaurant">
+        <%= locals.compareList[i].restaurant %>
       </div>
+      <div class="compare-side-item">
+        <%= locals.compareList[i].item %>
+      </div>
+      <form>
+        <button id="remove-compare-btn" <% if (locals.currentURL=="/compare" ) { %> class="hidden" <% } %> formaction="/removeCompare"
+            method="get" name="compareID" value="<%= locals.compareList[i]._id %>"> REMOVE </button>
+      </form>
+    </div>
     <% } %>
     <form id="compare-form">
-      <button <% if (locals.compareList.length === 2) { %> formaction="/compare" type="submit" <% } else { %> onclick="addCompareAlert()" <% } %> id="compare-btn"> COMPARE </button>
+      <button <% if (locals.compareList.length===2) { %> formaction="/compare" type="submit" <% } else { %>
+        onclick="addCompareAlert()" <% } %> id="compare-btn"> COMPARE </button>
     </form>
   </div>
 </div>
 
 <!-- Tray Banner -->
-<div id="tray-banner-container" style="<%= trayItems && trayItems.length > 0 ? '' : 'display: none;' %>" onClick="trayToggle()"> 
+<div
+  id="tray-banner-container"
+  style="<%= trayItems && trayItems.length > 0 ? '' : 'display: none;' %>"
+  onClick="trayToggle()"
+>
   <div id="tray-contents">
     <div id="food-tray-heading">
       <div>Tray Nutrition Total</div>
@@ -167,13 +181,13 @@
       <div id="totalCarbs" class="nutrition-item">
         <div id="totalCarbsName"><strong>Carbs</strong></div>
         <div id="totalCarbsValue"><%=totalCarbs%> g</div>
-      </div> 
+      </div>
       <div id="totalProtein" class="nutrition-item">
-        <div id="totalProteinName"><strong>Protein</strong></div> 
+        <div id="totalProteinName"><strong>Protein</strong></div>
         <div id="totalProteinValue"><%=totalProtein%> g</div>
       </div>
       <div id="totalFat" class="nutrition-item">
-        <div id="totalFatName"><strong>Fat</strong></div> 
+        <div id="totalFatName"><strong>Fat</strong></div>
         <div id="totalFatValue"><%=totalFat%> g</div>
       </div>
     </div>
@@ -181,18 +195,16 @@
 </div>
 
 <script>
+  //-------------------- Filter related functions --------------------
   //Function to show filter card
   function showFilter() {
     var filterCard = document.getElementsByClassName("filter-card-container");
     filterCard[0].classList.toggle("show");
   }
-
   var checkedFilters = [];
-
   function toggleButton(button) {
     // Toggle the selected state of the button
     button.classList.toggle("selected");
-
     // Update the checkedFilters array with the selected buttons
     checkedFilters = [];
     var buttons = document.getElementsByName("filter");
@@ -201,183 +213,39 @@
         checkedFilters.push(buttons[i].value);
       }
     }
-
     // Update the value of the hidden input field with the checkedFilters array
     document.getElementById("selected-filter").value = checkedFilters.join(",");
   }
 
-  const image = document.getElementById("tray-icon");
-  const rightSidebar = document.getElementById("right-sidebar-container");
-  const foodTray = document.getElementById("tray-banner-container");
+  //-------------------- Search related functions --------------------
+  // Get the reset button element
+  var resetButton = document.getElementById("filter-reset-btn");
+  const compareSidebar = document.getElementById("compare-sidebar-container");
+  var compareToggleState = false;
 
-
-  image.src = "/images/icon-tray.png";
-
-  var trayToggleState = false;
-  var toggleState = false;
-  var images = [
-    "/images/icon-tray-opt.gif",
-    "/images/icon-tray-reverse-opt.gif",
-  ];
-
-  // Function to preload images to improve gif-load performance.
-  function preLoadImages() {
-    for (i = 0; i < images.length; i++) {
-      var imageObject = new Image();
-      imageObject.src = images[i];
-    }
-  }
-
-  function updateTrayBanner() {
-  fetch("/trayTotals")
-    .then((response) => response.json())
-    .then((data) => {
-      document.getElementById("totalCalories").innerHTML = `<div><strong>Calories</strong></div><div>${data.totalCalories} Cal</div>`;
-      document.getElementById("totalProtein").innerHTML = `<div><strong>Protein</strong></div><div>${data.totalProtein} g</div>`;
-      document.getElementById("totalFat").innerHTML = `<div><strong>Fat</strong></div><div>${data.totalFat} g</div>`;
-      document.getElementById("totalCarbs").innerHTML = `<div><strong>Carbs</strong></div><div>${data.totalCarbs} g</div>`;
-    })
-    .catch((error) => console.error(error));
-  }
-
-  function updateTrayCount() {
-  fetch('/trayCount')
-    .then(response => response.json())
-    .then(data => {
-      const trayItemCount = data.trayItemCount;
-      const trayCountElement = document.getElementById('tray-count');
-      trayCountElement.textContent = trayItemCount;
-
-      if (trayItemCount >= 10) {
-        trayCountElement.classList.add('small-font');
-      } else {
-        trayCountElement.classList.remove('small-font');
-      }     
+  // Add onclick event listener to the reset button
+  resetButton.onclick = function () {
+    // Get the form element
+    var filterForm = document.getElementById("filter-form");
+    // Call the reset() method on the form element
+    var filterButtons = document.getElementsByClassName("filter-button");
+    // Iterate over the collection of buttons using forEach method
+    Array.from(filterButtons).forEach(function (button) {
+      // Check if the button has the "selected" class
+      if (button.classList.contains("selected")) {
+        // Remove the "selected" class from the button
+        button.classList.remove("selected");
+      }
     });
-  }
+    // Clear the checked filters array
+    checkedFilters = [];
+    // Update the value of the hidden input field with the empty array
+    document.getElementById("selected-filter").value = checkedFilters.join(",");
+  };
 
-  // Fetch data from the server to update the right sidebar container
-  function updateMyTray() {
-  fetch("/mytray")
-    .then((response) => response.text())
-    .then((data) => {
-      const sidebarContainer = document.getElementById("myTrayContents");
-      sidebarContainer.innerHTML = data;
-
-      const removeButtons = sidebarContainer.querySelectorAll('.remove-btn');
-
-      removeButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-          console.log('Remove Button clicked!');
-          const itemId = e.target.id;
-
-          fetch('/removeItem', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ itemId: itemId })
-          }).then(response => response.json())
-            .then(data => {
-              if (data.success) {
-                updateMyTray();
-                updateTrayBanner();
-                updateTrayCount(); 
-
-                fetch('/trayCount')
-                  .then(response => response.json())
-                  .then(data => {
-                    if (data.trayItemCount === 0) {
-                      document.getElementById("tray-banner-container").style.display = 'none';
-                    }
-                  });
-              } else {
-                // Handle error
-              }
-            });
-        });
-      });
-      const trayCards = sidebarContainer.querySelectorAll('.trayCard');
-      trayCards.forEach(card => {
-        card.addEventListener('click', (e) => {
-          if (!e.target.classList.contains('remove-btn')) {
-            const restaurant = e.currentTarget.dataset.restaurant;
-            const item = e.currentTarget.dataset.item;
-            window.location.href = `/item/${restaurant}/${item}`;
-          }
-        });
-      });
-    })
-    .catch((error) => console.error(error));
-}
-
-// Toggle the tray icon image and update the tray content
-function iconToggle() {
-  preLoadImages();
-
-  const trayCountElement = document.getElementById('tray-count');
-
-  if (toggleState === false) {
-    setTimeout(function () {
-      image.src = "/images/icon-tray-opt.gif";
-    }, 50);
-
-    updateMyTray();
-    rightSidebarToggle(toggleState);
-
-    trayCountElement.style.display = 'none';
-  } else {
-    setTimeout(function () {
-      image.src = "/images/icon-tray-reverse-opt.gif";
-    }, 50);
-    rightSidebarToggle(toggleState);
-
-    trayCountElement.style.display = 'block';
-  }
-  toggleState = !toggleState;
-}
-
-  // Toggles the right sidebar between open and closed.
-  function rightSidebarToggle(toggleState) {
-    if (toggleState === false) {
-      rightSidebar.style.transform = "translateX(-350px)";
-    } else {
-      rightSidebar.style.transform = "translateX(50px)";
-    }
-  }
-
-  // Closes the right sidebar when the user clicks outside of it.
-  document.addEventListener("mousedown", function (e) {
-    if (
-      !rightSidebar.contains(e.target) &&
-      toggleState === true &&
-      !image.contains(e.target) &&
-      !foodTray.contains(e.target)
-    ) {
-      iconToggle();
-    }
-  });
-
-  // Toggles the food tray between open and closed.
-  function trayToggle() {
-    if (trayToggleState === false) {
-      foodTray.style.transform = "translateY(-60px)";
-    } else {
-      foodTray.style.transform = "translateY(0px)";
-    }
-    trayToggleState = !trayToggleState;
-  }
-
-  // Closes the food tray when the user clicks outside of it.
-  document.addEventListener("mousedown", function (e) {
-  if (!foodTray.contains(e.target) && trayToggleState === true && e.target.className !== "add-btn" && e.target.className !== "remove-btn") {
-    trayToggle();
-  }
-});
-
+  //-------------------- Search related functions --------------------
   // Displays the search results when the user types in the search bar.
   function showResults(search) {
-    console.log(search);
     var searchList = document.getElementsByClassName(
       "search-results-container"
     );
@@ -417,25 +285,274 @@ function iconToggle() {
     }
   });
 
+  //-------------------- Tray-banner related functions --------------------
+  // Function to update the tray banner
+  function updateTrayBanner() {
+    fetch("/trayTotals")
+      .then((response) => response.json())
+      .then((data) => {
+        document.getElementById(
+          "totalCalories"
+        ).innerHTML = `<div><strong>Calories</strong></div><div>${data.totalCalories} Cal</div>`;
+        document.getElementById(
+          "totalProtein"
+        ).innerHTML = `<div><strong>Protein</strong></div><div>${data.totalProtein} g</div>`;
+        document.getElementById(
+          "totalFat"
+        ).innerHTML = `<div><strong>Fat</strong></div><div>${data.totalFat} g</div>`;
+        document.getElementById(
+          "totalCarbs"
+        ).innerHTML = `<div><strong>Carbs</strong></div><div>${data.totalCarbs} g</div>`;
+      })
+      .catch((error) => console.error(error));
+  }
+
+  //-------------------- MyTray(sidebar) related functions --------------------
+  // Function to toggle the tray sidebar
+  const image = document.getElementById("tray-icon");
+  const rightSidebar = document.getElementById("right-sidebar-container");
+  const foodTray = document.getElementById("tray-banner-container");
+
+  image.src = "/images/icon-tray.png";
+
+  var trayToggleState = false;
+  var toggleState = false;
+  var images = [
+    "/images/icon-tray-opt.gif",
+    "/images/icon-tray-reverse-opt.gif",
+  ];
+
+  // Function to update the tray count
+  function updateTrayCount() {
+    fetch("/trayCount")
+      .then((response) => response.json())
+      .then((data) => {
+        const trayItemCount = data.trayItemCount;
+        const trayCountElement = document.getElementById("tray-count");
+        trayCountElement.textContent = trayItemCount;
+
+        // Adjust the font size based on the tray item count
+        if (trayItemCount >= 10) {
+          trayCountElement.classList.add("small-font");
+        } else {
+          trayCountElement.classList.remove("small-font");
+        }
+      });
+  }
+  updateTrayCount();
+
+  // Fetch data from the server to update the right sidebar container
+  function updateMyTray() {
+    fetch("/mytray")
+      .then((response) => response.text())
+      .then((data) => {
+        const sidebarContainer = document.getElementById("myTrayContents");
+        sidebarContainer.innerHTML = data;
+        const removeButtons = sidebarContainer.querySelectorAll(".remove-btn");
+        const removeAllButton = document.getElementById("remove-all-btn");
+
+        // Add event listener to the "Remove All" button
+        removeAllButton.addEventListener("click", (e) => {
+          e.preventDefault();
+
+          // Show a confirmation dialog before removing all items
+          Swal.fire({
+            title: "Are you sure you want to remove all items?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, remove all",
+            cancelButtonText: "No, keep all",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Remove all items from the tray
+              fetch("/removeAllItems", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  updateMyTray();
+                  updateTrayBanner();
+                  updateTrayCount();
+                  updateRings();
+                  // Hide the tray banner if there are no items in the tray
+                  fetch("/trayCount")
+                    .then((response) => response.json())
+                    .then((data) => {
+                      if (data.trayItemCount === 0) {
+                        document.getElementById(
+                          "tray-banner-container"
+                        ).style.display = "none";
+                      }
+                    });
+                });
+            }
+          });
+        });
+
+        // Add event listeners to the remove buttons
+        removeButtons.forEach((button) => {
+          button.addEventListener("click", (e) => {
+            e.preventDefault();
+            const itemId = e.target.id;
+            const itemIndex = e.target.getAttribute("data-index");
+
+            // Show a confirmation dialog before removing the item
+            Swal.fire({
+              title: "Are you sure you want to remove this item?",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Yes, remove it",
+              cancelButtonText: "No, keep it",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // Remove the item from the tray
+                fetch("/removeItem", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    itemId: itemId,
+                    itemIndex: itemIndex,
+                  }),
+                })
+                  .then((response) => response.json())
+                  .then((data) => {
+                    updateMyTray();
+                    updateTrayBanner();
+                    updateTrayCount();
+                    updateRings();
+                    // Hide the tray banner if there are no items in the tray
+                    fetch("/trayCount")
+                      .then((response) => response.json())
+                      .then((data) => {
+                        if (data.trayItemCount === 0) {
+                          document.getElementById(
+                            "tray-banner-container"
+                          ).style.display = "none";
+                        }
+                      });
+                  });
+              }
+            });
+          });
+        });
+
+        // Add event listeners to the tray cards
+        const trayCards = sidebarContainer.querySelectorAll(".trayCard");
+        // Add event listeners to the tray cards to redirect to the NutriFacts page
+        trayCards.forEach((card) => {
+          card.addEventListener("click", (e) => {
+            if (!e.target.classList.contains("remove-btn")) {
+              const restaurant = e.currentTarget.dataset.restaurant;
+              const item = e.currentTarget.dataset.item;
+              window.location.href = `/item/${restaurant}/${item}`;
+            }
+          });
+        });
+      })
+      .catch((error) => console.error(error));
+  }
+
+  // Function to preload images to improve gif-load performance.
+  function preLoadImages() {
+    for (i = 0; i < images.length; i++) {
+      var imageObject = new Image();
+      imageObject.src = images[i];
+    }
+  }
+
+  // Toggle the tray icon image and update the tray content
+  function iconToggle() {
+    preLoadImages();
+    const trayCountElement = document.getElementById("tray-count");
+
+    if (toggleState === false) {
+      setTimeout(function () {
+        image.src = "/images/icon-tray-opt.gif";
+      }, 50);
+      updateMyTray();
+      rightSidebarToggle(toggleState);
+      trayCountElement.style.display = "none";
+    } else {
+      setTimeout(function () {
+        image.src = "/images/icon-tray-reverse-opt.gif";
+      }, 50);
+      rightSidebarToggle(toggleState);
+      trayCountElement.style.display = "block";
+    }
+    toggleState = !toggleState;
+  }
+
+  // Toggles the right sidebar between open and closed.
+  function rightSidebarToggle(toggleState) {
+    if (toggleState === false) {
+      rightSidebar.style.transform = "translateX(-350px)";
+      trayToggle();
+    } else {
+      rightSidebar.style.transform = "translateX(50px)";
+    }
+  }
+
+  // Closes the right sidebar when the user clicks outside of it.
+  document.addEventListener("mousedown", function (e) {
+    if (
+      !rightSidebar.contains(e.target) &&
+      toggleState === true &&
+      !image.contains(e.target) &&
+      !foodTray.contains(e.target) &&
+      !document.querySelector(".swal2-container")
+    ) {
+      iconToggle();
+    }
+  });
+
+  // Toggles the food tray between open and closed.
+  function trayToggle() {
+    if (trayToggleState === false) {
+      foodTray.style.transform = "translateY(-60px)";
+    } else {
+      foodTray.style.transform = "translateY(0px)";
+    }
+    trayToggleState = !trayToggleState;
+  }
+
+  // Closes the food tray when the user clicks outside of it.
+  document.addEventListener("mousedown", function (e) {
+    if (
+      !foodTray.contains(e.target) &&
+      trayToggleState === true &&
+      e.target.className !== "add-btn" &&
+      e.target.className !== "remove-btn" &&
+      e.target.id !== "remove-all-btn" &&
+      !e.target.closest(".swal2-container")
+    ) {
+      trayToggle();
+    }
+  });
+
+  //-------------------- Compare related functions --------------------
+  // Function to alert the user when they try to compare less than 2 items
+  function addCompareAlert() {
+    Swal.fire({
+      title: "Please add at least 2 items.",
+      icon: "warning",
+      showCancelButton: false,
+      confirmButtonText: "Ok",
+    });
+    event.preventDefault();
+  }
+
+  //-------------------- Easter Egg related functions --------------------
+  // Displays the easter egg when the user types 'mike' in the search bar.
   function submitSearch() {
     var value = document.getElementById("nav-search-bar").value;
     if (value.toLowerCase() === "mike") {
       window.location.href = "/easteregg";
-    } else {
-      console.log("Incorrect Key");
     }
-  }
-
-  updateTrayCount();
-
-  function addCompareAlert() {
-    Swal.fire({
-      title: 'Please add at least 2 items.',
-      icon: 'warning',
-      showCancelButton: false,
-      confirmButtonText: 'Ok'
-    });
-    event.preventDefault();
   }
 
 </script>

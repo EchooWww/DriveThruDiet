@@ -92,7 +92,6 @@
 /* ---------- Right SideBar ---------- */
 
 #right-sidebar-container {
-    /* background-color: #e9ecef; */
     background-color: white;
     position: fixed;
     right: -350px;
@@ -113,8 +112,11 @@
     justify-content: space-between;
     position: fixed;
     bottom: 25px;
-    padding: 20px 20px 0 20px;
+    padding: 20px 20px 90px 20px;
     width: calc(100% - 40px);
+    text-align: left;
+    font-size: 13px;
+    font-weight: bold;
 }
 
 .compare-list-items {
@@ -141,22 +143,51 @@
 
 #compare-form {
     width: 100%;
+    display:flex;
+    justify-content: space-around;
 }
 
 #compare-btn {
-    margin: 0.5em 0 0 0;
+    margin: 0.5em auto 0 auto;
     padding: 0.5em 1em 0.5em 1em;
-    border: none;
-    border-radius: 50px;
-    width: 70%;
-    height: 50px;
+    width: 50%;
+    height: 45px;
     font-size: 11pt;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
-    background-color: var(--accent);
-    color: white;
+    justify-content: center;
 }
 
+#remove-compare-btn {
+    background-color: var(--accent);
+    color: white;
+    border: 2px solid var(--accent);
+    border-radius: var(--btnradius);
+    padding: 0.5em 1em;
+    cursor: pointer;
+}
+
+
 /* ---------- End of Right SideBar ---------- */
+
+
+
+/* ---------- Compare SideBar ---------- */
+
+#compare-sidebar-container {
+    /* background-color: #e9ecef; */
+    background-color: rgb(216, 216, 216);
+    position: fixed;
+    left: -370px;
+    top: 60px;
+    height: calc(100% - 130px);
+    width: 390px;
+    z-index: 97;
+    transition: transform 0.3s ease;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, .1);
+    /* transform: translateX(250px); */
+    overflow: auto;
+}
+
+/* ---------- End of Compare SideBar ---------- */
 
 
 
@@ -297,19 +328,26 @@
     margin-right: 15px;
 }
 
-#filter-submit-btn {
-    display: block;
+#filter-submit-btn, #filter-reset-btn {
     margin-top: 10px;
     padding: 10px;
-    border: none;
-    background-color: var(--accent);
-    color: white;
+    border: 2px solid var(--accent);
     font-size: 15px;
     cursor: pointer;
-    border-radius: 30px;
+    border-radius: var(--btnradius);
     margin: auto;
     margin-top: 10px;
     width: 100px;
+}
+
+#filter-submit-btn {
+    background-color: var(--accent);
+    color: white;
+}
+
+#filter-reset-btn {
+    background-color: white;
+    color: var(--accent);
 }
 
 .filter-button {

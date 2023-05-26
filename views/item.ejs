@@ -38,7 +38,6 @@
             <button class="add-btn" id="<%= id %>"> ADD </button>
             <button id="add-compare-btn" name="compareID" value="<%= id %>"
               <% for (let i = 0; i < locals.compareList.length; i++) { %>
-                <% console.log(locals.compareList[i]._id, id); %>
                 <% if (id.toString() == locals.compareList[i]._id.toString() && locals.compareList.length < 2) { %> 
                   <% compareExists = true; %>
                   onclick = "compareExists(event)"
@@ -69,7 +68,7 @@
           <div style="height: 10px; width: 10px; background-color: var(--accent); border-radius:50%;"></div>&ensp;Fat
         </div> 
         <div style="display: flex; align-items: center;">
-          <div style="height: 10px; width: 10px; background-color: var(--accent-light); border-radius:50%;"></div>&ensp;Carbohydrate
+          <div style="height: 10px; width: 10px; background-color: var(--accent-light); border-radius:50%;"></div>&ensp;Carbohydrates
         </div>
         <div style="display: flex; align-items: center;">
           <div style="height: 10px; width: 10px; background-color: var(--accent-lighter); border-radius:50%;"></div>&ensp;Protein
@@ -129,64 +128,53 @@
         <div class="nutrient-list"> CHOLESTEROL <div> <%= cholesterol %> mg </div> </div>
         <div class="nutrient-list"> SODIUM <div> <%= sodium %> mg </div> </div>
         <div class="nutrient-list"> TOTAL CARBOHYDRATES <div> <%= total_carb %> g </div> </div>
-        <div class="nutrient-list nutrient-list-override""> &emsp;FIBER <div> <%= fiber %> g </div> </div>
-        <div class="nutrient-list nutrient-list-override"> &emsp;SUGAR <div> <%= sugar %> g </div> </div>
-        <div class="nutrient-list""> PROTEIN <div> <%= protein %> g </div> </div>
-        <div class="nutrient-list"> VITAMIN A <div> <%= vit_a %> % </div> </div>
-        <div class="nutrient-list"> VITAMIN C <div> <%= vit_c %> % </div> </div>
-        <div class="nutrient-list"> CALCIUM <div> <%= calcium %> % </div> </div>
+        <div class="nutrient-list nutrient-list-override">
+          &emsp;FIBER
+          <div>
+            <%= fiber !== 'NA' ? fiber + ' g' : fiber %>
+          </div>
+        </div>
+        
+        <div class="nutrient-list nutrient-list-override">
+          &emsp;SUGAR
+          <div>
+            <%= sugar !== 'NA' ? sugar + ' g' : sugar %>
+          </div>
+        </div>
+        
+        <div class="nutrient-list">
+          PROTEIN
+          <div>
+            <%= protein !== 'NA' ? protein + ' g' : protein %>
+          </div>
+        </div>
+        
+        <div class="nutrient-list">
+          VITAMIN A
+          <div>
+            <%= vit_a !== 'NA' ? vit_a + ' %' : vit_a %>
+          </div>
+        </div>
+        
+        <div class="nutrient-list">
+          VITAMIN C
+          <div>
+            <%= vit_c !== 'NA' ? vit_c + ' %' : vit_c %>
+          </div>
+        </div>
+        
+        <div class="nutrient-list">
+          CALCIUM
+          <div>
+            <%= calcium !== 'NA' ? calcium + ' %' : calcium %>
+          </div>
+        </div>
+        
       </div>
       
     </div>
   </div>
 
-
-  <script>
-
-  function compareLimit() {
-    Swal.fire({
-      title: 'You can compare up to 2 items.',
-      icon: 'warning',
-      showCancelButton: false,
-      confirmButtonText: 'Ok'
-    });
-    event.preventDefault();
-    }
-
-  function compareExists() {
-    Swal.fire({
-      title: 'This item already exists.',
-      icon: 'warning',
-      showCancelButton: false,
-      confirmButtonText: 'Ok'
-    });
-    event.preventDefault();
-    }
-
-    const addButton = document.querySelector('.add-btn');
-
-    addButton.addEventListener('click', (e) => {
-      e.preventDefault();
-      const itemId = e.target.id;
-      fetch('/addItem', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ itemId: itemId })
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            updateTrayBanner();
-            updateTrayCount();
-            document.getElementById('tray-banner-container').style.display = 'block';
-          } else {
-            // Handle error
-          }
-        });
-    });
-
-  </script>
+<%- include("js/item_js") %>
 <%- include("templates/navbar_bottom") %>
 <%- include("templates/footer") %>

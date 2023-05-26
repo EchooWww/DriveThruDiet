@@ -1,0 +1,75 @@
+<script>
+  // Function to update the tray banner with totals
+  function updateTrayBanner() {
+    fetch("/trayTotals") // Send a GET request to "/trayTotals" endpoint
+      .then((response) => response.json()) // Parse the response as JSON
+      .then((data) => {
+        // Update the HTML elements with the retrieved data
+        document.getElementById(
+          "totalCalories"
+        ).innerHTML = `<strong>Calories</strong> ${data.totalCalories} Cal`;
+        document.getElementById(
+          "totalProtein"
+        ).innerHTML = `<strong>Protein</strong> ${data.totalProtein} g`;
+        document.getElementById(
+          "totalFat"
+        ).innerHTML = `<strong>Fat</strong> ${data.totalFat} g`;
+        document.getElementById(
+          "totalCarbs"
+        ).innerHTML = `<strong>Carbs</strong> ${data.totalCarbs} g`;
+      })
+      .catch((error) => console.error(error)); // Handle any errors that occur during the fetch request
+  }
+
+  // Function to update the tray count
+  function updateTrayCount() {
+    fetch("/trayCount") // Send a GET request to "/trayCount" endpoint
+      .then((response) => response.json()) // Parse the response as JSON
+      .then((data) => {
+        const trayItemCount = data.trayItemCount; // Retrieve the tray item count from the response data
+        const trayCountElement = document.getElementById("tray-count"); // Get the HTML element for displaying the tray count
+        trayCountElement.textContent = trayItemCount; // Update the tray count element with the retrieved count
+      });
+  }
+
+  // Get all elements with class "add-btn"
+  const addButtons = document.querySelectorAll(".add-btn");
+
+  // Attach click event listener to each add button
+  addButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const itemId = e.target.id; // Get the ID of the clicked button
+
+      fetch("/addItem", {
+        method: "POST", // Send a POST request to "/addItem" endpoint
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ itemId: itemId }), // Convert the item ID to JSON and send it in the request body
+      })
+        .then((response) => response.json()) // Parse the response as JSON
+        .then((data) => {
+          updateTrayBanner(); // Update the tray banner
+          updateTrayCount(); // Update the tray count
+          document.getElementById("tray-banner-container").style.display =
+            "block"; // Display the tray banner container
+        });
+    });
+  });
+
+  // Get all elements with class "card"
+  const cards = document.querySelectorAll(".card");
+
+  // Attach click event listener to each card
+  cards.forEach((card) => {
+    card.addEventListener("click", (e) => {
+      if (!e.target.classList.contains("add-btn")) {
+        // If the clicked element is not an add button
+        const restaurant = e.currentTarget.dataset.restaurant; // Get the restaurant data attribute value
+        const item = e.currentTarget.dataset.item; // Get the item data attribute value
+
+        window.location.href = `/item/${restaurant}/${item}`; // Navigate to the specified URL
+      }
+    });
+  });
+</script>

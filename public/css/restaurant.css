@@ -6,7 +6,6 @@ header {
 }
 
 .restaurant-title {
-  /* margin-top: 7%; */
   font-weight: bold;
 }
 
@@ -27,5 +26,4 @@ header {
   margin-top: 0;
   margin-right: 2rem;
   margin-left: 2rem;
-  
 }

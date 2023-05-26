@@ -78,7 +78,6 @@ circle:nth-child(1) {
   position: relative;
   bottom: 73px;
   right: 3px;
-  color: #524e50;
 }
 
 .number h2 {
@@ -114,9 +113,7 @@ ul {
 }
 
 
-
-
-.number {
+.number, #division1, #division2, #division3, #division4 {
   font-size: small;
 }
 

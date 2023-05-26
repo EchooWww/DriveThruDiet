@@ -1,0 +1,49 @@
+<script>
+  //function to limit the number of items that can be compared
+  function compareLimit() {
+    Swal.fire({
+      title: "You can compare up to 2 items.",
+      icon: "warning",
+      showCancelButton: false,
+      confirmButtonText: "Ok",
+    });
+    event.preventDefault();
+  }
+
+  //function to check if the item already exists in the tray
+  function compareExists() {
+    Swal.fire({
+      title: "This item already exists.",
+      icon: "warning",
+      showCancelButton: false,
+      confirmButtonText: "Ok",
+    });
+    event.preventDefault();
+  }
+
+  const addButton = document.querySelector(".add-btn");
+
+  //function to add item to tray when add button is clicked
+  addButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    const itemId = e.target.id;
+    fetch("/addItem", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ itemId: itemId }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          updateTrayBanner();
+          updateTrayCount();
+          document.getElementById("tray-banner-container").style.display =
+            "block";
+        } else {
+          // Handle error
+        }
+      });
+  });
+</script>

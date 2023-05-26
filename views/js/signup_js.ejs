@@ -1,0 +1,87 @@
+<script>
+  // Function to show tooltip when hovering over form field
+  function showTooltip(message, inputFieldName) {
+    var errorElement = document.getElementById(inputFieldName + "Error");
+    errorElement.textContent = message;
+    errorElement.style.textAlign = "center";
+    errorElement.style.color = "var(--dark)";
+  }
+
+  // Function to hide tooltip when not over form field
+  function hideTooltip(inputFieldName) {
+    var errorElement = document.getElementById(inputFieldName + "Error");
+    errorElement.textContent = "";
+    errorElement.style.textAlign = "left";
+    errorElement.style.color = "red";
+  }
+
+  // Attach event listener to form submission
+  $("#signupForm").on("submit", function (event) {
+    event.preventDefault();
+
+    // Serialize the form data
+    var formData = $(this).serialize();
+
+    // Send an AJAX request to the server
+    $.ajax({
+      url: "/submitUser",
+      type: "POST",
+      data: formData,
+      dataType: "json",
+      success: function (response) {
+        if (response.redirect) {
+          // Redirect to the specified URL if the response contains a redirect property
+          window.location.href = response.redirect;
+        }
+      },
+      error: function (xhr, status, error) {
+        // Handle errors returned by the server
+        var errorMessage = xhr.responseJSON.error;
+        var errorInput = "";
+
+        // Determine the input field associated with the error message
+        if (
+          errorMessage === "Username is required" ||
+          errorMessage === "Username must be between 5 and 20 characters" ||
+          errorMessage === "Username is already taken"
+        ) {
+          errorInput = "username";
+        } else if (errorMessage === "First name is required") {
+          errorInput = "firstName";
+        } else if (errorMessage === "Last name is required") {
+          errorInput = "lastName";
+        } else if (
+          errorMessage === "Email is required" ||
+          errorMessage === "Email already exists"
+        ) {
+          errorInput = "email";
+        } else if (errorMessage === "Birthday is required") {
+          errorInput = "birthday";
+        } else if (
+          errorMessage === "Password is required" ||
+          errorMessage === "Password must be at least 8 characters"
+        ) {
+          errorInput = "password";
+        }
+        // Add error classes to the input field and display the error message
+        $("#" + errorInput + "Input").addClass("is-invalid");
+        $("#" + errorInput + "Error").text("❗️" + errorMessage);
+        $("#" + errorInput + "Error").show();
+      },
+    });
+  });
+
+  // Event listener for input changes in various fields
+  $(
+    "#usernameInput, #firstNameInput, #lastNameInput, #emailInput, #birthdayInput, #passwordInput"
+  ).on("input", function () {
+    var inputId = $(this).attr("id");
+    var errorId = inputId.replace("Input", "Error");
+
+    // If the input field was previously marked as invalid but the input is now valid, remove the error classes and hide the error message
+    if ($(this).hasClass("is-invalid") && $(this).get(0).checkValidity()) {
+      $(this).removeClass("is-invalid");
+      $("#" + errorId).hide();
+    }
+  });
+</script>

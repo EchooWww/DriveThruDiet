@@ -1,0 +1,59 @@
+<script>
+  // Attach event listener to form submission
+  $("#loginForm").on("submit", function (event) {
+    event.preventDefault();
+
+    // Serialize the form data
+    var formData = $(this).serialize();
+
+    // Send an AJAX request to the server
+    $.ajax({
+      url: "/loggingIn",
+      type: "POST",
+      data: formData,
+      dataType: "json",
+      success: function (response) {
+        if (response.redirect) {
+          // Redirect to the specified URL if the response contains a redirect property
+          window.location.href = response.redirect;
+        }
+      },
+      error: function (xhr, status, error) {
+        // Handle errors returned by the server
+        var errorMessage = xhr.responseJSON.error;
+        var errorInput = "";
+
+        // Determine the input field associated with the error message
+        if (
+          errorMessage === "Please enter a username" ||
+          errorMessage === "Please enter a valid username" ||
+          errorMessage === "User not found"
+        ) {
+          errorInput = "username";
+        } else if (
+          errorMessage === "Incorrect password" ||
+          errorMessage === "Please enter a password"
+        ) {
+          errorInput = "password";
+        }
+
+        // Add error classes to the input field and display the error message
+        $("#" + errorInput + "Input").addClass("is-invalid");
+        $("#" + errorInput + "Error").text("❗️" + errorMessage);
+        $("#" + errorInput + "Error").show();
+      },
+    });
+  });
+
+  // Event listener for input changes in username and password fields
+  $("#usernameInput, #passwordInput").on("input", function () {
+    var inputId = $(this).attr("id");
+    var errorId = inputId.replace("Input", "Error");
+
+    // If the input field was previously marked as invalid but the input is now valid, remove the error classes and hide the error message
+    if ($(this).hasClass("is-invalid") && $(this).get(0).checkValidity()) {
+      $(this).removeClass("is-invalid");
+      $("#" + errorId).hide();
+    }
+  });
+</script>

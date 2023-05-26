@@ -1,0 +1,37 @@
+<script>
+  // Attach event listener to form submission
+  $("#findUsernameForm").submit(function (event) {
+    event.preventDefault(); // Prevent form from submitting normally
+
+    // Get form data
+    var formData = $(this).serialize();
+
+    // Make AJAX request
+    $.ajax({
+      url: "/username_search",
+      type: "POST",
+      data: formData,
+      statusCode: {
+        400: function (xhr, status, error) {
+          // Display SweetAlert with error message
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: xhr.responseJSON.error,
+            onAfterClose: () => {
+              document.getElementById("email").value = "";
+              document.getElementById("firstName").value = "";
+              document.getElementById("lastName").value = "";
+              document.getElementById("birthday").value = "";
+              // Reload the current page
+              location.reload();
+            },
+          });
+        },
+      },
+      success: function (response) {
+        $("body").html(response);
+      },
+    });
+  });
+</script>

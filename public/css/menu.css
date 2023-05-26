@@ -10,7 +10,7 @@ h1 {
   margin-block-end: 0.5rem;
 }
 
-main {
+.menu-cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -23,15 +23,16 @@ main {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 430px;
+  width: 420px;
   height: 110px;
   margin: 8px;
   padding: 10px;
-  border: 1px solid var(--light);
+  cursor: pointer;
+  background-color: var(--card);
+  border-radius: var(--radius);
 }
 
 .card img {
-  width: 80px;
   height: 70px;
   object-fit: cover;
   margin-right: 15px;
@@ -61,14 +62,12 @@ main {
   line-height: 13px;
 }
 
-
 .add-btn {
   background-color: var(--accent);
-  color: #f7f7f7;
-  border: none;
-  border-radius: 5px; 
-  padding: 7px 15px;
-  font-size: 15px;
+  color: white;
+  border: 2px solid var(--accent);
+  border-radius: var(--btnradius);
+  padding: 0.5em 1em;
   cursor: pointer;
   position: relative;
   top: 39px;

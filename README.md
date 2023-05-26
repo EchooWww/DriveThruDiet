@@ -93,28 +93,34 @@ Contents of the project folder
     │   ├── login_js.ejs                  # View-specific JavaScript file for login page
     │   ├── menu_js.ejs                   # View-specific JavaScript file for menu page
     │   ├── profile_js.ejs                # View-specific JavaScript file for profile page
-    │   └── signup_js.ejs                 # View-specific JavaScript file for signup page
-    ├── 404.ejs                           # 404 page template
-    ├── chat.ejs                          # Chat page template
-    ├── compare.ejs                       # Compare page template
-    ├── easteregg.ejs                     # Easter egg page template
-    ├── filtered_page.ejs                 # Filtered page template
-    ├── find_username.ejs                 # Find username page template
-    ├── forgot.ejs                        # Forgot page template
-    ├── home.ejs                          # Home page template
-    ├── index_before_login.ejs            # Index page before login template
-    ├── item.ejs                          # Item page template
-    ├── login.ejs                         # Login page template
-    ├── menu.ejs                          # Menu page template
-    ├── mytray.ejs                        # My tray page template
-    ├── onboarding_goal.ejs               # Onboarding goal page template
-    ├── profile.ejs                       # Profile page template
-    ├── restaurant.ejs                    # Restaurant page template
-    ├── security_questions.ejs            # Security questions page template
-    ├── signup.ejs                        # Signup page template
-    ├── signup_profile.ejs                # Signup profile page template
-    ├── update.ejs                        # Update page template
-    └── username_search.ejs               # Username search page template
+    │   └── signup_js.ejs
+    ├── templates                         # Templates of reusable code
+    │   ├── footer.ejs                    # The footer of each ejs page
+    │   ├── header.ejs                    # The header of each ejs page
+    │   ├── item.ejs                      # The item page
+    │   ├── navbar_bottom.ejs             # The bottom navbar
+    │   └── navbar_top.ejs                # The top navbar
+    ├── 404.ejs                           # 404 page
+    ├── chat.ejs                          # Chat page
+    ├── compare.ejs                       # Compare page
+    ├── easteregg.ejs                     # Easter egg page
+    ├── filtered_page.ejs                 # Filtered page
+    ├── find_username.ejs                 # Find username page
+    ├── forgot.ejs                        # Forgot page
+    ├── home.ejs                          # Home page
+    ├── index_before_login.ejs            # Index page before login
+    ├── item.ejs                          # Item page
+    ├── login.ejs                         # Login page
+    ├── menu.ejs                          # Menu page
+    ├── mytray.ejs                        # My tray page
+    ├── onboarding_goal.ejs               # Onboarding goal page
+    ├── profile.ejs                       # Profile page
+    ├── restaurant.ejs                    # Restaurant page
+    ├── security_questions.ejs            # Security questions page
+    ├── signup.ejs                        # Signup page
+    ├── signup_profile.ejs                # Signup profile page
+    ├── update.ejs                        # Update page
+    └── username_search.ejs               # Username search page
 
 ```
 
@@ -268,6 +274,11 @@ If you forget your username or need to reset your password, follow these steps:
 4. All images sourced from https://www.freepik.com/
 
 ## 7. About AI
+
+1.  Throughout the process of developing our app, we made extensive use of AI in diverse ways. Our team employed AI tools like ChatGPT, New Bing, and other language-based AI models to examine and comprehend code that had been authored by others. This allowed us to gain insights and learn from their code, facilitating our own development process. AI also played a crucial role in aiding us with debugging tasks and implementing various features. Furthermore, we integrated AI-powered extensions such as Copilot directly into our IDE, resulting in notable improvements to our coding efficiency and receiving valuable suggestions for code completion.
+2.  While we didn't use AI specifically for creating or cleaning datasets, we employed traditional data analysis and cleaning techniques. Our team manually curated and prepared the datasets, ensuring their accuracy and relevance to our app's functionalities. We utilized data cleaning processes such as removing duplicate entries, handling missing values, and standardizing data formats to ensure the quality and consistency of the datasets.
+3.  Yes, our app incorporates AI functionality. We integrated the OpenAI API into our app, specifically utilizing the davinci-003 model. This enabled us to develop a chatbot named FastFoodie, which responds to user prompts and provides relevant information and recommendations related to fast food. The AI-powered chatbot enhances the user experience by delivering personalized and insightful responses based on the user's queries.
+4.  Yes, we did encounter some limitations during the development process. One of the challenges we faced was the need for thorough configuration of the code generated by AI, especially since we were collaborating on a group project. While AI tools like ChatGPT and Copilot provided valuable assistance in generating code, we had to ensure that the output aligned with our project requirements and coding standards. This involved carefully reviewing and modifying the AI-generated code to fit our specific needs and maintaining consistency across the project. We addressed this limitation by allocating sufficient time for configuration and customization to guarantee the code's accuracy, reliability, and alignment with our project objectives.
 
 ## 8. Contact Information
 

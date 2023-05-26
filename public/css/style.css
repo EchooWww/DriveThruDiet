@@ -74,6 +74,7 @@ button {
   border-radius: var(--btnradius) !important;
 }
 
+#filter-submit-btn:hover,
 #compare-btn:hover,
 .add-btn:hover,
 .remove-btn:hover,
@@ -83,6 +84,7 @@ button {
   background-color: var(--medium) !important;
 }
 
+#filter-submit-btn:active,
 #compare-btn:active,
 .add-btn:active,
 .remove-btn:active,
@@ -100,6 +102,7 @@ button {
   color: var(--accent) !important;
 }
 
+#filter-reset-btn:hover,
 #add-compare-btn:hover,
 .access-btn:hover,
 .save-btn:hover,
@@ -109,6 +112,7 @@ button {
   color: white !important;
 }
 
+#filter-reset-btn:active,
 #add-compare-btn:active,
 .access-btn:active,
 .save-btn:active,

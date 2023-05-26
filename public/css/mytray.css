@@ -95,4 +95,16 @@ h1 {
   color: var(--med-gray);
   cursor: pointer;
   margin-right: 2.05rem;
+  border-radius: var(--btnradius);
+}
+
+#remove-all-btn:hover {
+  background-color: var(--medium);
+  color: white;
+  padding: 0.5em
+}
+
+#remove-all-btn:active {
+  background-color: var(--dark);
+  padding: 0.5em
 }

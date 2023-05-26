@@ -107,9 +107,9 @@ ul {
 
 #nearby {
   display: inline-block;
-  margin-top: 300px;
   align-items: center;
   justify-content: center;
+  margin-bottom: 60px;
 }
 
 

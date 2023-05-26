@@ -12,9 +12,8 @@ const Joi = require("joi"); // Importing Joi for input validation
 const { ObjectId } = require("mongodb"); // Importing ObjectId from MongoDB for working with document IDs
 const saltRounds = 12;
 
-// Changed to 24 hours for testing purposes so that we don't have to keep logging in
 // Session Expiry time set to 1 hour
-const expireTime = 24 * 60 * 60 * 1000;
+const expireTime = 1 * 60 * 60 * 1000;
 
 app.set("view engine", "ejs"); // Set the view engine to EJS for rendering views/templates
 

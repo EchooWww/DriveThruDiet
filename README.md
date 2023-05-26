@@ -97,7 +97,6 @@ Contents of the project folder
     ├── templates                         # Templates of reusable code
     │   ├── footer.ejs                    # The footer of each ejs page
     │   ├── header.ejs                    # The header of each ejs page
-    │   ├── item.ejs                      # The item page
     │   ├── navbar_bottom.ejs             # The bottom navbar
     │   └── navbar_top.ejs                # The top navbar
     ├── 404.ejs                           # 404 page

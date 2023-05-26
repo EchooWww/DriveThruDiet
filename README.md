@@ -255,4 +255,6 @@ Submit the form to initiate the username recovery or password reset process.
 
 ## 6. References
 
+1. All images sourced from https://www.freepik.com/
+
 ## 7. About AI

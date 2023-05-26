@@ -37,7 +37,7 @@
 
 .submit-btn {
   padding: 1em;
-  margin: 0.5em auto 0.5em auto;
+  margin: 0.5em;
 }
 
 .received {
@@ -54,7 +54,7 @@
   color: white;
   align-self: flex-end;
   max-width: 70%;
-  text-align: justify;
+  text-align: right;
   border-top-left-radius: var(--btnradius);
   border-top-right-radius: var(--btnradius);
   border-bottom-left-radius: var(--btnradius);

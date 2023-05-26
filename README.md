@@ -6,7 +6,7 @@ DriveThruDiet is a web app that uses AI and data intelligence to help users make
 
 ## 2. Techniques and Libraries:
 
-- Frontend: html5, css3, ejs, jquery, ajax, Google Places API, OpenAI API, sweetalert2
+- Frontend: html5, css3, ejs, jquery6, ajax, Google Places API, OpenAI API, Sweetalert2
 - Backend: node.js, express.js
 - Database:MongoDB
 
@@ -140,23 +140,25 @@ Run the following command to install the required npm packages:
 npm install
 ```
 
-### 4.4 Configure Environment Variables:
+### 4.4 Import the datasets into your own MongoDB database
+
+### 4.5 Configure Environment Variables:
 
 Create a new file in the project root directory called `.env`.
 Open the `.env` file and add the following necessary environment variables.
 
 ```js
-MONGODB_HOST=
-MONGODB_USER=
-MONGODB_PASSWORD=
-MONGODB_DATABASE=
-MONGODB_SESSION_SECRET=
-NODE_SESSION_SECRET=
+MONGODB_HOST= //your own MongoDB host
+MONGODB_USER= //your own MongoDB account username
+MONGODB_PASSWORD= //your own MongoDB account password
+MONGODB_DATABASE= // the name of your database
+MONGODB_SESSION_SECRET= // your own MongoDB session secret, generate at https://guidgenerator.com/
+NODE_SESSION_SECRET= // your own Node.js session secret, generate at https://guidgenerator.com/
 OPEN_AI_KEY= //generate with your own OpenAI account at https://platform.openai.com/account/api-keys
 GOOGLE_MAPS_API_KEY= //generate with your own google at https://console.cloud.google.com/google/maps-apis
 ```
 
-### 4.5 Start the Application:
+### 4.6 Start the Application:
 
 Run the following command to start the application:
 
@@ -164,7 +166,7 @@ Run the following command to start the application:
 npm start
 ```
 
-### 4.6 Access the Application:
+### 4.7 Access the Application:
 
 Once the application has started successfully, you can access it in your web browser at http://localhost:3030 (or a different port if specified).
 By following these steps, you should be able to install and run the project locally on your machine. Make sure to review the project's documentation for any additional configuration or setup required for specific features or modules.
@@ -224,7 +226,8 @@ The food tray feature allows you to save your interested food items, and browse 
 To compare nutrients food items, follow these steps:
 
 1. Select 2 food items to compare by clicking the "COMPARE" in the NutriFacts page.
-2. View the comparison results.
+2. Open the sidebar by clicking the icon in the upper right corner, click on the "COMPARE" button in the bottom.
+3. Check the comparison details of the 2 items.
 
 ### 5.6 The AI assistant -- FastFoodie
 
@@ -240,7 +243,7 @@ DriveThruDiet allows you to set personal goals and manage your profile informati
 
 1. Go to profile page by clicking on the profile icon in the upper left corner.
 2. Click on the "EDIT" button, and change any information you wanna change.
-   Update your profile information, including name, email, or profile picture.
+3. Update your profile information, click the "SAVE" button, and your nutritional goals will be updated with your new profile.
 
 ### 5.8 Username recovery & password reset
 

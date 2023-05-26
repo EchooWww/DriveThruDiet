@@ -128,12 +128,48 @@
         <div class="nutrient-list"> CHOLESTEROL <div> <%= cholesterol %> mg </div> </div>
         <div class="nutrient-list"> SODIUM <div> <%= sodium %> mg </div> </div>
         <div class="nutrient-list"> TOTAL CARBOHYDRATES <div> <%= total_carb %> g </div> </div>
-        <div class="nutrient-list nutrient-list-override""> &emsp;FIBER <div> <%= fiber %> g </div> </div>
-        <div class="nutrient-list nutrient-list-override"> &emsp;SUGAR <div> <%= sugar %> g </div> </div>
-        <div class="nutrient-list""> PROTEIN <div> <%= protein %> g </div> </div>
-        <div class="nutrient-list"> VITAMIN A <div> <%= vit_a %> % </div> </div>
-        <div class="nutrient-list"> VITAMIN C <div> <%= vit_c %> % </div> </div>
-        <div class="nutrient-list"> CALCIUM <div> <%= calcium %> % </div> </div>
+        <div class="nutrient-list nutrient-list-override">
+          &emsp;FIBER
+          <div>
+            <%= fiber !== 'NA' ? fiber + ' g' : fiber %>
+          </div>
+        </div>
+        
+        <div class="nutrient-list nutrient-list-override">
+          &emsp;SUGAR
+          <div>
+            <%= sugar !== 'NA' ? sugar + ' g' : sugar %>
+          </div>
+        </div>
+        
+        <div class="nutrient-list">
+          PROTEIN
+          <div>
+            <%= protein !== 'NA' ? protein + ' g' : protein %>
+          </div>
+        </div>
+        
+        <div class="nutrient-list">
+          VITAMIN A
+          <div>
+            <%= vit_a !== 'NA' ? vit_a + ' %' : vit_a %>
+          </div>
+        </div>
+        
+        <div class="nutrient-list">
+          VITAMIN C
+          <div>
+            <%= vit_c !== 'NA' ? vit_c + ' %' : vit_c %>
+          </div>
+        </div>
+        
+        <div class="nutrient-list">
+          CALCIUM
+          <div>
+            <%= calcium !== 'NA' ? calcium + ' %' : calcium %>
+          </div>
+        </div>
+        
       </div>
       
     </div>

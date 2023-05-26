@@ -83,7 +83,7 @@ h1 {
 }
 
 #myTrayContents {
-  height: calc(100% - 105px) !important;
+  height: calc(100% - 50px) !important;
 }
 
 .header-container {

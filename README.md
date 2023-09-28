@@ -9,7 +9,7 @@ DriveThruDiet is a web app that uses AI and data intelligence to help users make
 - Frontend: html5, css3, ejs, jquery6
 - Backend: node.js, express.js, fetch API
 - Database: MongoDB
-- External libraries & APIs: Google Places API, OpenAI API, Sweetalert2
+- External libraries & APIs: Google Places API, OpenAI API, Socket.io, Sweetalert2
 
 ## 3. Folder Structure
 

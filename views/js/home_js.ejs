@@ -237,10 +237,12 @@
           tr.appendChild(link);
           document.getElementById("list").appendChild(tr);
         }
+        document.getElementById("loading").style.display = "none";
       })
       .catch(function (error) {
         // If any promise is rejected, log the error message and stop execution
         console.error(error); // Log the error message
+        document.getElementById("loading").style.display = "none";
         return; // Stop execution
       });
   }
